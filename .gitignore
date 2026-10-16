@@ -6,6 +6,7 @@ bEasy-portal-export/
 bEasy-landing-page-v2/
 beasy-mini-app/
 lsdb-bEasy/
+bEasy-api/
 # Add every new worktree folder here: bEasy-<repo>-<task>/
 
 .claude/*

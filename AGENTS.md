@@ -40,3 +40,12 @@ Do not save doc contents, status or dates in Claude memory; memory only holds po
 ## Delivering a task (pipeline)
 
 Every task has a tier (T0 to T3) in its task file. The tier decides the gates it passes; see `Tasks/PIPELINE.md`. Do not run gates the tier does not ask for, and do not skip gates it does. Skipping or adding a gate needs one line of reason in the task file. The user can override a tier; the agent does not ask for one.
+
+## Backend repo (read-only reference)
+
+When `bEasy-api/` is cloned here, it is **evidence, never a place to work**.
+- Never edit, commit, push, branch, stash or run migrations/seeds/servers in it. Pull only. Set `git -C bEasy-api remote set-url --push origin DISABLED` once after cloning.
+- Do not read or copy `.env`, keys or credentials, and never paste secrets into docs, tasks or chat.
+- Use it to write exact requests: before asking backend for something, check whether the route, field or rule already exists, and cite `path:line` in the request (`backend-request/`). After backend replies, verify the reply against the code and note mismatches in `backend-response/`.
+- Code beats docs for what exists today; the contract in `api/` and the agreed requests beat code for what should exist. If they differ, record it as a request or a doc fix, do not assume.
+- Agents still never ask backend code for "how to do" the portal or app work; they use it to confirm contracts, error codes, filters and data rules.
