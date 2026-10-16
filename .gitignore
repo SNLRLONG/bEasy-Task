@@ -8,5 +8,6 @@ beasy-mini-app/
 lsdb-bEasy/
 # Add every new worktree folder here: bEasy-<repo>-<task>/
 
-.claude/
+.claude/*
+!.claude/skills/
 .DS_Store

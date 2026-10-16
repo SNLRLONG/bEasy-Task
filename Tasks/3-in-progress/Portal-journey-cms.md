@@ -2,6 +2,7 @@
 
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Tier:** T2 · new pages on real backend
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal/` (main checkout) · **Branch:** `feat/journey-cms`
 - **Docs:** `Docs/tracking/v2/README.md`, `bEasy-portal/TODO.md` (Implementation status)

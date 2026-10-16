@@ -2,6 +2,7 @@
 
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Tier:** T3 · payment link
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal-dev/` (branch `dev`) · **Branch:** `feature/direct-sale-payment-link` (merged into `dev`)
 - **Status note:** merged into `dev`; not yet confirmed on `main`.

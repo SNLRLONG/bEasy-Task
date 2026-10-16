@@ -2,6 +2,7 @@
 
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Tier:** T2 · new export report, data accuracy
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal-export/` · **Branch:** `feat/acquisition-export`
 - **Docs:** `bEasy-portal-export/docs/Acquisition_Report_Data_Audit.md`, `bEasy-portal-export/docs/Backend_Requests_Acquisition_Report.md`
