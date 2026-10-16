@@ -1,0 +1,12 @@
+# Sub-repos and worktrees (each has its own git history)
+bEasy-app/
+bEasy-portal/
+bEasy-portal-dev/
+bEasy-portal-export/
+bEasy-landing-page-v2/
+beasy-mini-app/
+lsdb-bEasy/
+# Add every new worktree folder here: bEasy-<repo>-<task>/
+
+.claude/
+.DS_Store
