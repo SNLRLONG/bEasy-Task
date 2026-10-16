@@ -90,3 +90,5 @@ Do not save doc contents, status or dates in Claude memory; memory only holds po
 - One task = one worktree (`bEasy/<repo>-<short-name>/`) = one branch. The repo's main folder (e.g. `bEasy-portal/`) is the final checkout and is never deleted.
 - Start a task: copy `Tasks/_TEMPLATE.md`, set owner, create the worktree, move the file to `3-in-progress/`. Check `git worktree list` for overlap first.
 - Merged to `main`: add a `CHANGELOG.md` entry in that repo (owner, task, branch/PR, what changed), remove the worktree and branch, move the task to `5-done/`. Ask before removing a worktree with uncommitted changes.
+
+**Parallel agents:** one agent = one task file. Claim it (`Claimed by:`) before editing, stay inside that task's worktree and `Touches`, never touch another task's worktree, and never use `git add -A`/`stash`/`reset --hard` in shared places. To reach another task, write a note in `Tasks/_inbox/<to-task>/` and read your own inbox at the start. Full rules: `Tasks/README.md` ("Working in parallel").

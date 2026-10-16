@@ -3,6 +3,7 @@
 - **Repo:** bEasy-portal | bEasy-app | beasy-mini-app | bEasy-landing-page-v2
 - **Owner:** <name>
 - **Worktree:** `bEasy/<repo>-<short-name>/` · **Branch:** `feat/<short-name>`
+- **Claimed by:** <session/agent, date, or none>
 - **Started / updated:** <date> / <date>
 - **Docs:** <links into Docs/tracking/v2/...>
 - **Depends on:** <backend request item, other task, or none>

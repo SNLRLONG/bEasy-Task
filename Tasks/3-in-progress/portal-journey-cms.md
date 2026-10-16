@@ -2,6 +2,7 @@
 
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal/` (main checkout) · **Branch:** `feat/journey-cms`
 - **Docs:** `Docs/tracking/v2/README.md`, `bEasy-portal/TODO.md` (Implementation status)
 - **Depends on:** `Docs/tracking/v2/backend-request/pending-request-backend.md`
