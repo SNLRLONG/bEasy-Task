@@ -11,6 +11,9 @@ One file per task, moved between folders as it progresses. The folder is the sta
 | `5-done/` | Merged to `main`, changelog written, worktree deleted | Tested and merged |
 | `6-deploy/` | Released (store, hosting, backend) | Live in production |
 
+## Planning
+`Tasks/_plans/<Prefix>-<feature>.md` holds the plan for a feature (flow, scope, task breakdown, open questions). Written by the `task-planner` skill before tasks go to `2-todo/`.
+
 ## File name
 `<Prefix>-<short-name>.md`, e.g. `Portal-acquisition-export.md`. Prefix = `Portal`, `App`, `Mini-App`, `Landing-Page` (or `Backend`/`Cross` for work across repos). Same prefix for inbox names. Copy `_TEMPLATE.md`.
 

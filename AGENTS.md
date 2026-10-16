@@ -5,7 +5,8 @@ Rules for any coding agent working in the `bEasy/` workspace (not a repo of prod
 ## Before you start
 1. Read `Tasks/` for the task you were given (its folder is its status) and `Tasks/_inbox/<your-task>/`.
 2. Claim the task, work only in its worktree, follow "Working in parallel" in `Tasks/README.md`.
-3. Know the task's **tier** (`Tasks/PIPELINE.md`). It decides which checks you run before moving the task forward.
+3. Pick the task's **tier yourself** with the auto picker in `Tasks/PIPELINE.md` and write it into the task file. Never ask the developer to choose. The tier decides which checks you run before moving the task forward.
+4. New feature, new screen or unclear scope? Plan it first with the `task-planner` skill; it turns UI and requirements into scoped task files in `Tasks/2-todo/`.
 
 ## Journey tracking docs (keep in sync)
 
@@ -38,4 +39,4 @@ Do not save doc contents, status or dates in Claude memory; memory only holds po
 
 ## Delivering a task (pipeline)
 
-Every task has a tier (T0 to T3) in its task file. The tier decides the gates it passes; see `Tasks/PIPELINE.md`. Do not run gates the tier does not ask for, and do not skip gates it does. Skipping or adding a gate needs one line of reason in the task file. The user can override any tier.
+Every task has a tier (T0 to T3) in its task file. The tier decides the gates it passes; see `Tasks/PIPELINE.md`. Do not run gates the tier does not ask for, and do not skip gates it does. Skipping or adding a gate needs one line of reason in the task file. The user can override a tier; the agent does not ask for one.

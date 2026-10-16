@@ -1,17 +1,28 @@
 # Delivery pipeline
 
-Not every task needs every check. A task gets a **tier** by risk; the tier lists its gates. Pick the lowest tier that is honest, and say why in the task file (`Tier: T2 · reason`). The user can override.
+Not every task needs every check. A task gets a **tier** by risk; the tier lists its gates. The tier is picked automatically (see below).
 
 ## Tiers
 
 | Tier | For | Examples |
 |---|---|---|
-| **T0 Trivial** | No behaviour change, easy to undo | Docs, copy, comment, typo, config text, rename of a local variable |
+| **T0 Trivial** | No behaviour change, easy to undo | Docs, copy, comment, typo, translation text, config text |
 | **T1 Standard** | Small change, one repo, low blast radius | UI tweak, small bug, one screen, adding a field |
 | **T2 Significant** | New feature or touches shared code, API or tracking | New page, API integration, new tracking events, refactor across files |
 | **T3 Critical** | Money, identity, data, release | Payment/refund/credit logic, auth, data migration, tracking contract with backend, store/hosting release, security |
 
-When unsure between two tiers, take the higher one. A change moves up a tier if it touches payments, auth, personal data or a contract another team depends on.
+## Auto tier picker (the agent decides; it does not ask the developer)
+
+Run when a task is created and again before it moves to `4-testing/`. Take the **highest** tier any signal reaches, then write `Tier: Tn · <signals>` in the task file. The user may override later; the agent never waits for an answer.
+
+| Tier | Signals (any one is enough) |
+|---|---|
+| **T3** | Touches payment, refund, credit, coupon or price math; login, OTP, token, permissions; personal data (phone, address) or export of it; DB/data migration; release/deploy files (`firebase.json`, `deploy_android.sh`, `pubspec.yaml` version, Shorebird); tracking event names/params/headers that backend depends on; secrets or security settings |
+| **T2** | New screen, route or feature; new API call or endpoint; new tracking event; edits a shared component, store, API client or base class; refactor over 5 files or about 300 changed lines; spans 2 or more repos; needs a backend change |
+| **T1** | Any other code change |
+| **T0** | Only `.md`, comments, copy/translation text or static assets, with no logic |
+
+Before planning is finished the signals come from the plan's scope; before testing they come from the real `git diff --stat` and file paths. If the diff shows a higher tier than planned, re-tier up, add the gates, and note it. Never re-tier down just to skip gates.
 
 ## Gates
 
