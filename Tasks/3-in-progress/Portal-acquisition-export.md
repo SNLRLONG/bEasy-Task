@@ -12,5 +12,5 @@ Export button (Marketing → Data export) producing the acquisition → registra
 
 ## Done when
 - [ ] Numbers checked against BigQuery for Aug/Sep 2026
-- [ ] Changelog entry added
+- [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge

@@ -15,5 +15,5 @@
 ## Done when
 - [ ] <check>
 - [ ] Tested on <dev backend / device>
-- [ ] Changelog entry added
+- [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge

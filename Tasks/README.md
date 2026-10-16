@@ -12,7 +12,7 @@ One file per task, moved between folders as it progresses. The folder is the sta
 | `6-deploy/` | Released (store, hosting, backend) | Live in production |
 
 ## File name
-`<repo>-<short-name>.md`, e.g. `portal-acquisition-export.md`. Copy `_TEMPLATE.md`.
+`<Prefix>-<short-name>.md`, e.g. `Portal-acquisition-export.md`. Prefix = `Portal`, `App`, `Mini-App`, `Landing-Page` (or `Backend`/`Cross` for work across repos). Same prefix for inbox names. Copy `_TEMPLATE.md`.
 
 ## Worktree rules
 - `bEasy-portal/` (and each repo's main folder) is the **final** checkout. Never delete it.
@@ -21,17 +21,19 @@ One file per task, moved between folders as it progresses. The folder is the sta
 - The root `bEasy/` repo (local only, no remote) tracks `Tasks/`, `Docs/`, `CLAUDE.md`, `TODO.md`. Add each new worktree folder to the root `.gitignore`, and commit at the end of a session or when a task changes stage.
 - Before starting, list live worktrees: `git -C <repo> worktree list`. Two tasks must not touch the same files; note overlaps in the task file.
 
-## Changelog (per repo, on merge to `main`)
-Each repo root has `CHANGELOG.md` (newest first). Add one entry in the merge commit:
+## Changelog (one file at the root: `bEasy/CHANGELOG.md`)
+Tasks live at the root, so the changelog does too. **Do not add a `CHANGELOG.md` inside any sub-repo.** On each merge to `main`, add one entry at the top, prefixed with the project:
 
 ```
-## 2026-10-20 · feat(export): acquisition Excel report
+## 2026-10-20 · [Portal] feat(export): acquisition Excel report
 - Owner: <name>
-- Task: Tasks/5-done/portal-acquisition-export.md
+- Task: Tasks/5-done/Portal-acquisition-export.md
 - Branch/PR: feat/acquisition-export · #123
 - What changed: <1-3 bullets, user-visible>
 - Needs: <backend / config / migration, or "none">
 ```
+
+Prefixes: `[Portal]`, `[App]`, `[Mini-App]`, `[Landing-Page]`, `[Backend]`, `[Cross]`. Commit it in the root repo.
 
 ## Keeping docs in sync
 Task files link to docs; they do not copy them. Backend asks and replies follow the rules in the root `CLAUDE.md`.

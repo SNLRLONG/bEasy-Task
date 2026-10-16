@@ -15,4 +15,4 @@ Customer Journey funnels and Customer page on the real backend. CS and audiences
 - [ ] Browser pass vs Figma: registration, acquisition, list sheet, customer page, abandon rules
 - [ ] Tested on dev backend (customers 3370, 3547, 3555, 3526)
 - [ ] Khmer review
-- [ ] Changelog entry added
+- [ ] Root `CHANGELOG.md` entry added
