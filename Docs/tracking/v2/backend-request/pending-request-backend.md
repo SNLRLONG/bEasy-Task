@@ -67,6 +67,10 @@ The app sends it on all of these. Today backend reads it only on `POST customer/
 
 Mobile (not backend): set Firebase `user_id` to the real user id on login, clear it on logout, never use a `GUSTMODE` id, and keep `journey_id` across guest login. Needed before end-to-end sign-off.
 
+## 5. Marketing suite
+
+Push campaigns, promo-code ledger, package deals, content library and search: see [Marketing_Suite_Backend_Request.md](Marketing_Suite_Backend_Request.md).
+
 ## Questions
 
 1. Retention of the phone number saved at OTP request for people who never register?

@@ -5,7 +5,7 @@ Not requested yet. Moved here from the pending list (16 Oct 2026). The backend r
 ## Parked until the portal builds it
 - **CS inbox and overview:** create cases from a list, first picker owns, contact log (channel, result, said, problem, next follow-up), suppression on "no more calls", overview aggregates (30-day windows, first sale credited to the last sales follow-up). Portal branch: `draft/cs-overview`.
 - **Recovery push:** preview and send, eligibility ladder (will send, weekly limit, just bought, not abandoned yet, push off, guests, suppressed), order re-check at send time, English/Khmer text, deep link to unfinished checkout.
-- **Weekly marketing push cap:** shared across all marketing pushes. Value to confirm (UI shows 3).
+- **Weekly marketing push cap:** decided in Push v3: 1 a day and 4 in any 7 days, quiet hours 9 PM–8 AM. Journey UI still shows 3 and changes to 4.
 - **Audiences:** destinations Push, Meta Custom Audience (daily sync), TikTok, CSV; unique names. Hidden in portal (`ENABLE_JOURNEY_AUDIENCES=false`).
 
 ## Later

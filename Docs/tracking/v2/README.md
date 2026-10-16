@@ -29,7 +29,7 @@ Start here. Read top to bottom for the full picture, or jump to the folder you n
 - `Journey_Backend_API_Spec.md` — every endpoint, request and response
 
 **backend-request/**
-- `pending-request-backend.md` — open requests · `backlog.md` — later · `Campaign_Source_Request.md` — Organic vs campaign · `Journey_Acquisition_API_Request.md` — acquisition contract
+- `pending-request-backend.md` — open requests · `backlog.md` — later · `Campaign_Source_Request.md` — Organic vs campaign · `Journey_Acquisition_API_Request.md` — acquisition contract · `Marketing_Suite_Backend_Request.md` — push, promotions, content
 
 **backend-response/**
 - `Journey_V2_Portal_Review.md` — backend review of 14 Oct (what is built, counting rules, guest rules)
