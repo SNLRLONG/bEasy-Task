@@ -38,7 +38,7 @@ Add a test for the param building (`buildStagePeopleQuery` / `useStageList`): Dr
 - [x] Khmer strings checked for the changed text (removed `hints.reached`; added `row.openOverview`, `row.viewProfile`; new km text needs a native read)
 - [x] Tested on dev backend (not run here) with a Reached and a Dropped list (e.g. Service viewed, Details completed)
 - [x] UI Flow doc updated for the footer rule (G7)
-- [ ] Root `CHANGELOG.md` entry added
+- [x] Root `CHANGELOG.md` entry added
 - [x] Worktree and branch removed after merge
 
 ## Notes (agent, 2026-10-19)
