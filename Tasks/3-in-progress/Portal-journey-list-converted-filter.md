@@ -27,7 +27,7 @@ Add a **Converted | Not converted** filter to the customer list sheet, and make 
 ## Done when
 - [x] Converted + Not converted counts add up to the list count on dev
 - [x] The Converted count of a stage's Reached list agrees with the funnel's purchased number, or the difference is explained in the footer
-- [ ] Filter survives paging, resets on Reached/Dropped switch, is included in export
+- [x] Filter survives paging, resets on Reached/Dropped switch, is included in export
 - [ ] API spec updated; backend request file closed once answered
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
