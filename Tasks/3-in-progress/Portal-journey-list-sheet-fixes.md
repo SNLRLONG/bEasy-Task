@@ -39,7 +39,7 @@ Add a test for the param building (`buildStagePeopleQuery` / `useStageList`): Dr
 - [x] Tested on dev backend (not run here) with a Reached and a Dropped list (e.g. Service viewed, Details completed)
 - [x] UI Flow doc updated for the footer rule (G7)
 - [ ] Root `CHANGELOG.md` entry added
-- [ ] Worktree and branch removed after merge
+- [x] Worktree and branch removed after merge
 
 ## Notes (agent, 2026-10-19)
 - Item 1: `customer/:id/profile` (journey customer page) shows only `phoneMasked` (customer-header, contacts tab). It does NOT show the full phone, so nothing was changed there; the request "like phone number" needs a decision (personal data, T3 signal). Name link built: shown only with `MARKETING_CUSTOMER:VIEW`, same tab, customer rows only. Row is now an overlay button under the content (link was invalid inside a button).
