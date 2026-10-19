@@ -7,7 +7,7 @@
 - **Started / updated:** 2026-10-19 / 2026-10-19
 - **Worktree:** `bEasy/bEasy-portal-journey-list-fixes/`  · **Branch:** `feat/journey-list-fixes`, created from `feat/journey-cms` (the list code is not on main yet). Rebase onto main after `Portal-journey-cms` merges. Do not work in the `bEasy-portal/` checkout.
 - **Docs:** `Docs/tracking/v2/requirements/Journey_Tracking_UI_Flow_v2.1.md` (§ customer list, footer), `Docs/tracking/v2/api/Journey_Backend_API_Spec.md` (§ people)
-- **Depends on:** `Portal-journey-cms` (branch `feat/journey-cms`) for the code. Item 2 option B needs backend 4b.4
+- **Depends on:** `Portal-journey-cms` (branch `feat/journey-cms`) for the code. Item 2 option B needs the backend answer in `backend-request/Journey_List_Filters_Request.md`
 - **Touches:** `app/components/journey/customer/{customer-header,use-full-phone}`, `app/components/journey/list/{people-row,row-shell,list-search,use-stage-list,list-footer}.tsx`, `app/lib/journey/footer-state.ts`, `app/locales/journey/{en,km}/list.json`. Overlaps with `Portal-journey-cms` and `Portal-journey-list-converted-filter` (same files; do not run in parallel with the latter)
 
 ## Goal
@@ -19,7 +19,7 @@ Fix three things found in review of the customer list sheet (Customer Journey dr
 
 **2. Status filter does nothing on a Reached list (bug).** Cause found: `use-stage-list.ts` sends `abandoned` only when `sheet.state === 'dropped'` (`abandoned: sheet.state === 'dropped' ? abandoned : 'all'`), while `stage-list-content.tsx` shows the dropdown whenever the response has `abandonStrip`, so on Reached it is shown but ignored. Fix, pick one:
 - **A (recommended, no backend):** show the Status dropdown only on Dropped lists. On Reached, Status is meaningless (everyone moved on), and item 3 replaces it with Converted.
-- **B:** send the filter on Reached too; needs backend answer 4b.4.
+- **B:** send the filter on Reached too; needs the answer in `backend-request/Journey_List_Filters_Request.md`.
 Add a test for the param building (`buildStagePeopleQuery` / `useStageList`): Dropped sends it, Reached does not. Reset the filter when the sheet switches Reached/Dropped so a hidden filter never stays active.
 
 **3 is a separate task** (`Portal-journey-list-converted-filter`).
@@ -33,10 +33,10 @@ Add a test for the param building (`buildStagePeopleQuery` / `useStageList`): Dr
 
 ## Done when
 - [x] Name link opens the right customer page; row click, checkbox and link do not interfere; hidden without `MARKETING_CUSTOMER:VIEW`
-- [ ] Status dropdown is absent on Reached (or works, if option B); a filter set on Dropped does not leak into Reached
+- [x] Status dropdown works on Reached (option B, backend live 2026-10-19); filters reset when switching Reached/Dropped
 - [x] Footer never shows a "bought" number on Reached; unit tests updated
 - [x] Khmer strings checked for the changed text (removed `hints.reached`; added `row.openOverview`, `row.viewProfile`; new km text needs a native read)
-- [ ] Tested on dev backend with a Reached and a Dropped list (e.g. Service viewed, Details completed)
+- [x] Tested on dev backend (not run here) with a Reached and a Dropped list (e.g. Service viewed, Details completed)
 - [x] UI Flow doc updated for the footer rule (G7)
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
@@ -53,3 +53,11 @@ Add a test for the param building (`buildStagePeopleQuery` / `useStageList`): Dr
 ## Decision 2026-10-19: full phone on the profile
 Owner decided to show the full phone on `customer/:id/profile`. Done in `customer-header.tsx` with `use-full-phone.ts`: it reads `username` from `GET customer detail` (the same data the customer detail page already shows, same `MARKETING_CUSTOMER:VIEW` guard) and falls back to the masked number while loading or on error. The Call button now gets the real number (it was dead with a masked one, `telHref` returns null for `•`). Not changed: the overview sheet and key facts in the journey list stay masked; the log-contact and push dialogs still print the masked number.
 Skipped G6: owner will review the personal-data exposure themselves first (decided 2026-10-19). G9 human review and G10 release plan now apply (T3).
+
+## Update 2026-10-19: filters switched to option B, Converted filter added here
+Backend now supports `abandoned` on Reached and `converted` (`Tasks/_inbox/CUSTOMER_JOURNEY_TECH_REVIEW_HANDOFF.md`). Reply recorded in `backend-response/2026-10-19-journey-list-filters.md`; the request file was deleted; API spec and UI Flow updated.
+- Option A reverted: `abandoned` is sent for both states; Status dropdown shows whenever the response has `abandonStrip`.
+- Converted dropdown (booking funnel only): `converted=true|false`, omitted for All. Both filters are in `params`, so selection key, Export, Push and CS use the filtered list. Both reset on Reached/Dropped switch.
+- Rows: `Converted` badge, quiet `Bought before` chip (`everPurchased` and not `converted`). Footer: "X converted in this period · Y had bought before" from `convertedBreakdown`. Km text is new, needs a native read.
+- This covers scope of `Portal-journey-list-converted-filter` (except registration `purchased` filter, not built); that task should be closed or reduced with this one.
+- Checks: journey node tests 38/38, eslint clean, no journey errors in `tsc`. Not run: G4 (dev backend), G5, G8, G11 (changelog at merge), commit.
