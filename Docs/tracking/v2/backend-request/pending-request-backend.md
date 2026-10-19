@@ -1,6 +1,6 @@
 # Pending Backend Requests: Customer Journey
 
-**To:** Backend · **Updated:** 16 Oct 2026
+**To:** Backend · **Updated:** 19 Oct 2026
 **Done and removed:** guest events, stage/people endpoints, customer page, acquisition funnel (see [Journey_V2_Portal_Review.md](../backend-response/Journey_V2_Portal_Review.md)). Later items are in [backlog.md](backlog.md). Campaign source is in [Campaign_Source_Request.md](Campaign_Source_Request.md).
 
 The app already ships these Firebase events, so it cannot rename them. Where our names differ from the backend contract, please map ours.
@@ -66,6 +66,17 @@ The app sends it on all of these. Today backend reads it only on `POST customer/
 | 4.7 | **Roles:** none needed now (admin login only). Revisit when roles are planned |
 
 Mobile (not backend): set Firebase `user_id` to the real user id on login, clear it on logout, never use a `GUSTMODE` id, and keep `journey_id` across guest login. Needed before end-to-end sign-off.
+
+## 4b. Converted filter and "already bought" split (portal feedback, 19 Oct)
+
+The customer list sheet needs a **Converted / Not converted** filter, and the footer said "149 of these already bought" while the funnel showed 28 purchases. Those are two different numbers: `breakdown.moved_on` counts people who went past this step (any later step), not people who bought. Please add on `GET /funnels/{funnel}/stages/{stage}/people`:
+
+| # | Request |
+|---|---|
+| 4b.1 | Query param `converted`: `all` (default) \| `yes` \| `no`. `yes` = the journey ended in a purchase inside the selected period (same rule as the funnel's `purchased`). Works for `reached` and `dropped`, combinable with `abandoned` |
+| 4b.2 | Per item: `converted` (boolean, this journey) and `everPurchased` (boolean, any earlier order) |
+| 4b.3 | Response: `convertedBreakdown: { converted, notConverted, everPurchased }` over the whole filtered list, so the footer can show both numbers |
+| 4b.4 | Confirm `abandoned=yes\|no` on a **reached** list: does it filter by `abandonState`? Reached people who bought have `none`, so the filter looks empty (see portal task `Portal-journey-list-sheet-fixes`) |
 
 ## 5. Marketing suite
 

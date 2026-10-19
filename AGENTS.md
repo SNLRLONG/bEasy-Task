@@ -2,6 +2,10 @@
 
 Rules for any coding agent working in the `bEasy/` workspace (not a repo of products; they are sub-repos). Project layout and commands: `CLAUDE.md`. Each sub-repo may have its own `AGENTS.md`/`CLAUDE.md`; read it when working there. If rules conflict, the sub-repo wins for code style and commands, this file wins for tasks, worktrees, docs and delivery.
 
+## Git: no commit, no push unless told
+
+Never `git commit` or `git push` (any repo, any worktree, including the root repo) until the user says to, in that session. Prepare the change, show the diff or `git status`, and ask. Approval covers that one commit or push only. This overrides the "commit at the end of a session" lines in `Tasks/README.md`; the commit-message format (G8) still applies when you are told to commit.
+
 ## Before you start
 1. Read `Tasks/` for the task you were given (its folder is its status) and `Tasks/_inbox/<your-task>/`.
 2. Claim the task, work only in its worktree, follow "Working in parallel" in `Tasks/README.md`.
