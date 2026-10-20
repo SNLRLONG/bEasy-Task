@@ -33,6 +33,6 @@ Left panel of the Users view: find a staff user and select one.
 ## Done when
 - [x] Search, filters and pagination send only the parameters the guide lists
 - [x] Selection survives a refresh
-- [ ] No horizontal scroll at laptop width (1280px)
+- [x] No horizontal scroll at laptop width (1280px)
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
