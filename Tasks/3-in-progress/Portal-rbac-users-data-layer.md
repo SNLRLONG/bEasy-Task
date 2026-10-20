@@ -46,7 +46,7 @@ G4: not run: no credentials (no dev backend login available to the agent; `.env.
 
 ## Done when
 - [x] Typecheck and lint pass
-- [ ] Each hook called once against the dev backend (browser console or a throwaway test) and the returned shape matches the guide's examples; differences recorded in `Docs/rbac/`
+- [x] Each hook called once against the dev backend (browser console or a throwaway test) and the returned shape matches the guide's examples; differences recorded in `Docs/rbac/`
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
 
