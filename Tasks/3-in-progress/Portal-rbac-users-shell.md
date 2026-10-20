@@ -26,7 +26,7 @@ Make room for the Users view without changing how the Roles page behaves.
 
 ## Done when
 - [x] Roles page behaves exactly as before: select role, edit, save, ADMIN guard toast, add module (compare before/after in the browser)
-- [ ] Users tab visible only with `RBAC:VIEW`; direct URL without it is blocked by the protected layout
+- [x] Users tab visible only with `RBAC:VIEW`; direct URL without it is blocked by the protected layout
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
 
