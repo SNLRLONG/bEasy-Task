@@ -28,7 +28,7 @@ Make room for the Users view without changing how the Roles page behaves.
 - [x] Roles page behaves exactly as before: select role, edit, save, ADMIN guard toast, add module (compare before/after in the browser)
 - [x] Users tab visible only with `RBAC:VIEW`; direct URL without it is blocked by the protected layout
 - [ ] Root `CHANGELOG.md` entry added
-- [ ] Worktree and branch removed after merge
+- [x] Worktree and branch removed after merge
 
 ## Notes (agent)
 - G2: eslint clean on touched files, prettier applied, `yarn typecheck` has no errors in rbac files (pre-existing unrelated errors in service-bundle, chat-store, vite.config.ts).
