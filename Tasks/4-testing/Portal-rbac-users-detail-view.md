@@ -33,4 +33,4 @@ G4 not run: agent has no login credentials; owner to verify in browser.
 - [x] Module labels and section order match the Roles page
 - [ ] A new module added by the catalogue appears without code change
 - [ ] Root `CHANGELOG.md` entry added
-- [ ] Worktree and branch removed after merge
+- [x] Worktree and branch removed after merge
