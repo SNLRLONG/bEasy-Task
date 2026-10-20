@@ -4,7 +4,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new API calls, no screen yet; hooks are unused until the UI tasks land (permission write path is verified in the edit task)
 - **Claimed by:** agent (claude), 2026-10-19
-- **Started / updated:** 2026-10-19 / 2026-10-19
+- **Started / updated:** 2026-10-19 / 2026-10-20
 - **Worktree:** `bEasy/bEasy-portal-rbac-users-data/`  · **Branch:** `feat/rbac-users-data`
 - **Docs:** `Docs/rbac/Portal_User_Permissions_Review.md`, `Docs/rbac/Backend_User_Permissions_Guide.md` · plan: `Tasks/_plans/Portal-rbac-users.md`
 - **Depends on:** none (backend says endpoints are live; verify on dev)
