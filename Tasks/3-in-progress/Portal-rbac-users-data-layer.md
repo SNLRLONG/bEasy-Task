@@ -48,6 +48,6 @@ G4: not run: no credentials (no dev backend login available to the agent; `.env.
 - [x] Typecheck and lint pass
 - [x] Each hook called once against the dev backend (browser console or a throwaway test) and the returned shape matches the guide's examples; differences recorded in `Docs/rbac/`
 - [x] Root `CHANGELOG.md` entry added
-- [ ] Worktree and branch removed after merge
+- [x] Worktree and branch removed after merge
 
 Skipped G6: owner will review security themselves first (decided 2026-10-19); the diff touches no auth or input handling.
