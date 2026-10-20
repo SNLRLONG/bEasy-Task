@@ -35,4 +35,4 @@ Left panel of the Users view: find a staff user and select one.
 - [x] Selection survives a refresh
 - [x] No horizontal scroll at laptop width (1280px)
 - [ ] Root `CHANGELOG.md` entry added
-- [ ] Worktree and branch removed after merge
+- [x] Worktree and branch removed after merge
