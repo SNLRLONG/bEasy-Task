@@ -1,5 +1,6 @@
 # Post week 2 SEO article set
 
+- **ID:** T-0040
 - **Repo:** bEasy-landing-page-v2
 - **Owner:** SNLRLONG (Seavlong)
 - **Due:** 2026-10-23

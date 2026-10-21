@@ -1,5 +1,6 @@
 # Journey customer list sheet: name link, Status filter, footer message
 
+- **ID:** T-0042
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T3 · re-tiered up 2026-10-19: the profile page now shows the customer's full phone (personal data). Was T2.
