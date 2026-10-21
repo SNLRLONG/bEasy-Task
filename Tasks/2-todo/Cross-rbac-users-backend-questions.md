@@ -4,7 +4,7 @@
 - **Owner:** Suntel
 - **Tier:** T0 · docs only
 - **Claimed by:** none
-- **Started / updated:** – / 2026-10-19
+- **Started / updated:** – / 2026-10-21
 - **Worktree:** none (docs only, edited in the root repo)
 - **Docs:** `Docs/rbac/Portal_User_Permissions_Review.md`, `Docs/rbac/Backend_User_Permissions_Guide.md` · plan: `Tasks/_plans/Portal-rbac-users.md`
 - **Depends on:** none
@@ -22,7 +22,8 @@ Get answers to the 10 questions so the edit task is not blocked.
 - [ ] G1 scope  - [ ] G8 commit message
 
 ## Done when
-- [ ] Questions 1 to 5 answered and recorded
-- [ ] Affected task files updated
+- [x] Questions 1 to 10 answered and recorded (2026-10-21)
+- [x] Affected task files updated (`Portal-rbac-users-edit`)
+- [ ] Optional: verify the reply against `bEasy-api` code if cloned
 - [ ] Root `CHANGELOG.md` entry added
-- [ ] Worktree and branch removed after merge
+- [x] Worktree and branch removed after merge
