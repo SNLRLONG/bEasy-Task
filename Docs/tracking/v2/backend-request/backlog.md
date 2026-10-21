@@ -13,3 +13,4 @@ Not requested yet. Moved here from the pending list (16 Oct 2026). The backend r
 - **AI customer summary:** what happened, next step, best offer, English/Khmer, no phone or email in the prompt, Refresh.
 - **Clarity recording link per session:** needs an app-side session tag.
 - **Zone mapping:** map `area_cell` to zone, or return `zoneId` in the address API.
+- **Full phone in journey APIs (moved from pending 6.17, 20 Oct):** return a full `phone` on people rows, `GET /customers/{id}/summary` and registration rows only for callers with `MARKETING_CUSTOMER:VIEW`, keep `phoneMasked` for others, audit-log it. Confirm retention and display for phones saved at OTP request by people who never registered (matrix N2), and that `q` normalises `012…`, `+855 12…`, `85512…`. Task: `Tasks/1-backlog/Portal-journey-phone-reveal.md`.

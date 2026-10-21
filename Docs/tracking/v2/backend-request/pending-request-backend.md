@@ -1,6 +1,6 @@
 # Pending Backend Requests: Customer Journey
 
-**To:** Backend · **Updated:** 19 Oct 2026
+**To:** Backend · **Updated:** 21 Oct 2026
 **Done and removed:** guest events, stage/people endpoints, customer page, acquisition funnel (see [Journey_V2_Portal_Review.md](../backend-response/Journey_V2_Portal_Review.md)). Later items are in [backlog.md](backlog.md). Campaign source is in [Campaign_Source_Request.md](Campaign_Source_Request.md).
 
 The app already ships these Firebase events, so it cannot rename them. Where our names differ from the backend contract, please map ours.
@@ -67,20 +67,25 @@ The app sends it on all of these. Today backend reads it only on `POST customer/
 
 Mobile (not backend): set Firebase `user_id` to the real user id on login, clear it on logout, never use a `GUSTMODE` id, and keep `journey_id` across guest login. Needed before end-to-end sign-off.
 
-## 4b. Converted filter and "already bought" split (portal feedback, 19 Oct)
-
-The customer list sheet needs a **Converted / Not converted** filter, and the footer said "149 of these already bought" while the funnel showed 28 purchases. Those are two different numbers: `breakdown.moved_on` counts people who went past this step (any later step), not people who bought. Please add on `GET /funnels/{funnel}/stages/{stage}/people`:
-
-| # | Request |
-|---|---|
-| 4b.1 | Query param `converted`: `all` (default) \| `yes` \| `no`. `yes` = the journey ended in a purchase inside the selected period (same rule as the funnel's `purchased`). Works for `reached` and `dropped`, combinable with `abandoned` |
-| 4b.2 | Per item: `converted` (boolean, this journey) and `everPurchased` (boolean, any earlier order) |
-| 4b.3 | Response: `convertedBreakdown: { converted, notConverted, everPurchased }` over the whole filtered list, so the footer can show both numbers |
-| 4b.4 | Confirm `abandoned=yes\|no` on a **reached** list: does it filter by `abandonState`? Reached people who bought have `none`, so the filter looks empty (see portal task `Portal-journey-list-sheet-fixes`) |
-
 ## 5. Marketing suite
 
 Push campaigns, promo-code ledger, package deals, content library and search: see [Marketing_Suite_Backend_Request.md](Marketing_Suite_Backend_Request.md).
+
+## 6. Tech review handoff (19 Oct 2026)
+
+Backend answered on 20 Oct: [Journey_Tech_Review_Backend_Response.md](../backend-response/Journey_Tech_Review_Backend_Response.md). What is still open is in [Journey_Tech_Review_Backend_Request.md](Journey_Tech_Review_Backend_Request.md): dev deploy with masked samples (including `summaryScopes` and `definitions`), the 12 to 18 Oct reconciliation on production, registration stages from backend records, and the real-data check for duplicate orders. Backend's earlier summary: `../backend-response/Journey_Tech_Review_Handoff_19Oct2026.md`.
+
+Not requested now (backlog): assisted-conversion identifier, finance amounts, consent data, people-list filters for last activity, furthest stage, value, CS status, full phone in journey APIs (`backlog.md`).
+
+## 7. UTM fields per placement (21 Oct 2026)
+
+Task T-0035. Marketing will tag every social link with `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_id`, `utm_term` (template `bEasy_UTM_Tracking_Template.xlsx`). Please agree the join key with us first (T-0033; we recommend `utm_id`), then:
+
+1. Accept and store `utm_id`, `utm_content`, `utm_term` on the customer attribution touch and on `APP_OPENED` (new fields from mobile, T-0034).
+2. Return them in `GET /funnels/acquisition` (campaign rows and people lists) and `GET /meta/filter-options`, and allow filtering by them.
+3. Keep using the stored touch when an open has no campaign (see [Campaign_Source_Request.md](Campaign_Source_Request.md)).
+
+Not asked yet: exact header and field names. They are fixed in T-0033.
 
 ## Questions
 

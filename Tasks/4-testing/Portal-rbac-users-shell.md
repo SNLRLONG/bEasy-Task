@@ -4,7 +4,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new route; small refactor of the role page
 - **Claimed by:** agent (claude), 2026-10-19
-- **Started / updated:** 2026-10-19 / 2026-10-20
+- **Started / updated:** 2026-10-19 / 2026-10-21
 - **Worktree:** `bEasy/bEasy-portal-rbac-users-shell/`  · **Branch:** `feat/rbac-users-shell`
 - **Docs:** `Docs/rbac/Portal_User_Permissions_Review.md`, `Docs/rbac/Backend_User_Permissions_Guide.md` · plan: `Tasks/_plans/Portal-rbac-users.md`
 - **Depends on:** none
@@ -49,3 +49,4 @@ Skipped G6: owner will review security themselves first (decided 2026-10-19); th
   - How tested: eslint and prettier clean on touched files; `yarn typecheck` no errors in rbac files (unrelated pre-existing errors elsewhere). Not run in browser (G4, no credentials); no automated tests exist for this area.
   - Risk / rollback: T2; Roles layout wrapper changed (height now shared with tabs), verify scroll and sticky strip in browser. Revert the branch to roll back. Skipped G6 per above.
   - Task: Tasks/3-in-progress/Portal-rbac-users-shell.md
+- 2026-10-21: acts as the integration branch; `feat/rbac-users-edit` branches from it. No shell code changes; G3/G4/G11 still open (G4 needs login + backend).

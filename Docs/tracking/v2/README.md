@@ -24,6 +24,7 @@ Start here. Read top to bottom for the full picture, or jump to the folder you n
 - `tracking-backend.md` — backend + mobile integration contract, staging sign-off
 - `Journey_Tracking_Analytical_Model.md` — metric definitions
 - `bEasy-automation-engagement-guide.md` — segments, notifications, offers
+- `Acquisition_Ad_Data_Readiness.md` — what blocks Meta/TikTok numbers on Acquisition and who owns each piece
 
 **api/**
 - `Journey_Backend_API_Spec.md` — every endpoint, request and response
@@ -33,6 +34,7 @@ Start here. Read top to bottom for the full picture, or jump to the folder you n
 
 **backend-response/**
 - `Journey_V2_Portal_Review.md` — backend review of 14 Oct (what is built, counting rules, guest rules)
+- `2026-10-19-journey-list-filters.md` — Status on Reached and Converted filter are live
 
 **archive/**
 - `Journey_Tracking_API_Contract.md` — early mock-based contract, replaced by `api/`

@@ -101,6 +101,7 @@ Any Reached or Dropped number opens a **640 px sheet** on the right over a dimme
 | Reach tiles | **Push** · **CS contact** (phone only, push off) · **Ads only** (guests / devices). They add up to the list count. Suppressed people stay in the list, tagged, and are left out of push / CS / audiences |
 | Row | Name or masked phone, device + app version, status tag (**Abandoned · 35 min** red, **Not abandoned yet · 5 min** grey), furthest step, service, source / campaign, interest level, reach, open value, last activity. Registration rows add OTP result badge, gateway code, lock, resend count |
 | Search | Inside this list only, by name or phone |
+| Filters | Next to search: **Status** (All · Abandoned · Not abandoned yet; Reached and Dropped lists with an abandon strip) and **Converted** (All · Converted · Not converted; booking funnel). Both reset when the Reached / Dropped switch changes, and both are part of the export, push and CS query. Rows tag **Converted** (paid in this journey) or **Bought before** (earlier order only). Footer line: "28 converted in this period · 9 had bought before" |
 | Selection | "All 50 selected" by default. Footer shows real reach |
 | Footer | **Export** · **Send to CS · n** · **Send push · n** · **Create audience** |
 
@@ -112,7 +113,7 @@ Footer states (never show an action people can't receive; hide it and say why):
 | Guests only | Push and CS hidden. Export + ad audience |
 | Push off for all | Send push hidden. CS call is the way |
 | Nothing selected | Actions visible but disabled, with a hint |
-| **Reached** view | Push and CS hidden, with the reason ("110 of these already bought. Switch to Dropped here") |
+| **Reached** view | Push and CS hidden, with the fixed reason "These people already reached this step. Switch to Dropped here to send push or CS." No number: `moved_on` is everyone who went past the step, not buyers |
 | Registration dropped list | Phone is saved at the OTP request. Actions: Export, **Share with Tech**, Send to CS inbox, Create ad audience. **No push** (not registered) |
 | Acquisition devices | Not registered: no push, no CS call. "Use them as a Meta retargeting audience" |
 

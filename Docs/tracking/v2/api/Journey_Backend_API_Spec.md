@@ -36,7 +36,9 @@ Backend status follows `Journey_V2_Portal_Review.md` (14 Oct 2026, includes the 
 | `device` | `all` `android` `ios` `web` | `all` |
 | `countBy` | `customer` `journey` (booking only) | `customer` |
 | `unit` | `people` `devices` (registration only) | `people` |
-| `channel`, `campaignId`, `adsetId`, `customerKind` (`new`/`existing`) | acquisition only | |
+| `channel`, `campaignId`, `adsetId` | acquisition only | |
+| `customerKind` | `all` `new` `existing` (acquisition only) | `new` (backend, per the 19 Oct handoff; unverified) |
+| `sourceType` | `all` `attributed` `organic` `unknown` (acquisition only). `unknown` is not organic | `all` |
 
 **Period:** includes today. `from` is inclusive, `to` is **exclusive**: `30d` on 9 Oct 2026 = `from 2026-09-10`, `to 2026-10-10`. The responses echo `period.from` / `period.to` in this form. **To confirm with backend:** for `custom`, whether `to` is also exclusive (portal would then send the day after the last picked day).
 
@@ -79,12 +81,13 @@ Source keys: `meta:<campaign>`, `tiktok:<campaign>`, `other:Organic|Push campaig
 ```
 
 Rules:
+- `dropRate` = dropped / reached at the stage (stage-relative) and `dropPctOfFirst` = dropped / first measurable stage (whole funnel), both 0 to 1, per the 19 Oct handoff. The portal shows `dropRate` on the Dropped tile and in the table, `dropPctOfFirst` in the table and the tile tooltip, and computes them the same way if a field is missing.
 - `reached` is cumulative (furthest step ≥ stage). `dropped = reached − next.reached`. `continued = next.reached / reached`. `pctOfFirst = reached / first.reached`.
 - `previous` = the same period length immediately before `period`. Always sent.
 - `abandoned` / `notAbandonedYet` (booking only) split `dropped` using the abandon rules (§2). They add up to `dropped`.
 - `filterCounts`: each menu's counts follow all **other** filters, not its own.
 - `listable: false` only for acquisition `ad_clicked` (Meta totals, no people).
-- `kpis[].key` per funnel: booking `viewed, purchased, recoverable, biggest_drop` · registration `page_viewed, otp_requested, registered, otp_failed` · acquisition `ad_clicks, app_opens, first_purchases, click_to_buy`. `format`: `count` | `ratio` | `usd`. `recoverable` = abandoned customers at details/slot/checkout who are reachable; `openValue` = their booking value (USD).
+- `kpis[].key` per funnel: booking `viewed, purchased, recoverable, biggest_drop` · registration `page_viewed, otp_requested, registered, otp_not_verified` (was `otp_failed`; the portal accepts both until the rename is on dev) · acquisition `ad_clicks, app_opens, first_purchases, click_to_buy`. `format`: `count` | `ratio` | `usd`. `recoverable` = abandoned customers at details/slot/checkout who are reachable; `openValue` = their booking value (USD).
 - Stage codes — booking: `service_viewed booking_started details_completed slot_selected checkout_started purchased` · registration: `registration_viewed otp_requested otp_verified signup_started registration_completed` · acquisition: `ad_clicked app_opened registered service_viewed booking_started details_completed slot_selected checkout_started purchased`.
 - Unit: `customers` / `journeys` (booking), `people` / `devices` (registration), `devices` (acquisition; before sign-up a person is a device). Guest events must be kept per device (see backend request 3.1).
 
@@ -105,7 +108,9 @@ Perm: VIEW. **Status:** live for all three funnels. Query: shared filters +
 |---|---|
 | `state` | `reached` \| `dropped` (required) |
 | `reason` | registration `otp_requested` dropped only: one OTP reason |
-| `abandoned` | `all` \| `yes` \| `no` |
+| `abandoned` | `all` \| `yes` \| `no`. Works for `reached` and `dropped` |
+| `converted` | booking only: `true` = purchased in this journey, `false` = not; omitted = all. Works for `reached` and `dropped` |
+| `purchased` | registration only: `yes` \| `no`, whether the user has any paid order. Response adds `purchaseBreakdown { purchased, noOrderYet }` (before this filter) and per row `everPurchased`, `firstPurchasedAt`. Portal sends it; not on dev yet |
 | `q` | search name or phone, inside this list |
 | `cursor`, `limit` | paging |
 
@@ -118,6 +123,7 @@ Errors: `422 NOT_LISTABLE` for acquisition `ad_clicked`.
   "abandonStrip": { "abandoned": 46, "notYet": 4, "ruleMinutes": 30 },
   "reach": { "push": 31, "cs": 12, "adsOnly": 7, "suppressed": 3 },
   "breakdown": [ { "key": "moved_on", "count": 110, "pct": 0.69 } ],
+  "convertedBreakdown": { "converted": 28, "notConverted": 134, "everPurchased": 9 },
   "items": [
     {
       "id": "4821", "kind": "customer", "name": "Sokha Chan",
@@ -126,7 +132,7 @@ Errors: `422 NOT_LISTABLE` for acquisition `ad_clicked`.
       "source": "Meta · Instant_15", "interest": "very_high",
       "reach": "push", "suppressed": false, "value": 15,
       "lastActivityAt": "2026-10-08T09:42:00+07:00", "idleMinutes": 35,
-      "abandonState": "abandoned"
+      "abandonState": "abandoned", "converted": false, "everPurchased": true
     },
     {
       "id": "dev_a91f3c2", "kind": "device", "phoneMasked": null,
@@ -147,6 +153,7 @@ Rules:
 - `suppressed` = asked for no marketing / "no more calls". Kept in the list, excluded from push, CS and audiences.
 - `abandonState`: `abandoned` (idle ≥ the rule time of its furthest step) | `not_yet` | `none`. `idleMinutes` = now − last activity.
 - `breakdown`: reached list → `moved_on`, `stopped_here`; registration OTP dropped list → one row per reason.
+- `converted` = purchased in this journey (paid order); `everPurchased` = any earlier paid order and never hides a new abandoned journey. `convertedBreakdown` is booking only.
 - `interest`: `low medium high very_high converted`. `otp.result`: `not_delivered gateway_error wrong_code locked resent expired`.
 - Sort: last activity, newest first.
 - **Row key:** with `countBy=journey` the same customer can appear more than once, so rows also carry `journeyId`; use it as the row key (`id` repeats).
@@ -333,7 +340,7 @@ Query (all optional): `serviceId`, `event`, `status`, `source`, `from`, `to`.
 - Within a group: newest first. Groups: newest first.
 
 ### `GET /customers/{id}/orders`
-`[ { "id": 5193, "service": "Upholstery", "status": "completed", "total": 51, "placedAt": "…", "slotAt": "…", "paymentMethod": "ABA KHQR" } ]` — `status`: `upcoming completed cancelled refunded`. `total` **includes VAT** (CS revenue excludes VAT).
+`[ { "id": 5193, "service": "Upholstery", "status": "completed", "orderStatus": "COMPLETED", "paymentStatus": "PAID", "total": 51, "placedAt": "…", "slotAt": "…", "paymentMethod": "ABA KHQR" } ]` — `status`: `upcoming completed cancelled refunded` (journey summary, kept for compatibility). `orderStatus` is the raw Order management status (`PENDING ACCEPTED IN_PROGRESS COMPLETED CANCELLED`) and `paymentStatus` the raw payment status (backend response 20 Oct). The portal shows `orderStatus` and `paymentStatus`, and falls back to `status`. `total` **includes VAT** (CS revenue excludes VAT).
 
 ### `GET /customers/{id}/contacts`
 `[ { "id": 12, "customerId": 4821, "channel": "phone", "result": "spoke", "said": "will_book_later", "problem": "none", "purpose": "sales_follow_up", "nextFollowUp": "…", "note": "", "agent": "Sreymom Chea", "contactedAt": "…" } ]` — newest first.
@@ -366,6 +373,8 @@ The full contract (query, response, rules, errors, people list, after-purchase o
 
 - Without Meta: `ad_clicked` has `reached: null` with `unavailableReason` (`meta_not_connected`, or `filter_not_applicable` when `serviceIds`, `device` or `customerKind` is set); `baseStage` is `app_opened`. The portal shows "—", never 0.
 - `previous` is always sent. `afterPurchase.rescheduled` and `cancelled` fee fields are `null` (`not_tracked`) until backend stores them.
+- Backend response 20 Oct 2026 (not yet on dev): `unit` is `people` and `identityUnit` is `customer_or_device`; only `unit=people` is accepted (the portal forces it for acquisition). `purchaseCounts` is `{ firstTimeBuyers, buyers, orders, purchaseEvents }` and the four need not match. Each `afterPurchase` row has `denominator: { unit: "orders", count }` and `ofPurchases` (shown as "5 of 11 orders (45%)"). Unknown source is `other:Unknown` (never Organic), listed in `filter-options` and `filterCounts.sources`; `sourceType` and `sources` combine with AND.
+- People lists carry `summaryScopes`: booking `abandonStrip` is counted before the `abandoned` and `converted` filters; `convertedBreakdown` after `abandoned`, before `converted`; registration `purchaseBreakdown` before `purchased`; `count`, `reach`, `breakdown` after all list filters. Registration `q` matches name and phone (including OTP-only phones; `012 345 678`, `012345678`, `+855 12 345 678`, `85512345678` are one number); every registration row has the `name` key, `null` when unknown.
 - Campaign key is `meta:<campaign>` everywhere (filters, `campaigns[].campaignId`, filter-options `key`).
 - Open items for backend: `backend-request/pending-request-backend.md` §4 and `backend-request/backlog.md` (Meta import).
 
@@ -384,7 +393,8 @@ The full contract (query, response, rules, errors, people list, after-purchase o
 | `summary.numbers.pushThisWeek.used`, `recordingUrl`, `afterPurchase.feeKept` | `null` |
 | `rescheduled`, `cancelled` fee fields | `null` (`not_tracked`) |
 | `sources`, `cameFrom`, `entry` | mostly `"Organic"` (see `backend-request/Campaign_Source_Request.md`) |
-| Registration `otpReasons` | only `expired_or_left` |
+| Registration `otpReasons` | only `expired` and `not_verified_unknown` (19 Oct handoff; the portal also accepts the old names). Delivery, gateway, wrong-code and rate-limit reasons are not tracked: shown as "Not tracked yet", never 0 |
+| People rows `lastActivityAt`, `idleMinutes` | can be `null` (invalid time): the portal shows "Time unavailable" |
 | `/customers/{id}/contacts` | `[]` |
 
 Backend stage mapping (booking): add-ons, options, address, date, time and pair service → `booking_started`; summary and promo → `slot_selected`; payment started, order created and confirmation → `checkout_started`. Registration: `registration_viewed` = phone entered; `signup_started` = the app reported the sign-up form; logins of existing customers are excluded.

@@ -1,6 +1,6 @@
 # Portal review: user roles and permissions
 
-Updated: 2026-10-19 · Reviewer: agent · Inputs: [Backend_User_Permissions_Guide.md](Backend_User_Permissions_Guide.md) and the current `bEasy-portal` code (`app/routes/rbac/*`, `app/hooks/query/use-rbac-*`, `app/lib/permission.ts`, `app/store/auth-store.ts`, `app/hooks/use-auth.ts`).
+Updated: 2026-10-21 · Reviewer: agent · Inputs: [Backend_User_Permissions_Guide.md](Backend_User_Permissions_Guide.md) and the current `bEasy-portal` code (`app/routes/rbac/*`, `app/hooks/query/use-rbac-*`, `app/lib/permission.ts`, `app/store/auth-store.ts`, `app/hooks/use-auth.ts`).
 
 ## What backend asks for
 
@@ -61,4 +61,19 @@ Plan: `Tasks/_plans/Portal-rbac-users.md`. Order: data layer → shell → list 
 
 ## Backend answers
 
-None yet. See [backend-request.md](backend-request.md).
+Full reply: [Frontend_User_Permissions_Backend_Review.md](Frontend_User_Permissions_Backend_Review.md) (21 Oct 2026, against `feature/bunlong-user-permissions`; not yet verified against `bEasy-api` code). Decisions for the portal:
+
+| Q | Answer | Portal does |
+|---|---|---|
+| 1 | Role **codes** everywhere (`roles`, `PUT .../roles`, `roleCode` filter) | Submit `code`, never `name` |
+| 2 | Roles have no `status`; every role from `GET /rbac/roles` is assignable | Drop `status` from the user-editor's use of `RbacRoleItem`; no status filter in the selector |
+| 3 | `userInfo.fullAccess` is in login and `GET /admin/profile/info` (full-access codes `ADMIN`, `SUPER_ADMIN`, `SUPER-ADMIN`) | Add `fullAccess` to the auth user type and read it; replaces the "rely on 403" fallback (correction 4) |
+| 4 | No VIEW coupling; every `(module, action)` is independent | Do **not** copy the role editor's VIEW rule; show inherited, granted, denied, effective as returned (replaces correction 7) |
+| 5 | `type` values: `ADMIN`, `CUSTOMER_SERVICE`, `FINANCE`, `SALES`, `TECH`, `OPERATION`, `MARKETING`; not derivable from roles | Hard-code this list for the type filter |
+| 6 | Server cache cleared on save; tokens not invalidated; portal nav updates on profile refetch, reload or login | Note: "Access is updated immediately. The user may need to reload the portal to see updated navigation." |
+| 7 | Full-access user: summary `roles` is `[]`; detail `roles` holds the fallback type; `effective` is not exhaustive | Matrix informational and read-only when `fullAccess` |
+| 8 | Activity Log records actor, URL, status; not roles/overrides before/after | No audit UI; open to backend only if wanted later |
+| 9 | Self-edit `403` ("You cannot change your own roles/permissions"); overrides on a full-access target `403`; last full-access account cannot be removed through these endpoints | Read-only for self and full-access targets; show backend message on `403` |
+| 10 | Default `page=1`, `limit=15` (max 100), `createdAt DESC`; no sort params | Do not send `sortBy`/`sortOrder` |
+
+Also from the reply: send the complete override array (full replacement); after a successful edit invalidate the user detail and user list queries.

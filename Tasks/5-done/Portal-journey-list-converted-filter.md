@@ -1,7 +1,7 @@
 # Journey customer list sheet: Converted / Not converted filter
 
 - **Repo:** bEasy-portal
-- **Owner:** Suntel
+- **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new filter on a live API call, needs a backend change
 - **Claimed by:** none
 - **Started / updated:** – / 2026-10-19

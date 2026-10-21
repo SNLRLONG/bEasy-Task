@@ -1,21 +1,29 @@
-# Backend questions: user roles and permissions
+# Backend questions: staff account management
 
-**To:** Backend · **Updated:** 19 Oct 2026 · **Context:** [Backend_User_Permissions_Guide.md](Backend_User_Permissions_Guide.md), review in [Portal_User_Permissions_Review.md](Portal_User_Permissions_Review.md)
+**To:** Backend · **Updated:** 2026-10-21 · **Context:** the portal Users view (Roles & Permissions) lists staff and edits roles and overrides ([Frontend_User_Permissions_Backend_Review.md](Frontend_User_Permissions_Backend_Review.md)). The first ten questions are answered.
 
-The `bEasy-api` repo is not cloned in this workspace, so none of this was checked against code. Please answer in this file's order; we will move the answers into the review doc.
+The six endpoints we have only read staff and change their roles and overrides. None creates, edits or removes a staff account. The `bEasy-api` repo is not cloned here, so nothing below was checked against code. Please answer in this file's order; if an endpoint already exists, give the route and we will build against it.
 
-## Blocking the editor (needed before `Portal-rbac-users-edit`)
+## Does it exist today?
 
-1. **Roles in `roles: string[]` and `PUT .../roles`: codes or names?** The portal's `GET /rbac/roles` returns `{ id, name, code, status }`. We assume `code` (e.g. `CS`). Also confirm `roleCode` in the list filter is the same value.
-2. **Does `GET /rbac/roles` return inactive roles (`status: false`)?** If yes, may an inactive role be assigned? We plan to hide them from the selector.
-3. **Is the logged-in admin's own `fullAccess` flag in login and `GET /auth/me`?** The guide says the profile only carries effective permissions. Without the flag the portal cannot know that a non-full-access admin may not edit a full-access user, so it shows the edit controls and relies on a `403`. Please add `fullAccess` to `userInfo`, or confirm `403` with a stable message is the contract.
-4. **VIEW coupling.** The role editor forces `VIEW` on when any other action is on. For user overrides: is `DENY VIEW` with an inherited or granted `UPDATE` valid, and is `GRANT UPDATE` without `VIEW` valid? If the backend rejects or ignores these, say which (`400` with message?). Otherwise the portal will mirror the role editor's rule in the UI.
-5. **Valid values for the `type` filter** (staff account types). We need the list to build the filter; or confirm it can come from `GET /rbac/roles`.
+1. **How is a staff account created today** (script, seed, database, another admin endpoint)? If an endpoint exists, give method, path, body and permission.
+2. **Is there an endpoint to edit** a staff user's profile (name, email, phone, profile image) and to **change status** (active / inactive)? Same details.
+3. **Is there an endpoint to reset a password** or to set an initial one? How does a new staff member first sign in?
 
-## Behaviour we need to set expectations on
+## If not, what we need
 
-6. **When does an edited user's access change?** The portal stores permissions in the browser at login and refreshes on page load. Do you invalidate the target user's token or session when roles or overrides change? If not, we show "Takes effect the next time this user signs in or reloads."
-7. **Full-access user in the list:** is `roles` empty for them, and what does `fromRoles`/`effective` contain? (The guide says it is not the complete list.)
-8. **Activity Log:** are role and override changes written to the activity log with the actor and the before/after? If not, do you want it?
-9. **Self-edit and last full-access admin:** besides rejecting self-edit, do you block removing the last full-access account? Which status code and message?
-10. **Pagination default sort** for `GET /rbac/users`, and whether sort params exist.
+4. **Create staff:** `POST` with which fields? We assume `username`, `firstName`, `lastName`, `email`, `type`, `roles` (codes), and a password or an invite. Which are required, and which are unique (`username`, `email`)?
+5. **Password handling:** does the admin set a temporary password, or does the backend send an invite or reset link? Is a first-login password change forced? We would rather never show or log a password in the portal.
+6. **Deactivate instead of delete:** do you support `status` change (blocks login, keeps history), and is hard delete allowed at all? What happens to the user's open token and to records that reference them (orders, assignments, activity log)?
+7. **Valid values:** is `type` (ADMIN, CUSTOMER_SERVICE, FINANCE, SALES, TECH, OPERATION, MARKETING) the full list for new accounts, and may it differ from the assigned roles? Which `type` values are full access (`ADMIN` only, or also `SUPER_ADMIN`)?
+
+## Who may do it
+
+8. **Permissions:** which module and action gate each call (`RBAC:ADD`, `RBAC:UPDATE`, `RBAC:DELETE`, or a separate staff module)? Can a non-full-access admin create a full-access account or grant a full-access role? We assume not and expect `403` with a stable message.
+9. **Safety rules:** besides rejecting self-edit, do you block deactivating yourself or the last full-access account? Which status code and message?
+10. **Audit:** are create, status change and password reset written to the activity log with actor and target? (Role and override changes currently log only actor, URL and status.)
+
+## Response shape
+
+11. Please confirm error codes: `409` for duplicate `username` / `email`, `400` with a field-level message for validation, `404` for unknown user, `403` for rule violations. We show the backend `message` in a toast, so a readable message matters.
+12. Does create return the new user in the same shape as `GET rbac/users` items (`id`, `username`, `firstName`, `lastName`, `email`, `profileUrl`, `type`, `roles`, `status`, `fullAccess`, `createdAt`)?
