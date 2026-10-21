@@ -7,7 +7,7 @@
 - **Tier:** T2 · tracking events verification across marketing and app; re-tier to T3 if event names or params change
 - **Claimed by:** none
 - **Started / updated:** – / 2026-10-21
-- **Docs:** `Tasks/_plans/Cross-utm-meta-tracking.md` · `bEasy-app/lib/app_tracking/facebook_helper.dart`
+- **Docs:** `Docs/tracking/v2/architecture/Meta_App_Events_Setup.md` (live runbook and findings) · `Tasks/_plans/Cross-utm-meta-tracking.md` · `bEasy-app/lib/app_tracking/facebook_helper.dart`
 - **Depends on:** none
 - **Touches:** read `bEasy-app/lib/app_tracking/facebook_helper.dart`, `lib/controller/payment_controller.dart`, checkout and category screens; edit only if a bug is proven
 
@@ -29,7 +29,7 @@ Keep Meta standard names; do not rename to custom ones.
 Skipped G3/G5 if no code changes.
 
 ## Done when
-- [ ] All 7 events seen in Test Events with correct parameters (screenshots, personal data masked)
+- [x] All 7 events seen in Test Events with correct parameters (screenshots, personal data masked)
 - [ ] AppsFlyer Meta partner enabled; an install is credited in a test
 - [ ] Audiences created by marketing
 - [ ] Production events confirmed
