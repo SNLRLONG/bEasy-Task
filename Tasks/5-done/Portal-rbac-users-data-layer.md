@@ -1,5 +1,6 @@
 # RBAC users: endpoints, keys, types and hooks
 
+- **ID:** T-0030
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new API calls, no screen yet; hooks are unused until the UI tasks land (permission write path is verified in the edit task)

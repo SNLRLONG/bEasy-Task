@@ -1,5 +1,7 @@
 # Marketing suite: waves 2–4 (sub-tasks)
 
+- **ID:** T-0007
+
 Plan: `Tasks/_plans/Portal-marketing-suite.md`. Move a block to `2-todo/` as its own task file when its dependencies are done. Tiers are the auto-picker result.
 
 ## Wave 2

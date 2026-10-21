@@ -1,5 +1,6 @@
 # RBAC users: user detail with read-only tri-state matrix
 
+- **ID:** T-0022
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new UI over a new API; read-only, no save
