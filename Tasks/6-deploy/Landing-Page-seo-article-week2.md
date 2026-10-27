@@ -35,6 +35,6 @@ Publish the week 2 SEO article on the landing page on Friday 23 Oct 2026 (moved 
 
 ## Done when
 - [x] Article id 11 merged to main (#120), dated 23 Oct, km and en: `draft` removed, date 23 Oct 2026, appears in sitemap, metadata and image alt OK
-- [ ] Deployed on 23 Oct, not earlier: removing `draft` makes it live on deploy, so keep the branch unmerged or undeployed until then; checked on the live site after deploy
+- [x] Deployed on 23 Oct, not earlier: removing `draft` makes it live on deploy, so keep the branch unmerged or undeployed until then; checked on the live site after deploy
 - [x] Root `CHANGELOG.md` entry added
 - [x] Worktree and branch removed after merge
