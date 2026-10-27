@@ -7,7 +7,7 @@
 - **Worktree:** `bEasy/bEasy-landing-page-v2-seo-week2/`  · **Branch:** `feat/seo-week2`
 - **Tier:** T0 · article copy and static assets, no logic (see `PIPELINE.md`). Re-tier up if slug maps or `lib/media.ts` logic change.
 - **Claimed by:** claude-code session, 2026-10-19
-- **Started / updated:** 2026-10-19 / 2026-10-19
+- **Started / updated:** 2026-10-19 / 2026-10-27
 - **Docs:** `bEasy-landing-page-v2/IMAGE_SEO_GUIDE.md`, `TRANSLATIONS.md`, `EVENTS.md`
 - **Depends on:** none (content and banners were already in the repo)
 - **Touches:** `app/translations/{English,Khmer}/media.json` (remove `draft`, set date), two banner images; `lib/media.ts` slug already locked
