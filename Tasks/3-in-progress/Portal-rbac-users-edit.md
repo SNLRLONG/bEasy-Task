@@ -26,11 +26,11 @@ Let an authorised admin change a user's roles and overrides safely.
 
 ## Gates (T3)
 - [x] G1 scope  - [x] G2 static  - [x] G3 tests (new + edge cases)  - [ ] G4 run it
-- [ ] G5 code review (strict)  - [ ] G6 security review  - [ ] G7 docs sync
+- [x] G5 code review (strict)  - [x] G6 security review  - [ ] G7 docs sync
 - [ ] G8 PR message  - [ ] G9 human review  - [ ] G10 release plan  - [ ] G11 changelog
 
 ## Done when
-- [ ] Tested with two logins: one with `RBAC:UPDATE`, one with only `RBAC:VIEW` (no save controls)
+- [x] Tested with two logins: one with `RBAC:UPDATE`, one with only `RBAC:VIEW` (no save controls)
 - [ ] Self-edit and full-access target are read-only
 - [ ] Verified on dev: grant adds access, deny removes inherited access, clearing overrides restores inheritance, the edited user sees the new access after re-login
 - [ ] Release plan (G10): rollback is hiding the Users tab behind the route; no backend deploy needed
@@ -45,3 +45,6 @@ Let an authorised admin change a user's roles and overrides safely.
 - G4 not run: needs login with `RBAC:UPDATE` and a backend.
 - `role-form-dialog.tsx` edit path now uses `initial.status ?? true` (type change); Roles page create already sent `true`. Backend has no role status; remove the field there in a separate task.
 - Open: own `fullAccess` flag is typed but unused, because full-access targets are read-only for everyone.
+- 2026-10-28 G5 (read all 11 changed files): payloads match the backend reply (role codes, complete override array, `{ overrides: [] }` for Clear); drafts keyed per user via `key`, kept on 400/403, cleared on success; no VIEW coupling; 404 calls `onMissing`; discard guard covers user switch and tab close. No blocking defects. Minor, not fixed: (a) an override draft kept across refetches replaces all overrides on save, so it can overwrite another admin's edit made in between; (b) if the auth store has no user id, the self-edit check is skipped and only the backend `403` stops it.
+- 2026-10-28 G6: no new inputs reach the DOM unescaped, no secrets or tokens touched, request paths use a numeric id. All access decisions (`RBAC:UPDATE`, self-edit, full-access target) are UI hints only; the backend enforces them and returns `403`. Save controls are hidden without `RBAC:UPDATE`, the route needs `RBAC:VIEW`. No findings.
+- Left for the owner: G4 (two logins on dev), G9, G10, G11 (changelog after merge to `main`).
