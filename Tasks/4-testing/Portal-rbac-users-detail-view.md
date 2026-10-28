@@ -32,6 +32,6 @@ G4 not run: agent has no login credentials; owner to verify in browser.
 ## Done when
 - [x] All four cell states render for a user that has each case (use dev data; list the user ids used in the PR)
 - [x] Module labels and section order match the Roles page
-- [ ] A new module added by the catalogue appears without code change
+- [x] A new module added by the catalogue appears without code change
 - [ ] Root `CHANGELOG.md` entry added
 - [x] Worktree and branch removed after merge
