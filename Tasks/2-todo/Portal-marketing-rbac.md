@@ -17,7 +17,7 @@ Add permission modules for Push, Promo codes, Package deals, Content library, Se
 - [ ] G1–G8  - [ ] G9 human review  - [ ] G10 release plan  - [ ] G11 changelog (G6 security review required)
 
 ## Done when
-- [ ] Each module appears in the role editor with view/add/update actions
+- [x] Each module appears in the role editor with view/add/update actions
 - [ ] Buttons and routes hidden or disabled by permission, tested with two roles
 - [ ] No change to existing modules
 - [ ] Root `CHANGELOG.md` entry added
