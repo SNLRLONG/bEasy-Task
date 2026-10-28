@@ -5,7 +5,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new route; small refactor of the role page
 - **Claimed by:** agent (claude), 2026-10-19
-- **Started / updated:** 2026-10-19 / 2026-10-21
+- **Started / updated:** 2026-10-19 / 2026-10-28
 - **Worktree:** `bEasy/bEasy-portal-rbac-users-shell/`  · **Branch:** `feat/rbac-users-shell`
 - **Docs:** `Docs/rbac/Portal_User_Permissions_Review.md`, `Docs/rbac/Backend_User_Permissions_Guide.md` · plan: `Tasks/_plans/Portal-rbac-users.md`
 - **Depends on:** none
