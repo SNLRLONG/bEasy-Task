@@ -18,7 +18,7 @@ Add permission modules for Push, Promo codes, Package deals, Content library, Se
 
 ## Done when
 - [x] Each module appears in the role editor with view/add/update actions
-- [ ] Buttons and routes hidden or disabled by permission, tested with two roles
+- [x] Buttons and routes hidden or disabled by permission, tested with two roles
 - [ ] No change to existing modules
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
