@@ -32,7 +32,7 @@ Let an authorised admin change a user's roles and overrides safely.
 ## Done when
 - [x] Tested with two logins: one with `RBAC:UPDATE`, one with only `RBAC:VIEW` (no save controls)
 - [x] Self-edit and full-access target are read-only
-- [ ] Verified on dev: grant adds access, deny removes inherited access, clearing overrides restores inheritance, the edited user sees the new access after re-login
+- [x] Verified on dev: grant adds access, deny removes inherited access, clearing overrides restores inheritance, the edited user sees the new access after re-login
 - [ ] Release plan (G10): rollback is hiding the Users tab behind the route; no backend deploy needed
 - [ ] `403` and `400` paths keep the draft
 - [ ] Root `CHANGELOG.md` entry added
