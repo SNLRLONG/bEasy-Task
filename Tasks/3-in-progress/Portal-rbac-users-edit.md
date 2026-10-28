@@ -36,7 +36,7 @@ Let an authorised admin change a user's roles and overrides safely.
 - [x] Release plan (G10): rollback is hiding the Users tab behind the route; no backend deploy needed
 - [x] `403` and `400` paths keep the draft
 - [ ] Root `CHANGELOG.md` entry added
-- [ ] Worktree and branch removed after merge
+- [x] Worktree and branch removed after merge
 
 ## Notes (agent)
 - Built: `_edit-utils.ts` (draft, cycle, read-only reason), `user-roles-editor.tsx`, editable `UserPermissionsMatrix` (opt-in props), `UserEditor` in `user-detail.tsx` (drafts per user via `key`, `useBlocker` + `beforeunload` discard guard, Clear overrides with confirm, 404 → `onMissing`), `fullAccess` on `UserResponseProps`. Baseline roles = `data.user.roles` (stored array), not top-level `roles` (fallback type for full-access).
