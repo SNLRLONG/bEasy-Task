@@ -34,7 +34,7 @@ Let an authorised admin change a user's roles and overrides safely.
 - [x] Self-edit and full-access target are read-only
 - [x] Verified on dev: grant adds access, deny removes inherited access, clearing overrides restores inheritance, the edited user sees the new access after re-login
 - [x] Release plan (G10): rollback is hiding the Users tab behind the route; no backend deploy needed
-- [ ] `403` and `400` paths keep the draft
+- [x] `403` and `400` paths keep the draft
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
 
