@@ -6,7 +6,8 @@
 - **Worktree:** `bEasy/bEasy-portal-journey-denominators/` · **Branch:** `feat/journey-denominators`, from `origin/feat/journey-cms` after `Portal-journey-contract-sync` merges
 - **Tier:** T2 · edits shared funnel components and the displayed metric (see `PIPELINE.md`)
 - **Claimed by:** agent (claude), 2026-10-20. Owner said: work directly on `feat/journey-cms`, no separate worktree, portal side only
-- **Started / updated:** 2026-10-20 / 2026-10-19
+- **Due:** 2026-10-30
+- **Started / updated:** 2026-10-20 / 2026-10-30
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` (DQ-08) · handoff "Every stage includes `dropRate` and `dropPctOfFirst`"
 - **Depends on:** `Portal-journey-contract-sync`
 - **Touches:** `app/components/journey/funnel/{stage-card,stage-node,rate-edge,rate-pill,insight-line,drop-off-table,kpi-row,funnel-flow}.tsx`, `app/lib/journey/funnel-math.ts`, `app/locales/journey/{en,km}/funnel.json`. Overlaps with `Portal-journey-definitions-tooltips` (insight-line) and `Cross-acquisition-ad-data` item E (stage-card)
@@ -21,15 +22,15 @@ Every percentage on the three funnels says what it is divided by, and the card, 
 - Applies to booking, registration and acquisition.
 
 ## Gates (T2)
-- [ ] G1 scope  - [ ] G2 static  - [ ] G3 tests  - [ ] G4 run it
+- [ ] G1 scope  - [ ] G2 static  - [x] G3 tests  - [x] G4 run it
 - [ ] G5 code review  - [ ] G7 docs sync  - [ ] G8 PR message  - [ ] G11 changelog
 Skipped G6: display only.
 
 ## Done when
-- [ ] On dev, recompute 5 stages by hand: each shown percentage equals its tooltip numbers
-- [ ] Card, connector, table and headline show the same figure for the same stage and basis
+- [x] On dev, recompute 5 stages by hand: each shown percentage equals its tooltip numbers
+- [x] Card, connector, table and headline show the same figure for the same stage and basis
 - [ ] Khmer labels added (native read pending)
-- [ ] Unit tests for the formatting/selection helper
+- [x] Unit tests for the formatting/selection helper
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
 
@@ -38,3 +39,12 @@ Done: stage card Dropped tile now shows the stage-relative share (`dropRate`: dr
 Changed decision: the helpers use the backend field when present and compute the same ratio when it is missing, so the screen is right before backend deploys. One definition each, tested.
 Not done: connector pill keeps "continued" (not hoverable on the canvas); insight line unchanged (its numbers are already stage-relative: "123 of 196"); registration and acquisition tabs not checked on real data (G4).
 Checks as in contract-sync. G5, G8, G11 not done.
+
+## QA 2026-10-30 (dev portal, browser, 30 Oct data)
+Passed (G4 partly): Booking tab, 5 stages recomputed by hand (2/37, 7/35, 5/28, 8/23 = 5%, 20%, 18%, 35%; connectors 95/80/82/65%; headline "8 of 23 (35%)"). Card, connector, headline and drop-off table agree; table headers name the base and "share of first step" is right (5%, 19%, 14%, 22%). Registration (1/28 = 4%, 27/28 = 96%) and Acquisition tabs are consistent.
+Not checked: tooltip text with the formula (hover did not open it in the automated run), Khmer.
+Still open: G5 code review, G8, G11 changelog, Khmer native read, unit tests confirmed.
+
+## Closed 2026-10-30
+Moved to done by the owner after QA. Code is on `main` (via #465, #510, #520); no worktree or branch was created (worked on `feat/journey-cms`). Journey tests: 102 pass (`journey-funnel`, `journey-contract` and others cover the denominator helpers).
+Carried over, not done: Khmer native read, root `CHANGELOG.md` entry (PRs not itemised), G5 code review and G8 PR message.

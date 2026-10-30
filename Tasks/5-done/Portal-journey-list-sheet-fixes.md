@@ -5,7 +5,8 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T3 · re-tiered up 2026-10-19: the profile page now shows the customer's full phone (personal data). Was T2.
 - **Claimed by:** agent (claude), 2026-10-19
-- **Started / updated:** 2026-10-19 / 2026-10-19
+- **Due:** 2026-10-21
+- **Started / updated:** 2026-10-19 / 2026-10-21
 - **Worktree:** `bEasy/bEasy-portal-journey-list-fixes/`  · **Branch:** `feat/journey-list-fixes`, created from `feat/journey-cms` (the list code is not on main yet). Rebase onto main after `Portal-journey-cms` merges. Do not work in the `bEasy-portal/` checkout.
 - **Docs:** `Docs/tracking/v2/requirements/Journey_Tracking_UI_Flow_v2.1.md` (§ customer list, footer), `Docs/tracking/v2/api/Journey_Backend_API_Spec.md` (§ people)
 - **Depends on:** `Portal-journey-cms` (branch `feat/journey-cms`) for the code. Item 2 option B needs the backend answer in `backend-request/Journey_List_Filters_Request.md`

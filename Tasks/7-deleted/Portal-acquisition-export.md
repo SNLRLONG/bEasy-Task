@@ -3,6 +3,7 @@
 - **ID:** T-0016
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Started / updated:** – / 2026-10-30
 - **Tier:** T2 · new export report, data accuracy
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal-export/` · **Branch:** `feat/acquisition-export`

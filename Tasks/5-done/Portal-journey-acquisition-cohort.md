@@ -6,7 +6,8 @@
 - **Worktree:** `bEasy/bEasy-portal-journey-acquisition/` · **Branch:** `feat/journey-acquisition-cohort`, from `origin/feat/journey-cms` after `Portal-journey-contract-sync` merges
 - **Tier:** T2 · new filters on live API calls, several shared funnel components (see `PIPELINE.md`)
 - **Claimed by:** agent (claude), 2026-10-20. Owner said: work directly on `feat/journey-cms`, no separate worktree, portal side only
-- **Started / updated:** 2026-10-20 / 2026-10-19
+- **Due:** 2026-10-30
+- **Started / updated:** 2026-10-20 / 2026-10-30
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` (DQ-03, 04, 06, 10, 11, UX-11, UX-12) · handoff "Acquisition" · `Docs/tracking/v2/backend-request/Journey_Acquisition_API_Request.md`
 - **Depends on:** `Portal-journey-contract-sync`; backend answers to plan open questions 1 and 3 (ad_clicked with default `new`, new vs returning rule)
 - **Touches:** `app/components/journey/funnel/{acquisition-filters,customer-type-menu,acquisition-funnel-tab,kpi-row,kpi-card,after-purchase-card,after-purchase-orders-sheet,compare-campaigns-card,counting-mode-banner}.tsx`, `app/components/journey/filters/source-filter.tsx`, `app/components/journey/list/row-chips.tsx`, `app/lib/journey/{filters,acquisition-options,filter-options}.ts`, `app/locales/journey/{en,km}/{funnel,funnel-extra,list}.json`. Overlaps with `Cross-acquisition-ad-data` item E (`stage-card.tsx`)
@@ -23,16 +24,16 @@ The Acquisition tab answers "how many new people came, from where, and how many 
 6. If `ad_clicked` becomes "not applicable" under the default filter, show the existing reason text; do not hide the stage. Copy for empty states stays with `Cross-acquisition-ad-data` item E.
 
 ## Gates (T2)
-- [ ] G1 scope  - [ ] G2 static  - [ ] G3 tests  - [ ] G4 run it
+- [ ] G1 scope  - [ ] G2 static  - [x] G3 tests  - [x] G4 run it
 - [ ] G5 code review  - [ ] G7 docs sync  - [ ] G8 PR message  - [ ] G11 changelog
 Skipped G6: no new personal data.
 
 ## Done when
-- [ ] Switching New / Returning / All changes funnel and list consistently; chips show and clear
+- [x] Switching New / Returning / All changes funnel and list consistently; chips show and clear
 - [ ] One 7-day window reconciles: first buyers, buyers, order IDs, purchase events (sign-off demo 4)
-- [ ] An Unknown-source person is never labelled Organic (sign-off demo 7)
+- [x] An Unknown-source person is never labelled Organic (sign-off demo 7)
 - [ ] After-purchase ratios recompute against the shown base
-- [ ] Filter state is in the URL and in the export query
+- [x] Filter state is in the URL and in the export query
 - [ ] Khmer strings added (native read pending)
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
@@ -40,3 +41,14 @@ Skipped G6: no new personal data.
 ## Progress 2026-10-20 (agent, on `feat/journey-cms`, uncommitted)
 Backend response 20 Oct confirms `unit: people`, `identityUnit`, `purchaseCounts`, `other:Unknown`, `sourceType` AND `sources`, after-purchase `denominator`. Done: Customer select (default = New customers, then Returning and All, via `customerKind`; no value sent for the default); new Source type select (Attributed, Organic, Unknown, `sourceType`); "Who bought" card with first-time buyers, buyers, orders and purchase events, the cohort sentence and the unit sentence; after-purchase rows print "5 of 11 orders (45%)"; person rows get New / Returning and First purchase chips; the portal forces `unit=people` on acquisition calls (a stale `devices` would be a 422). The select no longer uses `all` as its "no filter" value, because `customerKind=all` is real.
 Open: the default cohort is `new` only per the 19 Oct handoff (the 20 Oct response does not repeat it): check the label "New customers" on dev. Campaign row opening its list is not done. Unknown source labelling comes from `sourceRowLabel` (shows "Unknown"): check with a real `filter-options`. G4, G5, G8, G11 open.
+
+## QA 2026-10-30 (dev portal, browser)
+Passed: default is "New customers"; New / Returning / All present; All changes App opens 13 -> 17 and funnel, headline ("17 of 17") agree; URL carries `kind=all` and "Clear filters" appears; cohort line and 7-day note shown; "Who bought" shows the four definitions; unmeasured amounts show the reason text; source rows "Source not recorded" (10) and "No campaign identified" (3) add up to 13 app opens and nothing is labelled Organic.
+Limit: the New cohort has 0 purchases on dev, so the 7-day buyers/orders reconciliation (sign-off demo 4) and the After-purchase denominators could not be proven.
+Not checked: campaign row opening its list, export query carries the filters, Khmer.
+Still open: G5, G8, G11, Khmer read.
+
+## Closed 2026-10-30
+Moved to done by the owner after QA. Code is on `main`; no worktree or branch was created (worked on `feat/journey-cms`). Journey tests: 102 pass (`journey-contract` covers `customerKind` and `purchaseCounts`).
+Not proven on dev (the New cohort has 0 purchases): one 7-day window reconciling first buyers, buyers, orders and purchase events (sign-off demo 4), and after-purchase ratios against the shown base. "In the export query" was not checked.
+Carried over, not done: Khmer native read, root `CHANGELOG.md` entry, G5 code review and G8 PR message.

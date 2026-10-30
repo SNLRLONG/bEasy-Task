@@ -5,7 +5,8 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new list entry, depends on backend rules
 - **Claimed by:** none
-- **Started / updated:** – / 2026-10-19
+- **Started / updated:** – / 2026-10-30
+- **Dropped:** 2026-10-30 · backend has not written the eligibility rules yet. Reopen when it does.
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` (UX-06) · handoff "Recoverable counts exclude anonymous devices and require an abandoned registered journey"
 - **Depends on:** backend: written eligibility and exclusion rules (already paid, duplicates, active attempt, no permissible contact), value rule, and a way to list exactly the people in the count. Abandon-rule sweep (`pending-request-backend.md` 3.1) still `501` for edits.
 - **Touches:** `app/components/journey/funnel/{kpi-row,kpi-card}.tsx`, `app/components/journey/list/*`

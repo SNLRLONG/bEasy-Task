@@ -10,6 +10,7 @@ One file per task, moved between folders as it progresses. The folder is the sta
 | `4-testing/` | Built; QA / dev backend / device test | PR open or merged to `dev` |
 | `5-done/` | Merged to `main`, changelog written, worktree deleted | Tested and merged |
 | `6-deploy/` | Released (store, hosting, backend) | Live in production |
+| `7-deleted/` | Dropped, duplicate or obsolete; kept for history, hidden on the board | Decided not to do it |
 
 ## Planning
 `Tasks/_plans/<Prefix>-<feature>.md` holds the plan for a feature (flow, scope, task breakdown, open questions). Written by the `task-planner` skill before tasks go to `2-todo/`.

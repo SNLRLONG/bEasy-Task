@@ -17,6 +17,9 @@
     },
     "6-deploy": {
       "color": "#2aa198"
+    },
+    "7-deleted": {
+      "color": "#f85149"
     }
   }
 }

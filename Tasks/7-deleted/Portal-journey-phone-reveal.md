@@ -6,7 +6,8 @@
 - **Worktree:** `bEasy/bEasy-portal-journey-phone/` · **Branch:** `feat/journey-phone-reveal`, from `origin/feat/journey-cms`
 - **Tier:** T3 · personal data (phone), permissions, list export parity (see `PIPELINE.md`)
 - **Claimed by:** none
-- **Started / updated:** – / 2026-10-20
+- **Started / updated:** – / 2026-10-30
+- **Dropped:** 2026-10-30 · owner said skip (2026-10-20); personal data + backend change. Name display shipped separately.
 - **Status:** backlog (owner, 2026-10-20: can skip for now). The customer-name display was split out and is required: `Portal-journey-registration-fixes` item 5.
 - **Docs:** `Docs/tracking/v2/architecture/bEasy-tracking-architecture-guide.md` (lines 1072, 1481: masked by default, reveal needs a permission and an audit log) · `Docs/tracking/v2/requirements/Journey_Tracking_Requirements_Matrix.md` N2 · `Tasks/_plans/Cross-journey-tech-review.md` (DQ-01, UX-05)
 - **Depends on:** backend item in `backend-request/backlog.md` (was 6.17); owner decision below

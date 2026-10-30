@@ -3,6 +3,8 @@
 - **ID:** T-0018
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Due:** 2026-10-30
+- **Started / updated:** 2026-10-16 / 2026-10-30
 - **Tier:** T2 · new pages on real backend
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal/` (main checkout) · **Branch:** `feat/journey-cms`

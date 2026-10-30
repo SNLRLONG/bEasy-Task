@@ -5,7 +5,8 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new filters on live API calls, needs a backend change
 - **Claimed by:** none
-- **Started / updated:** – / 2026-10-19
+- **Started / updated:** – / 2026-10-30
+- **Dropped:** 2026-10-30 · needs 5 backend filters nobody requested; serves the parked CS module. Reopen with the CS module.
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` (UX-03, UX-04, UX-05)
 - **Depends on:** backend request: people-list filters `serviceIds` (exists), last activity range, furthest stage, customer type, estimated value range, CS contact status. Not in the handoff.
 - **Touches:** `app/components/journey/list/*`, `app/lib/journey/{list-query,list-filters}.ts`, `app/types/journey.ts`

@@ -6,6 +6,7 @@
 - **Worktree:** `bEasy/bEasy-portal-journey-order-status/` · **Branch:** `fix/journey-order-status`, from `origin/feat/journey-cms`
 - **Tier:** T2 · needs a backend change; reuses shared status helpers (see `PIPELINE.md`)
 - **Claimed by:** agent (claude), 2026-10-20. Owner said: work directly on `feat/journey-cms`, no separate worktree, portal side only
+- **Due:** 2026-10-21
 - **Started / updated:** 2026-10-20 / 2026-10-21
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` · `Docs/tracking/v2/api/Journey_Backend_API_Spec.md` (`GET /customers/{id}/orders`)
 - **Depends on:** backend: send the real order status (item A10 in `Journey_Tech_Review_Backend_Request.md`)
