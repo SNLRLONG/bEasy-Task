@@ -25,6 +25,7 @@ Start here. Read top to bottom for the full picture, or jump to the folder you n
 - `Journey_Tracking_Analytical_Model.md` — metric definitions
 - `bEasy-automation-engagement-guide.md` — segments, notifications, offers
 - `Acquisition_Ad_Data_Readiness.md` — what blocks Meta/TikTok numbers on Acquisition and who owns each piece
+- `Meta_App_Events_Setup.md` — runbook and findings for verifying Meta app events (T-0031)
 
 **api/**
 - `Journey_Backend_API_Spec.md` — every endpoint, request and response

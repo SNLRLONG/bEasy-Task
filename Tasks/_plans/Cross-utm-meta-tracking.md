@@ -9,7 +9,7 @@
 ## Flow
 | Step | State |
 |---|---|
-| Marketing posts a OneLink URL with UTMs (template) | **change**: generated URL uses `&` where first separator must be `?` |
+| Marketing posts a OneLink URL with UTMs (template) | **fixed (T-0032)**: first separator was `&` instead of `?` |
 | OneLink opens/installs the app; `appflyer_helper.dart` parses `utm_source/medium/campaign` | exists |
 | App keeps last touch 7 days (`attribution_store.dart`): code, source, medium | **change**: add `utm_id`, `utm_content`, `utm_term` |
 | App sends them on `app_opened`, registration, Firebase user props, `X-Campaign-Code` header | **change** |
@@ -18,7 +18,7 @@
 | Meta SDK logs ViewContent, SelectService, InitiateCheckout, AddPaymentInfo, ViewBooking, CompleteRegistration, Purchase | exists, **verify** |
 
 ## Gaps and decisions
-- **Template URL bug.** `https://beasy.onelink.me/n7UZ/xxx&utm_source=…` should be `…/xxx?utm_source=…`. Decision: fix formula (T-0032).
+- **Template URL bug.** Links came out as `…/xxx&utm_source=…` instead of `…/xxx?utm_source=…`. Cause: `SEARCH("?")` treats `?` as a wildcard. Fixed with `FIND` (T-0032).
 - **`utm_campaign` is the only campaign key.** Template uses `always_on` for IG, FB and TikTok profiles, so they collide. Decision: `utm_id` is the unique per-placement key (T-0033, recommended).
 - **Meta event names stay standard** (not `ServiceViewed`/`BookingStarted` from the ChatGPT list). Custom names break audiences and optimisation.
 - **"Meta credited zero installs"** is likely AppsFlyer/Meta partner config, not proof of no installs (T-0031).
