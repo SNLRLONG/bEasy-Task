@@ -393,7 +393,7 @@ The full contract (query, response, rules, errors, people list, after-purchase o
 | `summary.numbers.pushThisWeek.used`, `recordingUrl`, `afterPurchase.feeKept` | `null` |
 | `rescheduled`, `cancelled` fee fields | `null` (`not_tracked`) |
 | `sources`, `cameFrom`, `entry` | mostly `"Organic"` (see `backend-request/Campaign_Source_Request.md`) |
-| Registration `otpReasons` | only `expired` and `not_verified_unknown` (19 Oct handoff; the portal also accepts the old names). Delivery, gateway, wrong-code and rate-limit reasons are not tracked: shown as "Not tracked yet", never 0 |
+| Registration `otpReasons` | `expired` and `not_verified_unknown` always; `gateway_error`, `wrong_code`, `rate_limited`, `blocked`, `expired_or_left` when `otpReasonAvailability` marks them `true` (backend, 30 Oct: `backend-response/Journey_OTP_Reasons_Backend_Response_30Oct2026.md`). `delivery` is `false`: "Not tracked yet", never 0. Flags can be omitted when there are no registration flows; the portal treats an omitted flag with a zero count as not tracked |
 | People rows `lastActivityAt`, `idleMinutes` | can be `null` (invalid time): the portal shows "Time unavailable" |
 | `/customers/{id}/contacts` | `[]` |
 

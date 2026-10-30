@@ -1,6 +1,6 @@
 # Pending Backend Requests: Customer Journey
 
-**To:** Backend · **Updated:** 21 Oct 2026
+**To:** Backend · **Updated:** 30 Oct 2026
 **Done and removed:** guest events, stage/people endpoints, customer page, acquisition funnel (see [Journey_V2_Portal_Review.md](../backend-response/Journey_V2_Portal_Review.md)). Later items are in [backlog.md](backlog.md). Campaign source is in [Campaign_Source_Request.md](Campaign_Source_Request.md).
 
 The app already ships these Firebase events, so it cannot rename them. Where our names differ from the backend contract, please map ours.
@@ -73,7 +73,7 @@ Push campaigns, promo-code ledger, package deals, content library and search: se
 
 ## 6. Tech review handoff (19 Oct 2026)
 
-Backend answered on 20 Oct: [Journey_Tech_Review_Backend_Response.md](../backend-response/Journey_Tech_Review_Backend_Response.md). What is still open is in [Journey_Tech_Review_Backend_Request.md](Journey_Tech_Review_Backend_Request.md): dev deploy with masked samples (including `summaryScopes` and `definitions`), the 12 to 18 Oct reconciliation on production, registration stages from backend records, and the real-data check for duplicate orders. Backend's earlier summary: `../backend-response/Journey_Tech_Review_Handoff_19Oct2026.md`.
+Backend answered on 20 Oct: [Journey_Tech_Review_Backend_Response.md](../backend-response/Journey_Tech_Review_Backend_Response.md). Nothing is open in [Journey_Tech_Review_Backend_Request.md](Journey_Tech_Review_Backend_Request.md); the OTP reasons question was answered on 30 Oct: [Journey_OTP_Reasons_Backend_Response_30Oct2026.md](../backend-response/Journey_OTP_Reasons_Backend_Response_30Oct2026.md). Backend's earlier summary: `../backend-response/Journey_Tech_Review_Handoff_19Oct2026.md`.
 
 Not requested now (backlog): assisted-conversion identifier, finance amounts, consent data, people-list filters for last activity, furthest stage, value, CS status, full phone in journey APIs (`backlog.md`).
 
