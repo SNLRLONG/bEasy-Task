@@ -3,6 +3,7 @@
 - **ID:** T-0021
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Started / updated:** 2026-10-16 / 2026-10-21
 - **Tier:** T3 · payment link
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal-dev/` (branch `dev`) · **Branch:** `feature/direct-sale-payment-link` (merged into `dev`)

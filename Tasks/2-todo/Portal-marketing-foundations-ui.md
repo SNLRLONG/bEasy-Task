@@ -3,6 +3,7 @@
 - **ID:** T-0012
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Started / updated:** – / 2026-10-21
 - **Tier:** T2 · new routes, shared building blocks used by 5 areas
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal-<short-name>/` (create when claimed) · **Branch:** `feat/<short-name>`

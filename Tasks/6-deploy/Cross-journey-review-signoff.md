@@ -6,7 +6,8 @@
 - **Worktree:** none (docs only, in the root repo)
 - **Tier:** T0 · docs and evidence (see `PIPELINE.md`); the QA runs use real data, mask personal data
 - **Claimed by:** none
-- **Started / updated:** – / 2026-10-27
+- **Due:** 2026-10-27
+- **Started / updated:** 2026-10-21 / 2026-10-27
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` · the review docx §8 and §9 · handoff "Demo checks before sign-off"
 - **Depends on:** part 1 backend deploy; part 2 and 3 need the portal tasks for final evidence
 - **Touches:** `Docs/tracking/v2/{backend-response,architecture,api}/`, `Docs/tracking/v2/backend-request/pending-request-backend.md`

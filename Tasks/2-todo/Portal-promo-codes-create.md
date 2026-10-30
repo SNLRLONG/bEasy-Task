@@ -3,6 +3,7 @@
 - **ID:** T-0014
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Started / updated:** – / 2026-10-21
 - **Tier:** T3 · discount rules and limits
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal-<short-name>/` (create when claimed) · **Branch:** `feat/<short-name>`

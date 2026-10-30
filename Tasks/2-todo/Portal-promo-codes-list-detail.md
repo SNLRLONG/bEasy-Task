@@ -3,6 +3,7 @@
 - **ID:** T-0015
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Started / updated:** – / 2026-10-21
 - **Tier:** T3 · coupon/price logic and use counts
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal-<short-name>/` (create when claimed) · **Branch:** `feat/<short-name>`

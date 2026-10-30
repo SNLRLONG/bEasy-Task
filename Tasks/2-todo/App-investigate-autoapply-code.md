@@ -3,6 +3,7 @@
 - **ID:** T-0008
 - **Repo:** bEasy-app
 - **Owner:** Suntel
+- **Started / updated:** – / 2026-10-21
 - **Tier:** T0 · investigation, no code change
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-app-<short-name>/` (create when claimed) · **Branch:** `feat/<short-name>`

@@ -3,6 +3,8 @@
 - **ID:** T-0013
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Due:** 2026-10-28
+- **Started / updated:** 2026-10-28 / 2026-10-28
 - **Tier:** T3 · permissions
 - **Claimed by:** none
 - **Worktree:** `bEasy/bEasy-portal-<short-name>/` (create when claimed) · **Branch:** `feat/<short-name>`
