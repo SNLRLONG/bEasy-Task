@@ -14,7 +14,7 @@ Full list in `Docs/rbac/Portal_User_Permissions_Review.md`. The ones that change
 4. Unknowns for backend (role code vs name, actor `fullAccess`, VIEW coupling, session refresh) sit in `Docs/rbac/backend-request.md`. Only the editor waits on them.
 
 ## Out of scope
-Creating or editing staff accounts, role create/delete (already in Roles), changing `usePermission`, the auth store, login or profile, forcing a live refresh of another user's session, new i18n keys.
+Creating or editing staff accounts (added later: `Portal-rbac-staff-crud`, new `USERS` module), role create/delete (already in Roles), changing `usePermission`, the auth store, login or profile, forcing a live refresh of another user's session, new i18n keys.
 
 ## Tasks
 

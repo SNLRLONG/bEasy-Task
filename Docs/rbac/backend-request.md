@@ -1,29 +1,27 @@
-# Backend questions: staff account management
+# Backend questions: RBAC
 
-**To:** Backend · **Updated:** 2026-10-21 · **Context:** the portal Users view (Roles & Permissions) lists staff and edits roles and overrides ([Frontend_User_Permissions_Backend_Review.md](Frontend_User_Permissions_Backend_Review.md)). The first ten questions are answered.
+**To:** Backend · **Updated:** 2026-10-28
 
-The six endpoints we have only read staff and change their roles and overrides. None creates, edits or removes a staff account. The `bEasy-api` repo is not cloned here, so nothing below was checked against code. Please answer in this file's order; if an endpoint already exists, give the route and we will build against it.
+## 1. New permission module `USERS` for staff account actions
 
-## Does it exist today?
+The portal now gates create, edit, deactivate/activate, reset password and delete of staff accounts on a **new module `USERS`**, not on `RBAC`. Contract: [Staff_Account_CRUD_Frontend_Guide.md](Staff_Account_CRUD_Frontend_Guide.md) (banner at the top). Please:
 
-1. **How is a staff account created today** (script, seed, database, another admin endpoint)? If an endpoint exists, give method, path, body and permission.
-2. **Is there an endpoint to edit** a staff user's profile (name, email, phone, profile image) and to **change status** (active / inactive)? Same details.
-3. **Is there an endpoint to reset a password** or to set an initial one? How does a new staff member first sign in?
+1. **Create the module** `USERS` with actions `VIEW`, `ADD`, `UPDATE`, `DELETE` in the permission catalogue, so it appears in `GET /rbac/permissions` and in the role matrix (label "Users"; it covers admin-portal staff accounts only, not customers). `USERS:VIEW` opens the new **Users** page (Setup > Users, `/users`), a data table of staff accounts with its own sidebar item and route, following `bEasy-portal/docs/new-page-guide.md`. It is separate from **Roles & Permissions** (`/rbac`, `/rbac/users`), which keeps editing roles and per-user overrides on `RBAC`. The Users table links each row to that permission view.
+2. **Gate the endpoints** on `USERS` instead of `RBAC`:
 
-## If not, what we need
+| Endpoint | Was | Now |
+|---|---|---|
+| `POST rbac/users` | `RBAC:ADD` | `USERS:ADD` |
+| `PUT rbac/users/:userId` | `RBAC:UPDATE` | `USERS:UPDATE` |
+| `PATCH rbac/users/:userId/status` | `RBAC:UPDATE` | `USERS:UPDATE` |
+| `POST rbac/users/:userId/reset-password` | `RBAC:UPDATE` | `USERS:UPDATE` |
+| `DELETE rbac/users/:userId` | `RBAC:DELETE` | `USERS:DELETE` |
 
-4. **Create staff:** `POST` with which fields? We assume `username`, `firstName`, `lastName`, `email`, `type`, `roles` (codes), and a password or an invite. Which are required, and which are unique (`username`, `email`)?
-5. **Password handling:** does the admin set a temporary password, or does the backend send an invite or reset link? Is a first-login password change forced? We would rather never show or log a password in the portal.
-6. **Deactivate instead of delete:** do you support `status` change (blocks login, keeps history), and is hard delete allowed at all? What happens to the user's open token and to records that reference them (orders, assignments, activity log)?
-7. **Valid values:** is `type` (ADMIN, CUSTOMER_SERVICE, FINANCE, SALES, TECH, OPERATION, MARKETING) the full list for new accounts, and may it differ from the assigned roles? Which `type` values are full access (`ADMIN` only, or also `SUPER_ADMIN`)?
+   Also accept `USERS:VIEW` (in addition to `RBAC:VIEW`) on the two reads the Users page makes, otherwise a user with only `USERS:VIEW` sees the page but gets `403`: `GET rbac/users` (the table) and `GET rbac/roles` (role picker in the Add form).
+   Unchanged on `RBAC`: `GET rbac/users/:userId/permissions`, `GET rbac/permissions`, `PUT rbac/users/:userId/roles`, `PUT rbac/users/:userId/permissions` and all role endpoints (the permission editor stays on `RBAC`).
+3. **Existing grants:** should roles that have `RBAC:ADD / UPDATE / DELETE` get the matching `USERS` actions by migration, or start empty? Our suggestion: copy them once, so nobody loses access on release.
+4. **Full-access accounts** keep bypassing the check as today. Their login `permissions` is `[]` in the example: does it ever list modules? The portal hides buttons from the stored list, so we need to know whether to treat `fullAccess` as allowed in the UI.
 
-## Who may do it
+Until this is live on dev, the new buttons stay hidden for everyone without `USERS` in their permissions (G4 blocker for `Portal-rbac-staff-crud`).
 
-8. **Permissions:** which module and action gate each call (`RBAC:ADD`, `RBAC:UPDATE`, `RBAC:DELETE`, or a separate staff module)? Can a non-full-access admin create a full-access account or grant a full-access role? We assume not and expect `403` with a stable message.
-9. **Safety rules:** besides rejecting self-edit, do you block deactivating yourself or the last full-access account? Which status code and message?
-10. **Audit:** are create, status change and password reset written to the activity log with actor and target? (Role and override changes currently log only actor, URL and status.)
-
-## Response shape
-
-11. Please confirm error codes: `409` for duplicate `username` / `email`, `400` with a field-level message for validation, `404` for unknown user, `403` for rule violations. We show the backend `message` in a toast, so a readable message matters.
-12. Does create return the new user in the same shape as `GET rbac/users` items (`id`, `username`, `firstName`, `lastName`, `email`, `profileUrl`, `type`, `roles`, `status`, `fullAccess`, `createdAt`)?
+User roles and overrides answers: [Frontend_User_Permissions_Backend_Review.md](Frontend_User_Permissions_Backend_Review.md).
