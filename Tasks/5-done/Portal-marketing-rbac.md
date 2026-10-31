@@ -3,7 +3,7 @@
 - **ID:** T-0013
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
-- **Due:** 2026-10-28
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-28 / 2026-10-28
 - **Tier:** T3 · permissions
 - **Claimed by:** none

@@ -6,6 +6,7 @@
 - **Worktree:** none (worktree only if an app fix is needed)
 - **Tier:** T2 · tracking events verification across marketing and app; re-tier to T3 if event names or params change
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Docs:** `Docs/tracking/v2/architecture/Meta_App_Events_Setup.md` (live runbook and findings) · `Tasks/_plans/Cross-utm-meta-tracking.md` · `bEasy-app/lib/app_tracking/facebook_helper.dart`
 - **Depends on:** none

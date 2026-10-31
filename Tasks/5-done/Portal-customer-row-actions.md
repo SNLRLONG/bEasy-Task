@@ -7,7 +7,7 @@
 - **Branch:** `feat/journey-cms`
 - **Tier:** T1 · small UI change in one column file, no new API, no new route (routes already exist)
 - **Claimed by:** none
-- **Due:** 2026-10-21
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-21 / 2026-10-21
 - **Docs:** `Docs/tracking/v2/README.md`; parent task `Tasks/3-in-progress/Portal-journey-cms.md`
 - **Depends on:** none (routes `customer/:id/profile` and `customer/:id/journey` are in `app/routes.ts`)

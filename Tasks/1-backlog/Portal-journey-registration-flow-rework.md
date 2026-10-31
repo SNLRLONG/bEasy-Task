@@ -5,6 +5,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T3 · changes stage definitions and the tracking contract the backend depends on
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` (UX-10) · `Docs/tracking/v2/architecture/bEasy-tracking-architecture-guide.md` (registration events) · `Journey_Tech_Review_Backend_Request.md` item B2
 - **Depends on:** `Portal-journey-registration-fixes` merged; product decision on the stages below

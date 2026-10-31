@@ -6,7 +6,7 @@
 - **Worktree:** `bEasy/bEasy-portal-journey-contract/` · **Branch:** `feat/journey-contract-sync`, from `origin/feat/journey-cms`
 - **Tier:** T2 · edits shared types and format helper, API contract change (see `PIPELINE.md`)
 - **Claimed by:** agent (claude), 2026-10-20. Owner said: work directly on `feat/journey-cms`, no separate worktree, portal side only
-- **Due:** 2026-10-21
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-20 / 2026-10-21
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` · `Docs/tracking/v2/backend-response/Journey_Tech_Review_Handoff_19Oct2026.md` · `Docs/tracking/v2/api/Journey_Backend_API_Spec.md`
 - **Depends on:** backend sample responses from dev (task `Cross-journey-review-signoff`, part 1). Types can be written from the handoff first, then checked against the samples.

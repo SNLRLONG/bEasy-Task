@@ -3,6 +3,7 @@
 - **ID:** T-0053
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-22 / 2026-10-22
 - **Worktree:** umbrella `bEasy/bEasy-portal-responsive-design-system/` (`feat/responsive-design-system`); task branch `feat/rds-pilot-coupon` off it
 - **Tier:** T3 · coupon fee/price form (re-tiered up from T1 on 2026-10-22: PIPELINE signal "coupon or price math"). Visual swap only, logic untouched, but G5 review, G6 security, G9 human review and G10 release/rollback plan now apply.

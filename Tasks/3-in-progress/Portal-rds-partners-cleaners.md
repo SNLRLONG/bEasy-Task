@@ -3,6 +3,7 @@
 - **ID:** T-0050
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-26 / 2026-10-26
 - **Worktree:** umbrella `bEasy/bEasy-portal-responsive-design-system/` (`feat/responsive-design-system`); task branch `feat/rds-partners-cleaners` off it
 - **Tier:** T2

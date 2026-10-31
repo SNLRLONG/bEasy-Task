@@ -5,7 +5,7 @@
 - **Owner:** Suntel
 - **Tier:** T0 · docs only
 - **Claimed by:** none
-- **Due:** 2026-10-21
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-21 / 2026-10-21
 - **Worktree:** none (docs only, edited in the root repo)
 - **Docs:** `Docs/rbac/Portal_User_Permissions_Review.md`, `Docs/rbac/Backend_User_Permissions_Guide.md` · plan: `Tasks/_plans/Portal-rbac-users.md`

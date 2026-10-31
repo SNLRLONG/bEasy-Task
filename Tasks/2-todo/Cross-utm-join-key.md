@@ -6,6 +6,7 @@
 - **Worktree:** none
 - **Tier:** T3 · tracking contract the backend depends on (headers, params)
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Docs:** `Tasks/_plans/Cross-utm-meta-tracking.md` · `Docs/tracking/v2/architecture/`, `Docs/tracking/v2/backend-request/Campaign_Source_Request.md`
 - **Depends on:** T-0032

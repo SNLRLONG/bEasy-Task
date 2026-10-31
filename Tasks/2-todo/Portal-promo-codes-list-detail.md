@@ -3,6 +3,7 @@
 - **ID:** T-0015
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Tier:** T3 · coupon/price logic and use counts
 - **Claimed by:** none

@@ -6,6 +6,7 @@
 - **Worktree:** `bEasy/bEasy-portal-utm-acquisition/` · **Branch:** `feat/utm-acquisition`
 - **Tier:** T2 · new API fields and filters on an existing screen
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Docs:** `Tasks/_plans/Cross-utm-meta-tracking.md` · `Docs/tracking/v2/api/Journey_Backend_API_Spec.md`
 - **Depends on:** T-0035 (real sample from dev)

@@ -5,6 +5,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T3 · money, personal data, tracking contract
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-30
 - **Dropped:** 2026-10-30 · not a task; items are deferred and listed in `backend-request/backlog.md`. Reopen as separate tasks when product decides.
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` · handoff "Deliberately not fabricated" · `pending-request-backend.md` 3.2, 3.3

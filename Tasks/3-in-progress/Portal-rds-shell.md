@@ -3,6 +3,7 @@
 - **ID:** T-0055
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-27 / 2026-10-27
 - **Worktree:** umbrella `bEasy/bEasy-portal-responsive-design-system/` (`feat/responsive-design-system`); task branch `feat/rds-shell` off it
 - **Tier:** T2 · shared layout used by all pages

@@ -3,7 +3,7 @@
 - **ID:** T-0040
 - **Repo:** bEasy-landing-page-v2
 - **Owner:** SNLRLONG (Seavlong)
-- **Due:** 2026-10-23
+- **Due:** 2026-10-30
 - **Worktree:** `bEasy/bEasy-landing-page-v2-seo-week2/`  · **Branch:** `feat/seo-week2`
 - **Tier:** T0 · article copy and static assets, no logic (see `PIPELINE.md`). Re-tier up if slug maps or `lib/media.ts` logic change.
 - **Claimed by:** claude-code session, 2026-10-19

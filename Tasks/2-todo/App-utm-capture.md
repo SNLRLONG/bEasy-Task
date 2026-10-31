@@ -6,6 +6,7 @@
 - **Worktree:** `bEasy/bEasy-app-utm-capture/` · **Branch:** `feat/utm-capture`
 - **Tier:** T3 · tracking event params and API header the backend depends on
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Docs:** `Tasks/_plans/Cross-utm-meta-tracking.md` · `Docs/tracking/v2/architecture/` (from T-0033) · `Docs/tracking/v2/backend-request/Campaign_Source_Request.md`
 - **Depends on:** T-0033 (names agreed); backend must accept the fields (T-0035) before release

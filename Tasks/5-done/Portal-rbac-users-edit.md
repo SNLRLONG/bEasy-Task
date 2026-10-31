@@ -5,7 +5,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T3 · changes who can access what (permissions write path)
 - **Claimed by:** agent (claude), 2026-10-21
-- **Due:** 2026-10-28
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-21 / 2026-10-28
 - **Worktree:** `bEasy/bEasy-portal-rbac-users-edit/` · **Branch:** `feat/rbac-users-edit` (branched from `feat/rbac-users-shell`, the integration branch)
 - **Docs:** `Docs/rbac/Portal_User_Permissions_Review.md`, `Docs/rbac/Backend_User_Permissions_Guide.md` · plan: `Tasks/_plans/Portal-rbac-users.md`

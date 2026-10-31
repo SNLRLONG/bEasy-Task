@@ -5,7 +5,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new UI over a new API; read-only
 - **Claimed by:** agent (claude), 2026-10-20
-- **Due:** 2026-10-28
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-20 / 2026-10-28
 - **Worktree:** `bEasy/bEasy-portal-rbac-users-list/` · **Branch:** `feat/rbac-users-list`
 - **Docs:** `Docs/rbac/Portal_User_Permissions_Review.md`, `Docs/rbac/Backend_User_Permissions_Guide.md` · plan: `Tasks/_plans/Portal-rbac-users.md`

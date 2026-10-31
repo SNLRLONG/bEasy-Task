@@ -36,12 +36,13 @@ Start here. Read top to bottom for the full picture, or jump to the folder you n
 **backend-response/**
 - `Journey_V2_Portal_Review.md` — backend review of 14 Oct (what is built, counting rules, guest rules)
 - `2026-10-19-journey-list-filters.md` — Status on Reached and Converted filter are live
+- `CS_Overview_Frontend_Handoff_29Oct2026.md` — CS Overview report, targets, people lists, export (`/cs-overview*`); what is not built
 
 **archive/**
 - `Journey_Tracking_API_Contract.md` — early mock-based contract, replaced by `api/`
 
 Also: export-report docs live in `bEasy-portal-export/docs/`, BigQuery setup in `lsdb-bEasy/bigquery-setup-guide.md`, portal plan in `bEasy-portal/TODO.md`.
 
-**Scope (9 Oct 2026):** the portal builds Customer Journey + Customer page only. CS Overview and the CS inbox are parked (branch `draft/cs-overview`); do not request or change `/cs/overview`, `GET /cs/cases` or `/cs/cases/{id}/pick-up` yet.
+**Scope (31 Oct 2026):** the portal builds Customer Journey + Customer page, and now the CS Overview report (branch `feature/cs-kpi`, contract in `backend-response/CS_Overview_Frontend_Handoff_29Oct2026.md`). The CS inbox, pick-up and contact-log screens are still parked; `/cs/*` returns 501.
 
 **Where to put new docs:** a request to backend → `backend-request/`; a reply from backend → `backend-response/`; a finished or replaced doc → `archive/`.

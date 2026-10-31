@@ -6,6 +6,7 @@
 - **Worktree:** none
 - **Tier:** T0 · spreadsheet formula only, no code
 - **Claimed by:** Claude session, 2026-10-21
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-30
 - **Docs:** `Tasks/_plans/Cross-utm-meta-tracking.md` · `bEasy_UTM_Tracking_Template.xlsx`
 - **Depends on:** none

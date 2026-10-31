@@ -6,6 +6,7 @@
 - **Worktree:** none yet (portal polish gets its own worktree when started)
 - **Tier:** T2 · needs a backend change and spans several repos (see `PIPELINE.md`)
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Docs:** `Docs/tracking/v2/architecture/Acquisition_Ad_Data_Readiness.md` (who owns what, rules to agree) · `Docs/tracking/v2/backend-request/Journey_Acquisition_API_Request.md` · `Docs/tracking/v2/backend-response/Journey_V2_Portal_Review.md` §3, §8
 - **Depends on:** Meta/TikTok account access (item A); backend `backlog.md` "Meta Ads import"

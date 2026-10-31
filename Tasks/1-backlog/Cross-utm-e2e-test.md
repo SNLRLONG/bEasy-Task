@@ -6,6 +6,7 @@
 - **Worktree:** none
 - **Tier:** T2 · cross-repo verification
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Docs:** `Tasks/_plans/Cross-utm-meta-tracking.md` · `bEasy_UTM_Tracking_Template.xlsx`
 - **Depends on:** T-0034, T-0035

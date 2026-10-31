@@ -3,6 +3,7 @@
 - **ID:** T-0008
 - **Repo:** bEasy-app
 - **Owner:** Suntel
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Tier:** T0 · investigation, no code change
 - **Claimed by:** none

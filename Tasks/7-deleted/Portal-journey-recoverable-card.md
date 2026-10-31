@@ -5,6 +5,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new list entry, depends on backend rules
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-30
 - **Dropped:** 2026-10-30 · backend has not written the eligibility rules yet. Reopen when it does.
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` (UX-06) · handoff "Recoverable counts exclude anonymous devices and require an abandoned registered journey"

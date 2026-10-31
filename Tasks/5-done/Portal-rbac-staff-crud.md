@@ -5,7 +5,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T3 · creates accounts and temporary passwords, deactivates and deletes staff (identity, permissions)
 - **Claimed by:** none (coding done 2026-10-28)
-- **Due:** 2026-10-28
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-28 / 2026-10-28 · **PR:** #524 (squash `f13f5f5d`, merged into `feat / 2026-10-28
 - **Worktree:** `bEasy/bEasy-portal-rbac-staff-crud/` · **Branch:** `feat/rbac-staff-crud` (branched from `feat/rbac-users-shell`, which already contains the merged list, detail and edit work)
 - **Docs:** `Docs/rbac/Staff_Account_CRUD_Frontend_Guide.md` (backend's contract, wins), `Docs/rbac/Staff_Account_CRUD_Backend_Spec.md` (our earlier ask) · plan: `Tasks/_plans/Portal-rbac-users.md`

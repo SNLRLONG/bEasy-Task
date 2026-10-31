@@ -1,6 +1,6 @@
 # Customer Journey — Backend API spec
 
-> **Portal scope (9 Oct 2026):** the portal currently builds **Customer Journey + Customer page only**. The CS Overview page and the CS inbox screen are **parked** (branch `draft/cs-overview`, done in a later branch). So **do not ask the backend for, or change, `GET /cs/overview`, `GET /cs/cases` and `POST /cs/cases/{id}/pick-up`** until that work starts. Still in use by the portal: `POST /cs/cases` (Send to CS from a list) and `POST /cs/contacts` (log a contact, Contacts tab).
+> **CS Overview (31 Oct 2026):** the CS Overview **report** is now being built on branch `feature/cs-kpi` (task `Tasks/2-todo/Portal-cs-overview.md`). Its live contract is the backend handoff `backend-response/CS_Overview_Frontend_Handoff_29Oct2026.md` (`/api/admin/cs-overview*`, **not** `/cs/overview`). The CS inbox, pick-up and contact-log screens stay **parked**: `/cs/*` below is still 501.
 
 ## Backend status (from backend review, re-issued 12 Oct 2026)
 
@@ -240,7 +240,7 @@ Takes `ListAction` = `{ "query": {…list filters incl. funnel, stage, state…}
 
 ## 5. CS
 
-> **PARKED in the portal** (CS Overview and CS inbox screens are not being built now). Backend has built all three endpoints (✅), but there is nothing to request or test here until the `draft/cs-overview` work starts.
+> **Superseded for the report (31 Oct 2026).** The working CS Overview report is `GET /cs-overview`, `GET /cs-overview/people`, `POST /fileExport/cs-overview` and `GET/PUT /cs-overview/targets/:month`; see `backend-response/CS_Overview_Frontend_Handoff_29Oct2026.md`. Backend says the `/cs/*` routes below, including `GET /cs/overview`, are **501 placeholders**. The inbox, pick-up and contact-log screens remain parked in the portal.
 
 ### `GET /cs/cases` — inbox. Perm: VIEW (CS-OVERVIEW)
 `customerId` can be `null` (registration drop-offs with only a phone). `[ { "id": 1, "customerName": "Sokha Chan", "phoneMasked": "(+855) 12 ••• 501", "reason": "sales_follow_up", "sourceList": "booking:checkout_started:dropped", "dueAt": "…", "priority": "normal", "owner": null, "createdAt": "…" } ]`

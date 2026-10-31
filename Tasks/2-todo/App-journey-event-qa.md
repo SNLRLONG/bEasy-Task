@@ -6,6 +6,7 @@
 - **Worktree:** `bEasy/bEasy-app-journey-event-qa/` (only if a fix is needed) · **Branch:** `fix/journey-event-qa`
 - **Tier:** T2 · verification first; re-tier to T3 if event names or params change (tracking contract the backend depends on)
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` (DQ-07, T01, T06, T07, T10) · `Docs/tracking/v2/architecture/bEasy-tracking-architecture-guide.md` · `Docs/tracking/v2/backend-response/Journey_V2_Portal_Review.md` §4 "Mobile identity contract"
 - **Depends on:** a dev build and Firebase DebugView; backend answer on the stage mapping

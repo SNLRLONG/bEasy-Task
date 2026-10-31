@@ -5,6 +5,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new filters on live API calls, needs a backend change
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-30
 - **Dropped:** 2026-10-30 · needs 5 backend filters nobody requested; serves the parked CS module. Reopen with the CS module.
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` (UX-03, UX-04, UX-05)

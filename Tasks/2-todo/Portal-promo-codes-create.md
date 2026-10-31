@@ -3,6 +3,7 @@
 - **ID:** T-0014
 - **Repo:** bEasy-portal
 - **Owner:** Suntel
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Tier:** T3 · discount rules and limits
 - **Claimed by:** none

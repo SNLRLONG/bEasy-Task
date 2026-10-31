@@ -3,6 +3,7 @@
 - **ID:** T-0056
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-22 / 2026-10-22
 - **Worktree:** umbrella `bEasy/bEasy-portal-responsive-design-system/` (`feat/responsive-design-system`); task branch `feat/rds-foundation` off it
 - **Tier:** T2 · new shared tokens/hook, touches `app.css` imports

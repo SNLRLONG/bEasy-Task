@@ -1,4 +1,5 @@
 # Marketing suite: waves 2–4 (sub-tasks)
+- **Due:** 2026-10-30
 
 - **ID:** T-0007
 

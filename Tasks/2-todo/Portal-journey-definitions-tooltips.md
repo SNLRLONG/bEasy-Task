@@ -6,6 +6,7 @@
 - **Worktree:** `bEasy/bEasy-portal-journey-definitions/` · **Branch:** `feat/journey-definitions`, from `origin/feat/journey-cms` after the denominators, registration and acquisition tasks merge
 - **Tier:** T2 · edits shared journey components (see `PIPELINE.md`)
 - **Claimed by:** none
+- **Due:** 2026-10-30
 - **Started / updated:** – / 2026-10-21
 - **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` (UX-13, UX-14, DQ-11) · the metric-definition sheet from `Cross-journey-review-signoff`
 - **Depends on:** `Portal-journey-funnel-denominators`, the metric-definition sheet

@@ -5,7 +5,7 @@
 - **Owner:** SNLRLONG (Seavlong)
 - **Tier:** T2 · new filter on a live API call, needs a backend change
 - **Claimed by:** none
-- **Due:** 2026-10-21
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-19 / 2026-10-21
 - **Worktree:** `bEasy/bEasy-portal-journey-converted/` (create when claimed) · **Branch:** `feat/journey-converted`. Branch from `feat/journey-cms` (the list code lives there) after `Portal-journey-list-sheet-fixes` merges.
 - **Docs:** `Docs/tracking/v2/backend-request/Journey_List_Filters_Request.md` §2 · `Docs/tracking/v2/api/Journey_Backend_API_Spec.md` (people endpoint)

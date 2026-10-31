@@ -6,7 +6,7 @@
 - **Worktree:** `bEasy/bEasy-portal-journey-abandon-rule/` · **Branch:** `fix/journey-abandon-rule`, from `origin/feat/journey-cms`
 - **Tier:** T2 · edits shared list components (see `PIPELINE.md`)
 - **Claimed by:** agent (claude), 2026-10-20. Owner said: work directly on `feat/journey-cms`, no separate worktree, portal side only
-- **Due:** 2026-10-21
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-20 / 2026-10-21
 - **Docs:** `Docs/tracking/v2/api/Journey_Backend_API_Spec.md` §2 · `Tasks/_plans/Cross-journey-tech-review.md` (UX-02, DQ-08)
 - **Depends on:** backend answer A11 for part 2

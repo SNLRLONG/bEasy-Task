@@ -3,6 +3,7 @@
 - **ID:** T-0051
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-26 / 2026-10-26
 - **Worktree:** umbrella `bEasy/bEasy-portal-responsive-design-system/` (`feat/responsive-design-system`); task branch `feat/rds-data-table` off it
 - **Tier:** T2 · new shared component, 80 files will adopt it

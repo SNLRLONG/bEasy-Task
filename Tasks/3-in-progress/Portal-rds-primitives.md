@@ -3,6 +3,7 @@
 - **ID:** T-0054
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG
+- **Due:** 2026-10-30
 - **Started / updated:** 2026-10-22 / 2026-10-22
 - **Worktree:** umbrella `bEasy/bEasy-portal-responsive-design-system/` (`feat/responsive-design-system`); task branch `feat/rds-primitives` off it
 - **Tier:** T2 · new shared components
