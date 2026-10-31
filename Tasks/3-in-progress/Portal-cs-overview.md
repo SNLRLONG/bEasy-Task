@@ -65,3 +65,62 @@ On top of the existing branch, deliver the **Overview** (Super Admin view) as th
 - Worktree created from `origin/feature/cs-kpi` (a8a5d65d); `origin/main` merged in, **merge not committed yet** (waiting for the user's go-ahead). Four conflicts resolved by taking `main` and re-adding only the branch's additive bits: `overview-card.tsx` (`note`, `onClick`), `combobox.tsx` (`ariaLabel`), `table-pagination.tsx` (main's v2 Pagination, branch tweak dropped), `locales/en.json` (kept both key groups). Fixed `meta.width` type in `cs-employee-table.tsx`.
 - Baseline after merge: `test:cs-overview` 18/18 and `test:v2-pagination` 6/6 pass; typecheck has no errors in CS files. Remaining typecheck errors exist on plain `origin/main` (duplicate imports in `new-service-bundle.tsx`, `location.tsx`, `chat-store.ts`, `vite.config.ts` and others); not touched.
 - Not yet checked: `yarn lint` on the whole repo, `km.json` (the branch only added `en.json` keys), running the page against dev.
+
+## Progress (2026-10-31, later)
+Done, uncommitted in the worktree: target logic (`lib/cs-targets.ts`, `types/cs-targets.ts`, target query + update hooks, endpoint and query key, `tests/cs-targets.test.mjs` 8 tests); contract fixes (types: `ratingStatus`, `csId: 'unknown'`, nullable `reached`, `availability`, `tiles`, 3 missing metrics; formatters `formatCsMoney`, `reachedLabel`; null shows "Unavailable"; en keys `unavailable`, `notRated`, `notApplicable`). `test:cs-overview` 21/21, `test:cs-targets` 8/8.
+Audit of the existing page (read-only agent, spot-checked) still open: switch route/sidebar to `CS_OVERVIEW`; remove Problems found card; "Employee not recorded" option and `csId=unknown` click; links for completed-paid and not-reached; revenue links with `sortBy=revenue`; people sheet tiles; target indicator and editor UI (gated by UPDATE); saved-segments section; migrate to v2 components (no `h-[calc(100vh-88px)]`, no raw hex or palette classes from `segment-tone.ts`, no `rounded-[4px]`); Khmer keys (`km.json` has none); guard null `finalAt`.
+
+## Progress (2026-10-31, evening)
+- `origin/main` merge committed on the branch (`2c5e620f`); branch level with main. Backend answers filed in `backend-response/CS_Overview_Backend_Answers_31Oct2026.md`; questions archived.
+- Route and sidebar use `CS_OVERVIEW` (new-page-guide steps checked; `CUSTOMER_OVERVIEW` untouched). Export gated by EXPORT, Edit targets by UPDATE.
+- Page migrated to v2 (route, employee table, people sheet, number button, opportunity tiles; no 100vh, raw hex or palette classes). Problems found removed. Employee list uses `hasActivity`/`isCsStaff` with zero rows. 403 shows an access-restricted state.
+- Targets wired: month query (separate from the report), vs-target badge in first-sale and repeat tables (a vs-target column was added to the repeat table), editor dialog, per-month note for range/overall, 403/503 notice. On-time target is edit-only.
+- Checks: `test:cs-overview` 21/21, `test:cs-targets` 8/8, eslint and typecheck clean on CS files, `yarn build` passes. Other typecheck errors exist on plain `origin/main`.
+- Not done: run in browser at 360/768/1280 against dev (targets GET returns 503 until backend deploys the SQL); Khmer keys (user: not important); saved-segments section (user: UI not ready; backend added `POST /customer/counts`); unknown-employee click (`csId=unknown`, user unsure); completed-paid / not-reached links and `sortBy=revenue` (undecided); nothing committed except the merge.
+
+## UI review vs Figma `1637:36622` (2026-10-31, page run on dev at 1440 and 430 wide)
+Verified in the browser: page loads with real dev data, mobile Filters sheet works, employee Combobox opens above the sheet, searches and selects (only its look differs: pill shape and shorter than the other selects, popover narrower than its trigger). Targets GET returns 403 for the test role (page handles it with a notice); saved-segment counts show "Unavailable" because `POST /customer/counts` is not deployed yet.
+
+| # | Figma says | Page now | Backend supports? |
+|---|---|---|---|
+| 1 | Header: breadcrumb, subtitle "Super Admin only…", **Edit targets** + **Export month** | "Export report", other subtitle | yes (copy only) |
+| 2 | Filters: **Month only**, CS employee, Service, Follow-up group, label inline in the pill. Staging note: remove Date range / Overall | Month / Range / Overall switch | yes |
+| 3 | Provisional banner with the number of customers still in their window | generic text | `firstSales.provisional`, `period.finalAt` |
+| 4 | **Saved segments**: grid of cards (icon, name, big count, rule + updated time); tap opens a side sheet: "Saved CRM segment from Marketing", view only, rows newest first with full phone, tiles Not with CS / With CS / Booked since, Send to CS | list rows with an Open button, no sheet | counts need `POST customer/counts` (not deployed); tiles and Send to CS not built |
+| 5 | "Customer follow-up opportunities" removed (staging note) | still shown | n/a |
+| 6 | Today's follow-up work: 4 tiles + table (Open cases reg · existing, Not contacted, Due today, Overdue, **On time · target 90%**, Attempts → reached) | placeholders, empty table | only Attempts → reached exists (`activity`); rest not implemented |
+| 7 | Response time table | missing | not implemented |
+| 8 | "Problems found by CS" strip is **back** (Nith, 30 Oct) | removed | out of scope this release (`availability.problemsFound`) |
+| 9 | First sales: two cards (conversion %, bar, 4 rows incl. completed paid) | present, needs visual pass | yes |
+| 10 | By-employee tables: **Above / On target / Below / Not rated / N/A** badges, column "vs target 30%", "Employee not recorded" row with "?" avatar and clickable numbers, team total as a footer row, footnote about customers contacted by two people | badges On/Under, no unknown click, team total is a strip, no double-contact note | `doubleContacted` is not in the handoff (ask backend) |
+| 11 | Edit targets dialog: Month field, Above/Below description, close X | similar, month only in title | yes |
+| 12 | Export month dialog: checklist of 8 sheets | direct download, no dialog | backend file is fixed at 6 sheets, no selection |
+| 13 | Customer list sheet: icon + title + subtitle (group · month · rule), count, tiles Completed / Scheduled / Refunded, search + Service + CS employee filters, row chips, footer count + Export list | v2 sheet, simpler rows | tiles only for contact metrics; no search or extra filters; no list export |
+| 14 | Attempts sheet: Reached / Not reached / Unavailable tiles, one row per attempt, Load more | partly | tiles yes; search, Result filter no |
+| 15 | States: loading skeleton, empty month, filtered no results (Clear filters), error (Try again), no permission (lock card, header actions hidden) | loading/error/403 exist; filtered-empty and copy differ | yes |
+
+### Decisions I need (defaults in bold; work continues on everything else)
+1. **Month only**, remove Range / Overall (design staging note). The previous author built range and Overall, and backend still supports them.
+2. **Re-add Problems found as a "Not implemented yet" strip** (design 30 Oct says it is back; backend says out of scope; the earlier "remove" was before I saw the 30 Oct note).
+3. **Export month dialog lists the 6 sheets the backend really produces** (read-only list + Download), not an 8-checkbox picker.
+4. Registered saved segments stay view-only count until the Registered Customers page can take a preset (note to `Portal-rds-customer-service`).
+
+### Work breakdown: lanes that can run in parallel (disjoint files, one owner each; the route owner wires the rest)
+| Lane | Scope (design rows) | Owns (files) | Needs |
+|---|---|---|---|
+| A. Route shell | 1, 2, 3, 5, 15, header actions per permission | `routes/customer-services/cs-overview.tsx`, `cs-state.tsx`, `cs-opportunity-tile.tsx` (delete), `cs-tone.ts` (delete) | decisions 1, 2 |
+| B. Saved segments | 4 | `cs-saved-segments.tsx` (tile grid), new `cs-segment-sheet.tsx`, `lib/cs-segments.ts`, `use-segment-counts-batch-query.ts` | backend deploy for counts (not blocking) |
+| C. Report tables | 9, 10 | `cs-employee-table.tsx`, `cs-target-badge.tsx`, `cs-vs-target-cell.tsx`, `lib/cs-targets.ts` + test, new `cs-first-sale-cards.tsx`, `zero-rows.ts` | none |
+| D. List sheets | 13, 14 | `cs-people-sheet.tsx`, new row/chips component, tiles from `tiles` | none |
+| E. Dialogs | 11, 12 | `cs-target-editor.tsx`, new `cs-export-dialog.tsx` | decision 3 |
+| F. Placeholders | 6, 7, 8 | `cs-work-card.tsx`, new `cs-response-time.tsx`, new `cs-problems-strip.tsx` | decision 2 |
+| G. Employee select | Combobox look | new `cs-employee-select.tsx` (v2, same behaviour, popover as wide as trigger) | none |
+Shared files (`en.json`, `package.json`, tests) are edited only by the parent; each lane reports the keys it needs. After the lanes: run in browser at 1440 / 768 / 430, then G5 review. Out of this release: Follow-ups screens, CS view, reassign (marked out), response-time data, problems list, per-list export.
+
+## Progress (2026-10-31, parallel lanes A–E done and wired)
+Decisions taken (defaults): month only; Problems found as "Not implemented yet" placeholder; Export dialog lists the 6 real sheets; registered segments open the same view-only sheet.
+Built: month-only shell and states, saved-segment cards + view-only customer sheet (batch counts with quiet per-segment fallback), Today's follow-up work (live Attempts → reached), Response time and Problems placeholders, first-sale cards, by-employee tables (Above / On target / Below / Not rated / N/A, Employee not recorded row, footer team total), people/attempts sheet restyle (tiles, chips, revenue sort), Edit targets and Export dialogs, v2 employee select. Targets read from `GET cs-overview/targets/:month` (dev returns defaults, `configured: false`).
+Verified in Chrome on dev (admin login) at 1440 and 430: page, segment sheet, list sheet, both dialogs (Save not pressed, no write), employee select inside the phone Filters sheet, no horizontal scroll. `test:cs-overview` 62/62, eslint and typecheck clean on CS files, `yarn build` passes, no raw hex / palette / sub-12px / 100vh / arbitrary radius in CS files.
+Backend: only `POST /customer/counts` is 404 on dev (request written in `pending-request-backend.md` §8); targets table is installed.
+Known gaps vs Figma: Today's table team total is a strip, not a footer row; "Attempts → reached" reads "9 › → 2 ›" instead of "9 → 2 ›"; Figma's Month pill label spacing and breadcrumb (no v2 breadcrumb); search and extra filters in sheets, status tiles on first-sale lists, Send to CS, per-list export and `doubleContacted` are backend gaps; Problems found stays a placeholder until the lead confirms (design 30 Oct says it is back, backend says out of scope).
+Not done: Khmer keys (user: not important); 360 and 768 widths not walked (430 and 1440 were); G5 code review and `/security-review` not run; nothing committed except the main merge; Not tested: saving targets (PUT) and the Excel download on dev.

@@ -1,7 +1,7 @@
 # Pending Backend Requests: Customer Journey
 
-**To:** Backend · **Updated:** 30 Oct 2026
-**Done and removed:** guest events, stage/people endpoints, customer page, acquisition funnel (see [Journey_V2_Portal_Review.md](../backend-response/Journey_V2_Portal_Review.md)). Later items are in [backlog.md](backlog.md). Campaign source is in [Campaign_Source_Request.md](Campaign_Source_Request.md).
+**To:** Backend · **Updated:** 31 Oct 2026
+**Done and removed:** guest events, stage/people endpoints, customer page, acquisition funnel (see [Journey_V2_Portal_Review.md](../backend-response/Journey_V2_Portal_Review.md)). Later items are in [backlog.md](backlog.md). Campaign source is in [Campaign_Source_Request.md](Campaign_Source_Request.md). CS Overview replies are in [CS_Overview_Backend_Answers_31Oct2026.md](../backend-response/CS_Overview_Backend_Answers_31Oct2026.md); still open: section 8 below.
 
 The app already ships these Firebase events, so it cannot rename them. Where our names differ from the backend contract, please map ours.
 
@@ -86,6 +86,24 @@ Task T-0035. Marketing will tag every social link with `utm_source`, `utm_medium
 3. Keep using the stored touch when an open has no campaign (see [Campaign_Source_Request.md](Campaign_Source_Request.md)).
 
 Not asked yet: exact header and field names. They are fixed in T-0033.
+
+## 8. CS Overview: deploy `POST /customer/counts` to dev (31 Oct 2026)
+
+Checked on `api-dev.beasy.info` on 31 Oct with an admin token (read-only calls):
+
+| Call | Result |
+|---|---|
+| `POST /api/admin/customer/counts` `{ "audience": "customer", "queries": [ { "lastContact": "never" } ] }` | **404** `API endpoint not found / Route Unknown` |
+| `GET /api/admin/cs-overview/targets/2026-10` | 200, `configured: false`, defaults 30 / 30 / 90 (storage is installed, thank you) |
+| `GET /api/admin/cs-overview`, `GET /api/admin/cs-overview/people` (`tiles` present), `GET /api/admin/customer-segment?audience=registered`, `GET /api/admin/customer/register-customer?countOnly=true` | 200 |
+
+**Ask:** deploy the batch counts route from your answer C2 (`CS_Overview_Backend_Answers_31Oct2026.md`) to dev, or tell us if it lives at a different path or needs a different body.
+
+**Impact today:** the CS Overview saved-segment cards need one count per segment. Until the route exists the portal falls back to one `countOnly` request per segment (4 at a time), which works but makes 2 requests per segment on every load. The shared API client also shows an "API endpoint not found" toast for the 404, so the portal now accepts that one 404 quietly and falls back.
+
+**Also confirm (not blocking):**
+1. Does `POST /customer/counts` need `CS-OVERVIEW` VIEW, or the same permission as `customer/existed`? The portal sends the saved segment's stored filters unchanged.
+2. For `audience: "registered"`, are saved filters such as `journey` and `contactDate` read the same way as on `GET /customer/register-customer`? We saw a possible difference between a segment's count and the Registered page's count and want to rule it out.
 
 ## Questions
 

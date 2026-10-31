@@ -36,6 +36,7 @@ Start here. Read top to bottom for the full picture, or jump to the folder you n
 **backend-response/**
 - `Journey_V2_Portal_Review.md` — backend review of 14 Oct (what is built, counting rules, guest rules)
 - `2026-10-19-journey-list-filters.md` — Status on Reached and Converted filter are live
+- `CS_Overview_Backend_Answers_31Oct2026.md` — answers to our CS Overview questions: permissions now enforced, employee list, batch segment counts
 - `CS_Overview_Frontend_Handoff_29Oct2026.md` — CS Overview report, targets, people lists, export (`/cs-overview*`); what is not built
 
 **archive/**
