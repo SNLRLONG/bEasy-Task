@@ -21,5 +21,11 @@
     "7-deleted": {
       "color": "#f85149"
     }
-  }
+  },
+  "people": [
+    {
+      "id": "snlrlong",
+      "name": "SNLRLONG"
+    }
+  ]
 }
