@@ -51,7 +51,7 @@ On top of the existing branch, deliver the **Overview** (Super Admin view) as th
 - [ ] G7 docs sync (API spec §5, `Docs/tracking/v2/README.md` parked note)  - [ ] G8 PR message  - [ ] G11 changelog
 
 ## Done when
-- [ ] Worktree `bEasy/bEasy-portal-cs-overview/` on `feature/cs-kpi`, based on the remote branch with the latest `origin/main` merged; baseline typecheck/lint/tests recorded
+- [x] Worktree `bEasy/bEasy-portal-cs-overview/` on `feature/cs-kpi`, based on the remote branch with the latest `origin/main` merged; baseline typecheck/lint/tests recorded
 - [ ] `/cs-overview` shows the Figma Overview sections with loading, error, empty and unavailable states, behind `CS-OVERVIEW` VIEW, and appears under Customer Service in the sidebar
 - [ ] First-sale (and repeat) conversion is shown against the month's target per employee and team with on / under / not rated / N/A; the target editor saves all three values and handles 403, 422 and 503
 - [ ] Unsupported items (today's work, send to CS, problems found, per-list export) show "Not implemented yet", never 0
@@ -124,3 +124,8 @@ Verified in Chrome on dev (admin login) at 1440 and 430: page, segment sheet, li
 Backend: only `POST /customer/counts` is 404 on dev (request written in `pending-request-backend.md` §8); targets table is installed.
 Known gaps vs Figma: Today's table team total is a strip, not a footer row; "Attempts → reached" reads "9 › → 2 ›" instead of "9 → 2 ›"; Figma's Month pill label spacing and breadcrumb (no v2 breadcrumb); search and extra filters in sheets, status tiles on first-sale lists, Send to CS, per-list export and `doubleContacted` are backend gaps; Problems found stays a placeholder until the lead confirms (design 30 Oct says it is back, backend says out of scope).
 Not done: Khmer keys (user: not important); 360 and 768 widths not walked (430 and 1440 were); G5 code review and `/security-review` not run; nothing committed except the main merge; Not tested: saving targets (PUT) and the Excel download on dev.
+
+## Review gates (2026-10-31, later)
+G5 code review (fresh agent, commit 8e610b24) and G6 security review (fresh agent): security found no exploitable issue (2 low hardening points, both fixed: customer id encoded in the journey link, real Error for the 404 marker). Code review fixes applied: unknown-employee numbers now open in the activity and Today's tables (shared "Employee not recorded" cell); by-employee rows memoised so a re-render no longer resets the table page; segment and people sheets no longer show 0 or stale counts while loading or switching list; page reset on tile switch; sales-table pager clamp; target editor no longer wiped by a background refetch; N/A and toast text through i18n; employee select announces its value. Tests 63/63, build passes, typecheck and lint clean on CS files.
+Not fixed (low, listed for later): CsNumberButton has no per-metric accessible name; disabled buttons explained only by `title`; sheets remount (no exit animation); duplicated `open` helpers and two employee-cell / pagination implementations; a few test-only exports (`countAt`, `hasUniqueKeys`) and weak assertions in two tests; unknown-employee click not verified live (dev has no such row in October).
+Next: commit the fixes, open the PR (tier T2: G8, G9 optional), then move to `4-testing/`; backend deploy of `POST /customer/counts`; Problems found decision from the lead.
