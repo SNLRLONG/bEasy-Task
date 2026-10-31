@@ -55,7 +55,7 @@ On top of the existing branch, deliver the **Overview** (Super Admin view) as th
 - [ ] `/cs-overview` shows the Figma Overview sections with loading, error, empty and unavailable states, behind `CS-OVERVIEW` VIEW, and appears under Customer Service in the sidebar
 - [ ] First-sale (and repeat) conversion is shown against the month's target per employee and team with on / under / not rated / N/A; the target editor saves all three values and handles 403, 422 and 503
 - [x] Unsupported items (today's work, send to CS, problems found, per-list export) show "Not implemented yet", never 0
-- [ ] Rates are 0-1 in the API and shown as percent; null money is "Unavailable", not $0
+- [x] Rates are 0-1 in the API and shown as percent; null money is "Unavailable", not $0
 - [ ] Page uses v2 components and tokens; no horizontal scroll at 360, 768, 1280; `typecheck`, `lint`, `build` pass
 - [ ] API spec and README parked note updated; root `CHANGELOG.md` entry `[Portal]` added
 - [ ] Worktree and branch handled after merge (ask before removing if there are uncommitted changes)
