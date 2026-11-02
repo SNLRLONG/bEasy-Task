@@ -45,4 +45,4 @@ Also fixed in this branch (2026-11-02): card clips table corners (`overflow-hidd
 - [x] No horizontal page scroll; rows-per-page and page buttons still work
 - [x] Only v2 files and the listed pages changed; no old component edited
 - [x] Root `CHANGELOG.md` entry added
-- [ ] Worktree and branch removed after merge
+- [x] Worktree and branch removed after merge
