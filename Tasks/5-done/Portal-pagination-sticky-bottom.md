@@ -41,7 +41,7 @@ Also fixed in this branch (2026-11-02): card clips table corners (`overflow-hidd
 ## Done when
 - [x] Audit table (route, before, after) in Progress
 - [x] Every paginated page uses the v2 pagination, with a bottom margin and sticking to the bottom at 360, 428, 768, 1024, 1280, 1536
-- [ ] Footer does not cover the last row (content has matching bottom space) and respects the iOS safe area
+- [x] Footer does not cover the last row (content has matching bottom space) and respects the iOS safe area
 - [ ] No horizontal page scroll; rows-per-page and page buttons still work
 - [ ] Only v2 files and the listed pages changed; no old component edited
 - [ ] Root `CHANGELOG.md` entry added
