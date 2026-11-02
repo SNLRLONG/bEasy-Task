@@ -1,7 +1,7 @@
 # Pending Backend Requests: Customer Journey
 
-**To:** Backend · **Updated:** 31 Oct 2026
-**Done and removed:** guest events, stage/people endpoints, customer page, acquisition funnel (see [Journey_V2_Portal_Review.md](../backend-response/Journey_V2_Portal_Review.md)). Later items are in [backlog.md](backlog.md). Campaign source is in [Campaign_Source_Request.md](Campaign_Source_Request.md). CS Overview replies are in [CS_Overview_Backend_Answers_31Oct2026.md](../backend-response/CS_Overview_Backend_Answers_31Oct2026.md); still open: section 8 below.
+**To:** Backend · **Updated:** 2 Nov 2026
+**Done and removed:** guest events, stage/people endpoints, customer page, acquisition funnel (see [Journey_V2_Portal_Review.md](../backend-response/Journey_V2_Portal_Review.md)). Later items are in [backlog.md](backlog.md). Campaign source is in [Campaign_Source_Request.md](Campaign_Source_Request.md). CS Overview replies are in [CS_Overview_Backend_Answers_31Oct2026.md](../backend-response/CS_Overview_Backend_Answers_31Oct2026.md); still open: section 8 below (what is missing for real data).
 
 The app already ships these Firebase events, so it cannot rename them. Where our names differ from the backend contract, please map ours.
 
@@ -87,23 +87,50 @@ Task T-0035. Marketing will tag every social link with `utm_source`, `utm_medium
 
 Not asked yet: exact header and field names. They are fixed in T-0033.
 
-## 8. CS Overview: deploy `POST /customer/counts` to dev (31 Oct 2026)
+## 8. CS Overview: what is still missing for real data (2 Nov 2026)
 
-Checked on `api-dev.beasy.info` on 31 Oct with an admin token (read-only calls):
+Moved to its own file so backend can read one document: [CS_Overview_Backend_Request_2Nov2026.md](CS_Overview_Backend_Request_2Nov2026.md) (8 asks: contact capture, CS cases and Today numbers, response time, Problems found decision, `doubleContacted`, one-user permission mismatch, open handoff contracts, legacy contacts). `POST /customer/counts` is live on dev, so that ask is closed.
 
-| Call | Result |
-|---|---|
-| `POST /api/admin/customer/counts` `{ "audience": "customer", "queries": [ { "lastContact": "never" } ] }` | **404** `API endpoint not found / Route Unknown` |
-| `GET /api/admin/cs-overview/targets/2026-10` | 200, `configured: false`, defaults 30 / 30 / 90 (storage is installed, thank you) |
-| `GET /api/admin/cs-overview`, `GET /api/admin/cs-overview/people` (`tiles` present), `GET /api/admin/customer-segment?audience=registered`, `GET /api/admin/customer/register-customer?countOnly=true` | 200 |
+## 9. App usage and health events (2 Nov 2026)
 
-**Ask:** deploy the batch counts route from your answer C2 (`CS_Overview_Backend_Answers_31Oct2026.md`) to dev, or tell us if it lives at a different path or needs a different body.
+Task T-0070. Full contract: [App_Tracking_Coverage_Spec.md](../architecture/App_Tracking_Coverage_Spec.md) §6. The app will send new generic events (`screen_viewed` extended, `screen_exited`, `overlay_viewed`, `element_clicked`, `form_submitted`, `search_performed`, `search_result_clicked`, `setting_changed`, `permission_result`, `support_contacted`, `app_error`, plus a few domain events listed in §3.4 of the spec). Please:
 
-**Impact today:** the CS Overview saved-segment cards need one count per segment. Until the route exists the portal falls back to one `countOnly` request per segment (4 at a time), which works but makes 2 requests per segment on every load. The shared API client also shows an "API endpoint not found" toast for the 404, so the portal now accepts that one 404 quietly and falls back.
+1. **Stop skipping `screen_viewed`** and accept the new events. Dedupe by `event_id`; quarantine only on bad `event_id`, `schema_version` or `seq`. Store unknown `screen_name` / `element_id` flagged `unregistered`, do not reject.
+2. **Store them outside `event_log`**: tables `app_screen_view`, `app_interaction_event`, `app_error_event`, registries `ref_app_screen`, `ref_app_element`, and the read model `app_usage_daily` (columns in spec §6.2). Write a subset (`screen_viewed`, `support_contacted`, `app_error`, `search_performed`, `cancellation_*`) to `event_log` too for the Customer page timeline.
+3. **Add endpoints** (spec §6.4): `GET /meta/app-screens`, `/app-usage/overview`, `/app-usage/screens`, `/app-usage/screens/{screen_name}`, `/app-usage/elements`, `/app-usage/flows`, `/app-usage/errors`, `/app-usage/search-terms`, `POST /app-usage/export`, and `include=interaction` on `GET /customers/{id}/activity`. Same filters as Journey (`period`, `platform`, `app_version`, `language`, `auth_state`, `source`, `campaign_id`, `service_id`, `audience`).
+4. **Write backend-owned** `topup_completed`, `topup_failed` from the wallet record (like `payment_failed`).
+5. Confirm retention (raw 90 days, errors 180 days, aggregates 2 years) and an expected row-volume estimate per day.
 
-**Also confirm (not blocking):**
-1. Does `POST /customer/counts` need `CS-OVERVIEW` VIEW, or the same permission as `customer/existed`? The portal sends the saved segment's stored filters unchanged.
-2. For `audience: "registered"`, are saved filters such as `journey` and `contactDate` read the same way as on `GET /customer/register-customer`? We saw a possible difference between a segment's count and the Registered page's count and want to rule it out.
+Ask for a staging date first; the portal builds against the contract with mock data until then.
+
+## 10. Registration funnel order, registration entry, location events (2 Nov 2026)
+
+Tasks T-0075, T-0077. Contract: [Registration_And_Location_Flow_Spec.md](../architecture/Registration_And_Location_Flow_Spec.md) §A.4-A.6, §B, §C.3. The app changed on 27 Oct: for a new number the user types the OTP code, fills the sign-up form, and only then is the code **verified** (`otp_verified` fires after `signup_viewed`). Please:
+
+1. **Reorder the registration stages** to `registration_viewed → otp_requested → signup_started → otp_verified → registration_completed`. Read `otp_verified` from the event, not inferred from completion.
+2. **Store per attempt** (`reg_flow_id`): `entry`, `entry_detail`, `source_screen`, `flow_type`, `otp_mode`, `otp_rounds`, and timestamps for each step (table in spec A.6). Accept new events `otp_code_entered`, `signup_submitted`, `registration_resumed`. Map `entry` `gate` to `other` and `checkout_gate` to `checkout_summary`.
+3. **Funnel API:** `GET /funnels/registration` accepts `entry` and `group_by=entry`, returns `entryBreakdown[]`; stage people rows and the customer activity registration group include `entry`. Add `GET /attribution/registration-entries` (registered, first purchase within 7 / 30 days, per entry).
+4. **Location:** accept `service_area_checked`, `address_added|edited|deleted|default_set`, `permission_result`, `location_pin_moved`; table `app_service_area_check` and `GET /app-usage/locations` (spec C.3). Never expect street text or exact coordinates; `area_cell` only.
+
+Which of these can ship before the app release? Item 1 and 3 can, once the old event order is accepted. Owner decision (2 Nov): the app flow does not change; `sign_up` / `CompleteRegistration` keep firing at account creation, and a new `account_created` event marks it. Count "registration completed" from `registration_completed` only.
+
+## 11. Cancellation and reschedule: records, fields, APIs (2 Nov 2026)
+
+Task T-0080. Full contract: [Cancellation_And_Reschedule_Spec.md](../architecture/Cancellation_And_Reschedule_Spec.md) §3. This replaces items 3.3 and 3.4 above once agreed (then delete them). The app flow does not change; we only add optional fields and events. Please:
+
+1. **Store a cancellation record** (`order_cancellation`) for every cancel, whoever does it (customer app, admin portal incl. ABA mini-app orders, system): `cancelled_by`, `channel`, `reason_code`, `reason_text`, `lead_minutes`, `order_status_before`, `partner_assigned`, `fee_rule_code`, `fee_amount`, `fee_waived`, `refund_amount`, `refund_destination`, `refund_status`, `reschedule_count_before`. Columns in spec §3.2.
+2. **Store a reschedule record** (`order_reschedule`) for every attempt, including rejected ones with `failure_code`: old/new slot, `shift_minutes`, `lead_minutes_before_old_slot`, `reschedule_no`, `is_free`, `fee_*`, `initiated_by`, `channel`, `partner_changed`.
+3. **Accept optional new fields** on the existing calls, old apps still send nothing: cancel `{ reasonCode, reasonText, source }` on `POST customer/order/v2/{id}/cancel`; `{ source, entry }` on `POST customer/order/bulk/edit-schedule`. Reason enum in spec §2.1; unknown or missing reason is stored as `null` and shown as "Not recorded".
+4. **Fee facts:** confirm the fee rules and windows (`cancellation_fee_rule`), where they live today, and who may waive a fee. Provide `GET customer/order/v2/{id}/cancel/preview` and a reschedule fee quote so the app can later show real fees (separate app task; until then the app shows placeholders and sends no fee event).
+5. **Event log:** write `order_cancelled`, `order_rescheduled`, `order_refunded` with the fields in spec §3.3; whitelist the client funnel events in spec §3.4 (resolves 3.4).
+6. **Endpoints** in spec §3.6: `/after-purchase/cancellations/summary`, `/after-purchase/cancellations`, `/after-purchase/cancel-funnel`, `/after-purchase/reschedules/summary`, `/after-purchase/reschedules`, `/orders/{bulkOrderId}/changes`, `/meta/cancellation-reasons`, `/meta/fee-rules`; fill `afterPurchase.rescheduled` and `cancelled` in `/funnels/acquisition`. Counting modes `byCancelDate` (default) and `cohort`; explicit denominators; `null` never 0.
+7. **Confirm** `order_id` in app events is `bulkOrderId`, and how it maps to your order id; and the daily reconciliation of client `cancellation_result=success` vs records.
+
+Questions: can items 1, 2, 5 ship before the app release? What is the earliest date for the fee preview (item 4)?
+
+## 12. Instant Cleaning (2 Nov 2026)
+
+Task T-0083. Contract: [Instant_Cleaning_Tracking_Spec.md](../architecture/Instant_Cleaning_Tracking_Spec.md) §4. The app flow does not change; we add `booking_mode` (`instant`/`scheduled`) and `instant_hours` to existing events and send new Instant events (availability, fully-booked, rooms, duration, upsell, schedule/grace errors, progress). Please: (1) accept them and store `booking_mode` on journeys and orders so Instant is a filter in every funnel, After-purchase and order report; (2) add the three tables and store every rejected grace/schedule request with its error code server-side; (3) add `GET /instant/overview|rooms|availability|schedule-errors|upsell|orders/progress` and `booking_mode` on `GET /funnels/booking`; (4) confirm the booking-mode values, the error-code list, and whether an extend payment API/record is planned.
 
 ## Questions
 

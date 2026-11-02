@@ -60,7 +60,7 @@ yarn deploy:preview  # preview channel "stagingLink"
 ```
 
 - **Locales**: `middleware.ts` redirects every non-asset path to `/{km|en}/…` (default `km`); pages live under `app/[lang]/`. `app/purchase-coupon` is excluded from locale routing.
-- **Translations** are per-section JSON files in `app/translations/{English,Khmer}/`, read via `useTranslate()` (`t("section.key")`). Add keys to both languages (bEasy supports only Khmer and English; Chinese was dropped). Details: `TRANSLATIONS.md`.
+- **Translations** are per-section JSON files in `app/translations/{English,Khmer}/`, read via `useTranslate()` (`t("section.key")`). Add keys to all three languages (Khmer, English and Simplified Chinese `zh`; Chinese was re-enabled on 2 Nov 2026). Details: `TRANSLATIONS.md`.
 - **Analytics**: `trackEvent()` auto-prefixes names with `web-v2:`; `EVENTS.md` is the event catalogue — update it when adding events.
 - **SEO**: service/media pages use slugs (`lib/services.ts` `SERVICE_SLUGS`, `lib/media.ts`); `next.config.ts` permanently redirects old numeric URLs to slugs, so keep those maps stable. JSON-LD and metadata helpers are in `lib/jsonld.ts`/`lib/seo.ts`; see `IMAGE_SEO_GUIDE.md` and `IMAGE_PROTECTION.md` for image handling.
 

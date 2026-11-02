@@ -25,13 +25,14 @@ Start here. Read top to bottom for the full picture, or jump to the folder you n
 - `Journey_Tracking_Analytical_Model.md` — metric definitions
 - `bEasy-automation-engagement-guide.md` — segments, notifications, offers
 - `Acquisition_Ad_Data_Readiness.md` — what blocks Meta/TikTok numbers on Acquisition and who owns each piece
+- `App_Tracking_Coverage_Spec.md` — audit of every app screen and tap, new generic events, backend tables/APIs and portal App Usage pages · `Registration_And_Location_Flow_Spec.md` — registration funnel order vs the app, where each registration came from, location flow events · `Cancellation_And_Reschedule_Spec.md` — cancel/reschedule tracking, backend records and portal decisions · `Instant_Cleaning_Tracking_Spec.md` — Instant Cleaning funnel, rooms, availability, schedule errors, extend · `App_Interaction_Inventory.md` — generated per-file handler/tracking counts
 - `Meta_App_Events_Setup.md` — runbook and findings for verifying Meta app events (T-0031)
 
 **api/**
 - `Journey_Backend_API_Spec.md` — every endpoint, request and response
 
 **backend-request/**
-- `pending-request-backend.md` — open requests · `backlog.md` — later · `Campaign_Source_Request.md` — Organic vs campaign · `Journey_Acquisition_API_Request.md` — acquisition contract · `Marketing_Suite_Backend_Request.md` — push, promotions, content
+- `pending-request-backend.md` — open requests · `backlog.md` — later · `Campaign_Source_Request.md` — Organic vs campaign · `Journey_Acquisition_API_Request.md` — acquisition contract · `Marketing_Suite_Backend_Request.md` — push, promotions, content · `App_Tracking_Backend_Handoff_2Nov2026.md` — single extract for backend: usage events, registration, location, cancel/reschedule, Instant
 
 **backend-response/**
 - `Journey_V2_Portal_Review.md` — backend review of 14 Oct (what is built, counting rules, guest rules)

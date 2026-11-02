@@ -2,6 +2,20 @@
 
 Merges to `main` across all projects, newest first. Prefix: `[Portal]` `[App]` `[Mini-App]` `[Landing-Page]` `[Backend]` `[Cross]`. Format and rules: `Tasks/README.md`.
 
+## 2026-11-02 · [Landing-Page] feat(i18n): Simplified Chinese (/zh) back, related guide cards, Khmer service pages synced
+- Owner: SNLRLONG (Seavlong)
+- Task: Tasks/6-deploy/Landing-Page-enable-chinese.md
+- Branch/PR: main (committed directly, no PR)
+- What changed: `/zh` is live again with the same services, claims and 12 guides as English and Khmer (no General Cleaning or Pest Control). Khmer `serviceDetail` entries 2, 3, 4, 6, 7, 9 now match the audit fixes. Washing Machine shows Top Load $25 and Front Load $35. Service pages show related guides as article cards aligned with the FAQ column.
+- Needs: resubmit the sitemap in Search Console (zh URLs were redirected to km since 3 Oct). Chinese text and the Khmer service pages were reviewed by the owner.
+
+## 2026-11-02 · [Landing-Page] fix(seo): 30 Oct audit fixes, retired services removed, related links, robots
+- Owner: SNLRLONG (Seavlong)
+- Task: Tasks/5-done/Landing-Page-seo-audit-fixes.md
+- Branch/PR: main · b3fd4b6 (committed directly, no PR)
+- What changed: General Cleaning and Pest Control are gone from pages, nav, footer, FAQ and the sitemap in Khmer and English, with 308 redirects for old URLs (`service-detail/1,2,5,7`, `services/general-cleaning`, `services/pest-control` to home, the General vs Deep article to Instant vs Deep). Office, Washing Machine, Upholstery, AC, Deep, Post-Renovation and Instant pages rewritten to the real scope. Service pages and guides now link to each other; `robots.txt` blocks `/purchase-coupon`, `/direct-sale-payment` and `/api/`. Also repaired a corrupted English `serviceDetail.json` that broke `yarn build`.
+- Needs: Firebase deploy (`yarn deploy`), then resubmit the sitemap in Search Console and spot-check the redirects on `beasy.info`. Native read of the Khmer copy done by the owner.
+
 ## 2026-11-02 · [Portal] fix(pagination): sticky footer, equal spacing, clipped table corners, Customer tabs
 - Owner: SNLRLONG (Seavlong)
 - Task: Tasks/5-done/Portal-pagination-sticky-bottom.md
