@@ -40,4 +40,4 @@ Update (2026-11-02): Source filter is now a v2 `Popover` with Clear (resets to A
 - [x] Only v2 components added; no old `components/ui` import; no raw hex or text under 12px
 - [x] Checked in the browser at 360 and 1280 (Chat list with search "bun" example from the screenshot)
 - [x] Root `CHANGELOG.md` entry added
-- [ ] Worktree and branch removed after merge
+- [x] Worktree and branch removed after merge
