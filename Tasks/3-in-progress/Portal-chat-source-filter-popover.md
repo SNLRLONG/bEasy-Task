@@ -35,7 +35,7 @@ Update (2026-11-02): Source filter is now a v2 `Popover` with Clear (resets to A
 - [x] The "Source" row and select are gone from the list; a filter icon sits beside the search input
 - [x] Tapping the icon expands/collapses the Source options; picking one filters the list, counts match today
 - [x] Icon shows an active state when a source is set; Clear returns to "All sources"
-- [ ] Hidden when channel is App/other (same rule as now); no layout jump in the list
+- [x] Hidden when channel is App/other (same rule as now); no layout jump in the list
 - [ ] Entering Chat from another module (sidebar, link without `?id`) shows the no-selection state; `?id=` deep links still open that chat
 - [ ] Only v2 components added; no old `components/ui` import; no raw hex or text under 12px
 - [ ] Checked in the browser at 360 and 1280 (Chat list with search "bun" example from the screenshot)
