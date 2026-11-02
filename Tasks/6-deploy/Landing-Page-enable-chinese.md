@@ -1,5 +1,6 @@
 # Landing Page: Enable Simplified Chinese again
 
+- **ID:** T-0097
 - **Repo:** bEasy-landing-page-v2
 - **Owner:** SNLRLONG
 - **Worktree:** none (working directly on `main`, same as T-0045)
