@@ -44,5 +44,5 @@ Also fixed in this branch (2026-11-02): card clips table corners (`overflow-hidd
 - [x] Footer does not cover the last row (content has matching bottom space) and respects the iOS safe area
 - [x] No horizontal page scroll; rows-per-page and page buttons still work
 - [x] Only v2 files and the listed pages changed; no old component edited
-- [ ] Root `CHANGELOG.md` entry added
+- [x] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
