@@ -1,6 +1,6 @@
 # Cancellation and reschedule — tracking audit, backend contract, portal decisions
 
-Updated: 2026-11-02 · Status: **draft for review** (no code changed) · Extends [App_Tracking_Coverage_Spec.md](App_Tracking_Coverage_Spec.md) §3.4/§4 F (this file wins for cancel and reschedule) · Plan: [`Tasks/_plans/Cross-tracking-coverage.md`](../../../../Tasks/_plans/Cross-tracking-coverage.md)
+Updated: 2026-11-03 · Status: **app events built in T-0079 (branch `feat/cancel-reschedule-tracking`), not yet merged or released**; backend contract (§3) still a request · Extends [App_Tracking_Coverage_Spec.md](App_Tracking_Coverage_Spec.md) §3.4/§4 F (this file wins for cancel and reschedule) · Plan: [`Tasks/_plans/Cross-tracking-coverage.md`](../../../../Tasks/_plans/Cross-tracking-coverage.md)
 
 **Constraint (owner, 2 Nov):** no change to how the app behaves. This spec only changes what is *collected*, what backend *stores*, and what the portal *shows*. Where the app shows something wrong (placeholder fees), that is recorded as a finding and a separate decision (O-10), not folded into the tracking work.
 
@@ -68,37 +68,45 @@ Rules: call `AnalyticsHelper.track`; `order_id` = `bulkOrderId` string; pass `se
 
 Derived values the app can compute from `bookingDetail` without a new call: `hours_to_start` (start − now, rounded to 0.5 h, negative if started), `order_status`, `order_value` + `currency`, `service_id`, `partner_assigned` (0/1) if the detail has partners, `reschedule_count` if present.
 
-### 2.1 Cancellation events
+### 2.1 Cancellation events (built in T-0079, not merged)
 
-| Event | Trigger | Params (beyond common) |
-|---|---|---|
-| `cancellation_started` | Cancel sheet appears (`overlay_viewed` also fires from the foundation) | `order_id`, `entry` (`order_detail`/`reschedule_sheet`), `hours_to_start`, `order_status`, `value`, `currency`, `service_id`, `partner_assigned` |
-| `cancellation_reason_selected` | A reason row is tapped (last one wins; only emit once per change) | `order_id`, `reason_code` |
-| `cancel_to_reschedule_clicked` | "I want to reschedule instead" | `order_id`, `reason_code=want_reschedule` |
-| `cancellation_policy_viewed` | "View details" / "Read full policy" | `order_id` (or none from checkout), `source_screen` |
-| `cancellation_fee_shown` | Only once the fee comes from the server (O-10) | `order_id`, `fee_amount`, `fee_source=server`, `fee_rule_code` — **not fired while the placeholder is used** |
-| `cancellation_submitted` | Confirm tapped, before the call (replaces the intent role of `cancel_booking_confirm`) | `order_id`, `reason_code`, `has_other_text` (0/1), `hours_to_start` |
-| `cancellation_result` | The cancel call returns | `order_id`, `result` (`success`/`failed`), `error_code`, `http_status`, `duration_ms` |
-| `cancellation_abandoned` | Sheet dismissed without a successful cancel | `order_id`, `step` (`reason`/`confirm`), `reason_code` (if chosen) |
-
-`reason_code` enum (stable, English; labels in the portal): `plan_changed`, `booked_by_mistake`, `want_reschedule`, `no_longer_needed`, `other`. The backend adds `admin_*` and `system_*` values for non-customer cancels (section 3.2).
-
-Legacy `cancel_booking_confirm`: keep the event name for one release (backend does not use it), **remove the `other` free-text parameter**, keep `reason`.
-
-### 2.2 Reschedule events
+Params below are exactly what the app sends. Only closed sets, ids and numbers: no free text, no placeholder amounts. `order_id` = `bulkOrderId`. `ctx` = `hours_to_start` (0.5 h steps), `order_status`, `value`, `currency` (`USD`), `partner_assigned` (0/1); each key is omitted when unknown.
 
 | Event | Trigger | Params |
 |---|---|---|
-| `reschedule_started` *(exists)* | Sheet opens | add `entry` (`order_detail`/`cancel_sheet`), `hours_to_start`, `reschedule_count`, `service_id`, `value`, `currency` |
-| `reschedule_slot_selected` *(exists)* | Slot tapped | keep `old_slot`, `new_slot`; add `shift_hours` (new − old, signed) |
-| `reschedule_grace_requested` | Grace-token call returns | `order_id`, `result` (`ok`/`slot_unavailable`/`error`), `error_code`, `new_slot` |
-| `reschedule_fee_shown` | Only when the fee is server-provided | `order_id`, `fee_amount`, `fee_source=server`, `is_free` — not fired today (always free in the UI) |
-| `reschedule_submitted` | Confirm tapped (replaces the intent role of `reschedule_button_confirm`) | `order_id`, `old_slot`, `new_slot`, `payment_method` (only when paid) |
-| `reschedule_completed` *(exists)* | Call succeeds | keep; add `is_free` (null/omit until the server says), `fee_amount` (omit until server says), `reschedule_count` |
-| `reschedule_failed` *(exists)* | Call fails | keep `failure_reason` (backend `code`); add `http_status` |
-| `reschedule_abandoned` | Sheet dismissed without success | `order_id`, `step` (`pick`/`confirm`/`choose_pay`/`payment_failed`) |
+| `cancellation_started` | Cancel sheet appears (`overlay_viewed` `cancel_sheet` also fires) | `order_id`, `entry` (`order_detail`/`reschedule_sheet`), `ctx` |
+| `cancellation_reason_selected` | A reason row is tapped (once per change) | `order_id`, `reason_code` |
+| `cancel_to_reschedule_clicked` | "I want to reschedule instead" | `order_id`, `reason_code=want_reschedule` |
+| `cancellation_policy_viewed` | "View details" / "Read full policy" in the cancel sheet, reschedule sheet or card, checkout policy sheet | `source_screen` (`cancel_sheet`/`reschedule_sheet`/`order_detail`/`checkout`); `order_id` except from checkout |
+| `cancellation_submitted` | Confirm tapped, before the call | `order_id`, `reason_code`, `has_other_text` (0/1), `hours_to_start` |
+| `cancellation_result` | The cancel call returns or throws | `order_id`, `result` (`success`/`failed`), `error_code` (failed only; code-shaped, max 40 chars, else `unknown`; `exception` on throw), `http_status`, `duration_ms` |
+| `cancellation_abandoned` | Sheet closed (close, swipe, back) before a successful cancel; not fired when the customer is sent to reschedule | `order_id`, `step` (`reason`/`confirm`), `reason_code` (if chosen) |
 
-The legacy `order_rescheduled` client event stays (backend skips it); the **backend** `order_rescheduled` record is the source of truth (section 3).
+**Not built:** `cancellation_fee_shown` (the fee panel is a placeholder, O-10; it fires once the fee comes from the server, with `fee_amount`, `fee_source=server`, `fee_rule_code`); `service_id` (`bookingDetail` has no reliable service id); `partner_assigned` is set only when the detail carries a cleaner list.
+
+`reason_code` enum (stable, English; labels in the portal): `plan_changed`, `booked_by_mistake`, `want_reschedule`, `no_longer_needed`, `other`. The backend adds `admin_*` and `system_*` values for non-customer cancels (section 3.2).
+
+Legacy `cancel_booking_confirm`: name kept for one release (backend does not use it), `reason` kept, the free-text `other` parameter is **no longer sent**.
+
+**Reachability:** the cancel row in the reschedule/cancel card is commented out in the UI, so the cancel sheet cannot be opened from the app today and these events cannot fire until it is shown again. Reschedule has an "I want to cancel" path only through that row.
+
+### 2.2 Reschedule events (built in T-0079, not merged)
+
+Slot values (`old_slot`, `new_slot`, `current_slot`) are now ISO-8601 with `+07:00`; before they were raw `dd-MM-yyyy h:mm a` or `yyyy-MM-dd HH:mm:ss`. `ctx` as in 2.1.
+
+| Event | Trigger | Params |
+|---|---|---|
+| `reschedule_started` | Sheet opens (from the Where & When card, the reschedule card or the cancel sheet); `overlay_viewed` `reschedule_sheet` and legacy `reschedule_button_click` also fire | `order_id`, `current_slot`, `reschedule_source`, `entry` (`order_detail`/`cancel_sheet`), `ctx` |
+| `reschedule_slot_selected` | Slot confirmed with Continue | `order_id`, `old_slot`, `new_slot`, `shift_hours` (new minus old, signed, 0.5 h steps) |
+| `reschedule_grace_requested` | Grace-token call returns or throws (not fired when a still-valid cached token is reused) | `order_id`, `result` (`ok`/`slot_unavailable`/`error`), `error_code` (not `ok`), `new_slot` |
+| `reschedule_submitted` | Confirm tapped, before the call (legacy `reschedule_button_confirm` also fires) | `order_id`, `old_slot`, `new_slot`, `payment_method` (paid path only; not reachable today) |
+| `reschedule_completed` | Call succeeds (legacy `order_rescheduled` also fires) | `order_id`, `old_slot`, `new_slot`, `reschedule_source` |
+| `reschedule_failed` | Call fails | `order_id`, `failure_reason` (backend `code`, code-shaped max 40 chars, else `unknown`), `http_status` |
+| `reschedule_abandoned` | Sheet closed before success | `order_id`, `step` (`pick`/`confirm`/`choose_pay`/`payment_failed`; the last two are never reached while the UI is always free) |
+
+**Not built:** `reschedule_fee_shown` (placeholder fee, O-10; always free in the UI); `service_id` (no reliable id in the detail); `reschedule_count` on `reschedule_started`/`reschedule_completed` (not in the detail); `is_free` and `fee_amount` on `reschedule_completed` (omitted until the server says). Optional request fields: see 2.5.
+
+The legacy `order_rescheduled` client event stays (backend skips it); the **backend** `order_rescheduled` record is the source of truth (section 3). Order detail v1 is untouched; its duplicate `reschedule_button_*` events stay with T-0066.
 
 ### 2.3 Platform assignment
 
@@ -108,7 +116,13 @@ The legacy `order_rescheduled` client event stays (backend skips it); the **back
 | Clarity | tag `screen_name`, custom event `cancellation_result` / `reschedule_failed` for replay lookup | – | – |
 
 ### 2.4 Tests (in the app task)
+Built: `test/cancel_reschedule_tracking_test.dart` (helpers, builders, allow-list, 100-char limit, no free text, contract validation, cancel sheet widget test).
+
 Event builder tests; a test that no cancel/reschedule event contains a key outside the allow-list or a string longer than 100 chars; a regression test that the order-detail flow behaviour is unchanged (existing screen tests, no new navigation).
+
+### 2.5 Request fields (not built)
+
+The app does **not** yet send `reasonCode`, `reasonText`, `source` on `POST customer/order/v2/{id}/cancel` (body is still `{}`) nor `source`, `entry` on `POST customer/order/bulk/edit-schedule`. This waits for the agreed field names (T-0080) and product sign-off O-11. CR-1 stays open until then.
 
 ---
 

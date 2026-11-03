@@ -1,8 +1,8 @@
 # Instant Cleaning — tracking audit and specification
 
-Updated: 2026-11-02 · Status: **draft for review** (no code changed; **no app-flow change**, owner rule) · Extends [App_Tracking_Coverage_Spec.md](App_Tracking_Coverage_Spec.md) §4 D/E/F (this file wins for Instant) · Plan: [`Tasks/_plans/Cross-tracking-coverage.md`](../../../../Tasks/_plans/Cross-tracking-coverage.md)
+Updated: 2026-11-03 · Status: **built in T-0082 (branch `feat/instant-cleaning-tracking`), not yet merged**; no app-flow change (owner rule). Where this file differs from the first draft, §2 and §3 state what shipped · Extends [App_Tracking_Coverage_Spec.md](App_Tracking_Coverage_Spec.md) §4 D/E/F (this file wins for Instant) · Plan: [`Tasks/_plans/Cross-tracking-coverage.md`](../../../../Tasks/_plans/Cross-tracking-coverage.md)
 
-Evidence: `bEasy-app` `main`, 2 Nov 2026. Backend statements are doc-only (`bEasy-api/` not cloned). Instant Cleaning is the service whose detail response has `bookingMode == 'INSTANT'` (`category_building_screen.dart:1210`); it reuses `CategoryBuildingScreen` and the shared checkout.
+Evidence: `bEasy-app` `main`, 2 Nov 2026 (flow audit); §2 and §3 describe the T-0082 build. Backend statements are doc-only (`bEasy-api/` not cloned). Instant Cleaning is the service whose detail response has `bookingMode == 'INSTANT'` (`category_building_screen.dart:1210`); it reuses `CategoryBuildingScreen` and the shared checkout.
 
 ## 1. Instant flow and what is tracked
 
@@ -23,6 +23,8 @@ Evidence: `bEasy-app` `main`, 2 Nov 2026. Backend statements are doc-only (`bEas
 | 13 | Instant order cancel/reschedule | shared sheets | covered by [Cancellation_And_Reschedule_Spec.md](Cancellation_And_Reschedule_Spec.md); Instant needs `booking_mode` on those events |
 
 ### Findings
+Status after T-0082 (not merged): I-1 done except order-only events (`instant_hours` is built in T-0065); I-2, I-4, I-5, I-6 done (I-6 without `converted`); I-3 done; I-7 not applicable (the sections are static, nothing to tap); I-8 progress card and extend sheet tracked (no order_id on progress, no price on extend), `extend_hour_pay` unchanged; I-9 is backend-only.
+
 - **I-1** No event separates Instant from other services: `booking_mode` is missing on every journey, checkout and order event, so the portal cannot report Instant funnels.
 - **I-2** Room ticks, suggested hours and the under-pick warning (the Instant decision logic) are invisible.
 - **I-3** Auto-selected hour option is tracked as a customer choice (step 3); `selection_method` is missing.
@@ -35,30 +37,35 @@ Evidence: `bEasy-app` `main`, 2 Nov 2026. Backend statements are doc-only (`bEas
 
 ## 2. Common parameter
 
-Add `booking_mode` (`instant` | `scheduled`) to every event that already carries `service_id`, `journey_id` or `order_id`, set by the wrapper from the service detail (cached per `service_id` in `JourneyStore` or a small map in `AnalyticsHelper`). This covers `service_viewed` through `payment_started`, add-on events, and cancel/reschedule events. `instant_hours` (selected hours) is added to `checkout_started` and `payment_started` for Instant only. No existing param changes meaning.
+`booking_mode` (`instant` | `scheduled`) is added by `AnalyticsHelper` to every event that carries a `service_id`. The mode is remembered per `service_id` when the service detail screen loads (`setBookingMode`). So it is **absent** when the mode is not known yet (an event fired before the detail loaded) and on events with no `service_id` (order-only events such as `instant_progress_viewed` and `extend_*`). It covers `service_viewed` through the checkout events that carry a service, add-on events and the Instant events below. No existing param changes meaning.
 
-## 3. New events (no flow change)
+`instant_hours` on `checkout_started` and `payment_started` is built in T-0065 (branch `feat/tracking-booking-checkout`, not yet merged): sent for Instant services only, from the last `instant_duration_selected`, absent when unknown.
 
-| Event | Trigger | Params (beyond common) | Platforms |
+## 3. Events (no flow change)
+
+What T-0082 sends. Common params (`service_id`, `booking_mode` when known, platform fields) are on every row unless noted.
+
+| Event | Trigger | Params shipped | Platforms |
 |---|---|---|---|
-| `category_alert_viewed` | Selection alert sheet shown | `service_id`, `alert_key`, `badge` | Firebase; backend ingest |
+| `category_alert_viewed` | Selection alert sheet shown | `service_id`, `alert_key` (slug of the badge, not the alert text), `badge` (optional slug); also `overlay_viewed` with `category_alert` | Firebase; backend ingest |
 | `category_alert_action` | Alert closed (X) or CTA | `service_id`, `action` (`close`/`cta`) | Firebase |
-| `instant_availability_checked` | After `_checkInstantAvailability` and the quiet refresh | `service_id`, `available_dates`, `total_dates`, `fully_booked` (0/1), `trigger` (`load`/`refresh`/`return`) | Firebase; backend ingest |
-| `instant_fully_booked_viewed` | Fully-booked sheet shown | `service_id`, `total_dates` | Firebase; backend (demand) |
-| `instant_duration_selected` | Hour card tapped **by the user** | `hours`, `selection_method` (`user`/`auto_default`/`auto_rooms`/`restored`), `was_suggested` (0/1) | Firebase; backend |
-| `instant_room_toggled` | Room tick on/off | `room_key` (stable service-item id or slug, not the label), `selected` (0/1), `selected_count`, `total_minutes`, `band` (`none`/`one_hour`/`two_hours`/`bigger_job`), `suggested_hours` | Firebase; backend |
-| `instant_underpick_warning_viewed` | Warning appears | `selected_hours`, `suggested_hours`, `total_minutes` | Firebase |
-| `instant_upsell_clicked` | "Need more than 2 hours?" or "See Deep Cleaning" | `source` (`text_link`/`rooms_section`), `target_service_id`, `rooms_selected` | Firebase; backend |
-| `instant_upsell_result` | Return from Deep Cleaning | `target_service_id`, `converted` (0/1: a Deep Cleaning `checkout_started` happened), `returned` (0/1) | Firebase |
-| `element_clicked` / `overlay_viewed` | Per the foundation: info sections expand/links (`excludes`, `how_it_works`, `why_choose`, `before_we_arrive`, `estimated_time`), schedule sheet open/close/confirm, time selector tap | `screen_name=service_detail`, `element_id`, `section` | Firebase; backend |
-| `instant_slot_selected` | Time chosen in selector or schedule sheet | `slot_start`, `same_day` (0/1), `lead_minutes`, `slot_source` (`selector`/`schedule_sheet`), `days_ahead` | Firebase; backend |
-| `schedule_grace_result` | `requestCheckoutGrace` returns | `result` (`ok`/`error`), `error_code` (`INSTANT_NOTICE_TOO_SHORT`, `BOOKING_SLOT_UNAVAILABLE`, `BOOKING_LEAD_TIME_REQUIRED`, `BOOKING_GRACE_INVALID`, `BOOKING_POLICY_INVALID`, `INSUFFICIENT_BALANCE`, `other`), `lead_minutes`, `same_day`, `action` (`clear_refresh`/`refresh_config`/`top_up`/`message`) | Firebase; backend |
-| `instant_progress_viewed` | Order detail progress card first shown per order/stage | `order_id`, `stage` (`waiting`/`in_progress`/`wrapping_up`/`completed`) | Firebase |
-| `extend_started` / `extend_payment_selected` / `extend_closed` | Extend sheet (when the offer is re-enabled) | `order_id`, `stage`, `extra_hours`, `quote_amount` **only if server-provided**, `payment_method` | Firebase |
+| `instant_availability_checked` | After the availability check on load and the quiet refresh | `available_dates`, `total_dates`, `fully_booked` (0/1), `trigger` (`load`/`refresh`; `return` is allowed but not sent). Skipped when there are no dates | Firebase; backend ingest |
+| `instant_fully_booked_viewed` | Fully-booked sheet shown | `total_dates` | Firebase; backend (demand) |
+| `instant_duration_selected` | Hour card selected | `hours`, `selection_method` (`user`/`auto_default`/`restored` sent; **`auto_rooms` is in the closed set but never sent**, room ticks do not change the hour selection), `was_suggested` (0/1) | Firebase; backend |
+| `instant_room_toggled` | Room tick on/off | `room_key` (slug of the catalogue id, e.g. `sid_12`, never the label), `selected` (0/1), `selected_count`, `total_minutes`, `band` (`none`/`one_hour`/`two_hours`/`bigger_job`), `suggested_hours` (optional) | Firebase; backend |
+| `instant_underpick_warning_viewed` | Warning appears (once per appearance) | `selected_hours`, `suggested_hours`, `total_minutes` | Firebase |
+| `instant_upsell_clicked` | "Need more than 2 hours?" or "See Deep Cleaning" | `source` (`text_link`/`rooms_section`), `target_service_id` (optional), `rooms_selected`; legacy `instant_cleaning_explore_other_options` keeps firing, now with `source` | Firebase; backend |
+| `instant_upsell_result` | Return from Deep Cleaning | `target_service_id` (optional), `returned` (always 1). **`converted` is NOT sent** (needs state shared with the Deep Cleaning screen); read the conversion from `checkout_started` of the target service | Firebase |
+| `instant_slot_selected` | Time chosen in the **time selector only** | `slot_start`, `same_day` (0/1), `lead_minutes`, `days_ahead`, `slot_source` (`selector`; `schedule_sheet` is allowed but not sent). The checkout schedule sheet serves every service and keeps feeding `date_selected`/`time_selected`/`slot_selected`, which now carry `booking_mode` | Firebase; backend |
+| `schedule_grace_result` | `requestCheckoutGrace` returns | `result` (`ok`/`error`), `error_code` (`INSTANT_NOTICE_TOO_SHORT`, `BOOKING_SLOT_UNAVAILABLE`, `BOOKING_LEAD_TIME_REQUIRED`, `BOOKING_GRACE_INVALID`, `BOOKING_POLICY_INVALID`, `INSUFFICIENT_BALANCE`, else `other`; only on error), `lead_minutes`, `same_day`, `action` (`clear_refresh`/`refresh_config`/`top_up`/`message`; only on error). **No `service_id` and no `booking_mode`** on this event | Firebase; backend |
+| `instant_progress_viewed` | Order detail progress card, once per stage per card | `stage` (`waiting`/`in_progress`/`wrapping_up`/`completed`). **No `order_id`** (the card does not know it; the order detail screen is owned by T-0079) | Firebase |
+| `extend_started` / `extend_payment_selected` / `extend_closed` | Extend sheet; also `overlay_viewed extend_hours` | `stage`, `extra_hours`, `payment_method`. **No price** (the quote is a placeholder) and no `order_id` | Firebase |
 
-Changes to existing: `service_option_selected`/`duration_selected` gain `selection_method` (auto-selection no longer looks like a choice; keep firing so counts stay continuous, flagged); legacy `instant_cleaning_explore_other_options` keeps firing one release with a new `source`; `extend_hour_pay` is renamed in meaning: documented as UI-only, no revenue (the backend payment record is the truth). Meta: `ViewContent`/`InitiateCheckout`/`Purchase` already fire for Instant; add `content_category=instant` where the SDK supports it. No Meta/AppsFlyer event for rooms or availability.
+Not built: `element_clicked` for the info sections (`excludes`, `how_it_works`, `why_choose`, `estimated_time`, `before_we_arrive`). These sections are static content with nothing to tap, so there is nothing to send. Schedule-sheet open/close/confirm is not tracked by this task.
 
-Privacy/limits: `room_key` is a catalogue id, never free text; no address; ≤12 params per event.
+Changes to existing events: `service_option_selected` and `duration_selected` gain `selection_method` (Instant only; auto-selection keeps firing so counts stay continuous, flagged). `extend_hour_pay` is unchanged (UI-only, no revenue; the backend payment record is the truth). Meta/AppsFlyer: no Instant-specific event; `content_category=instant` is not added.
+
+Privacy/limits: `room_key` and `alert_key` are slugs of catalogue ids or badges, never free text; no address; closed sets are enforced in the helper (`test/instant_tracking_test.dart`).
 
 ## 4. Backend
 

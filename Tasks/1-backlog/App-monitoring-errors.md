@@ -28,3 +28,6 @@ Add Firebase Crashlytics (fatal + non-fatal), wire `FlutterError.onError` and `P
 - [ ] Tested on dev backend / device (Firebase DebugView matrix recorded below)
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
+
+## Backlog (2 Nov 2026)
+Moved from `2-todo` by the owner: not now. Needs the O-1 answer (Crashlytics, native dependency) first. The portal Health tab (T-0072) depends on it.

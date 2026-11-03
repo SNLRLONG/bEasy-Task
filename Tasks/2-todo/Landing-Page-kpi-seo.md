@@ -3,9 +3,9 @@
 - **ID:** T-0093
 - **Repo:** bEasy-landing-page-v2
 - **Owner:** SNLRLONG (Seavlong)
-- **Due:** 2026-11-03
+- **Due:** 2026-11-13
 - **Started / updated:** – / 2026-11-02
-- **Schedule:** 2026-11-02 → 2026-11-03 (2 working days, order 1 of 10)
+- **Schedule:** 2026-11-12 → 2026-11-13 (2 working days, order 3 of 12)
 - **Worktree:** `bEasy/<repo>-<short-name>/` (create when claimed) · **Branch:** `feat/<short-name>`
 - **Tier:** T2 · metadata, tracking events (see `PIPELINE.md`)
 - **Claimed by:** none

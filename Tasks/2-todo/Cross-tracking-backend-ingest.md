@@ -7,7 +7,7 @@
 - **Tier:** T3 · tracking contract with backend; new tables and endpoints (request only) (see `PIPELINE.md`)
 - **Claimed by:** claude session, 2026-11-02
 - **Started / updated:** – / 2026-11-02
-- **Docs:** `Docs/tracking/v2/backend-request/App_Tracking_Backend_Handoff_2Nov2026.md` · `Tasks/_plans/Cross-tracking-coverage.md` · `Docs/tracking/v2/architecture/App_Tracking_Coverage_Spec.md` §6
+- **Docs:** `Docs/tracking/v2/backend-request/App_Tracking_Backend_Handoff_3Nov2026.md` · `Tasks/_plans/Cross-tracking-coverage.md` · `Docs/tracking/v2/architecture/App_Tracking_Coverage_Spec.md` §6
 - **Depends on:** T-0062
 - **Touches:** `Docs/tracking/v2/backend-request/pending-request-backend.md`, `Docs/tracking/v2/api/Journey_Backend_API_Spec.md`, `Docs/tracking/v2/backend-response/`
 

@@ -7,7 +7,7 @@
 - **Tier:** T3 · tracking contract with backend; money records (fees, refunds) (see `PIPELINE.md`)
 - **Claimed by:** claude session, 2026-11-02
 - **Started / updated:** – / 2026-11-02
-- **Docs:** `Docs/tracking/v2/backend-request/App_Tracking_Backend_Handoff_2Nov2026.md` · `Tasks/_plans/Cross-tracking-coverage.md` · `Docs/tracking/v2/architecture/Cancellation_And_Reschedule_Spec.md` §3
+- **Docs:** `Docs/tracking/v2/backend-request/App_Tracking_Backend_Handoff_3Nov2026.md` · `Tasks/_plans/Cross-tracking-coverage.md` · `Docs/tracking/v2/architecture/Cancellation_And_Reschedule_Spec.md` §3
 - **Depends on:** T-0062 approved
 - **Touches:** `Docs/tracking/v2/backend-request/pending-request-backend.md` §11 (replaces 3.3 and 3.4 when agreed), `Docs/tracking/v2/api/Journey_Backend_API_Spec.md`, `Docs/tracking/v2/backend-response/`, `Docs/tracking/v2/architecture/bEasy-tracking-architecture-guide.md` §11.1 (event params)
 

@@ -3,9 +3,9 @@
 - **ID:** T-0086
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG (Seavlong)
-- **Due:** 2027-01-06
+- **Due:** 2027-01-18
 - **Started / updated:** – / 2026-11-02
-- **Schedule:** 2026-12-25 → 2027-01-06 (9 working days, order 9 of 10 · spills past November)
+- **Schedule:** 2027-01-06 → 2027-01-18 (9 working days, order 11 of 12 · spills past November)
 - **Worktree:** `bEasy/<repo>-<short-name>/` (create when claimed) · **Branch:** `feat/<short-name>`
 - **Tier:** T3 · discount, refund and usage-limit rules (see `PIPELINE.md`)
 - **Claimed by:** none

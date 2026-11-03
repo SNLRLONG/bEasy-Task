@@ -44,3 +44,6 @@ Add the shared pieces every slice needs: registry of `screen_name`/`element_id`,
 - Tests: 18 cases now assert emitted events through `AnalyticsHelper.debugSink` (1 s minimum, 30 min cap, order exit-before-view, pause/resume, AppScreen tab cases, overlay, privacy, closed sets). Full suite 143 pass; only `widget_test.dart` fails (same on `main`). Analyze: no issues.
 - Left as is (low): tab switch while another route covers AppScreen (no call site exists); `has_ordered` carries over on a direct A-to-B account switch with no sign-out.
 - Still open: G4 on-device check, G6 security, G9 human review, G10 release plan, G11 changelog.
+
+## Status (2 Nov 2026)
+Committed and pushed as d08204b1 on `feat/tracking-foundation`. **Not merged: the owner holds all merges to `main` until the whole app side of tracking is done.** T-0074 and T-0077 branch from it. G4 (device matrix) is run once on a combined build from an integration branch, not per task. Open: G4, G9, G10, G11.

@@ -7,7 +7,7 @@
 - **Tier:** T3 · tracking contract with backend; funnel definition (see `PIPELINE.md`)
 - **Claimed by:** claude session, 2026-11-02
 - **Started / updated:** – / 2026-11-02
-- **Docs:** `Docs/tracking/v2/backend-request/App_Tracking_Backend_Handoff_2Nov2026.md` · `Tasks/_plans/Cross-tracking-coverage.md` · `Docs/tracking/v2/architecture/Registration_And_Location_Flow_Spec.md` §A, B
+- **Docs:** `Docs/tracking/v2/backend-request/App_Tracking_Backend_Handoff_3Nov2026.md` · `Tasks/_plans/Cross-tracking-coverage.md` · `Docs/tracking/v2/architecture/Registration_And_Location_Flow_Spec.md` §A, B
 - **Depends on:** T-0062 approved (and decision D-6)
 - **Touches:** `Docs/tracking/v2/backend-request/pending-request-backend.md` §10, `Docs/tracking/v2/api/Journey_Backend_API_Spec.md` (stage list, `/funnels/registration`), `Docs/tracking/v2/requirements/{Journey_Tracking_UI_Flow_v2.1,Journey_Tracking_Flow_Breakdown}.md` (UC-07, §3.2), `Docs/tracking/v2/architecture/bEasy-tracking-architecture-guide.md` §4.4/§11.1
 

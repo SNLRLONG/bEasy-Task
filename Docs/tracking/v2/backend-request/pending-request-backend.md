@@ -1,6 +1,6 @@
 # Pending Backend Requests: Customer Journey
 
-**To:** Backend · **Updated:** 3 Nov 2026 (booking, checkout and top-up ids in item 9; profile, language, support and chat ids in item 9; landing page public API item 13; location item aligned with T-0077; Instant item aligned with T-0082; cancel and reschedule item 11 aligned with T-0079; orders ids and review params in item 9)
+**To:** Backend · **Updated:** 4 Nov 2026 (reschedule reason, limit and count for the admin portal: item 15; single handoff for items 9 to 12: [App_Tracking_Backend_Handoff_3Nov2026.md](App_Tracking_Backend_Handoff_3Nov2026.md), the earlier 2 Nov file is withdrawn; delta file item 14; booking, checkout and top-up ids in item 9; profile, language, support and chat ids in item 9; landing page public API item 13; location item aligned with T-0077; Instant item aligned with T-0082; cancel and reschedule item 11 aligned with T-0079; orders ids and review params in item 9)
 **Done and removed:** guest events, stage/people endpoints, customer page, acquisition funnel (see [Journey_V2_Portal_Review.md](../backend-response/Journey_V2_Portal_Review.md)). Later items are in [backlog.md](backlog.md). Campaign source is in [Campaign_Source_Request.md](Campaign_Source_Request.md). CS Overview replies are in [CS_Overview_Backend_Answers_31Oct2026.md](../backend-response/CS_Overview_Backend_Answers_31Oct2026.md); still open: section 8 below (what is missing for real data).
 
 The app already ships these Firebase events, so it cannot rename them. Where our names differ from the backend contract, please map ours.
@@ -143,6 +143,19 @@ Plan: [Landing-Page-public-api-content-sync.md](../../../../Tasks/_plans/Landing
 **B. Confirm these are intentionally public and stable:** `GET customer/category/list`, `GET customer/category/{id}/equipments`, `customer/banner/list`, `customer/homepage` (banners/announcements only).
 
 **C. Missing for the site:** (1) a public `startingPrice` + currency per category in `category/list` (`product.amount` is 0 today); (2) which category/product is Instant Cleaning and General Cleaning (prod list has neither); (3) a slim public app-version shape without `saleTarget`/force-update flags; (4) `Cache-Control` that allows caching on these public routes (now `private, no-store`, `Vary: Authorization`); (5) `customer/category/popular` returns 500.
+
+## 14. App tracking: changes since the 2 Nov handoff (3 Nov 2026)
+
+[App_Tracking_Backend_Delta_3Nov2026.md](App_Tracking_Backend_Delta_3Nov2026.md). No new asks: two `endpoint_group` values added to the registry (`review_options`, `places`), chat error events announced for a later release (T-0100), and confirmation that the build adds no API calls. The open items stay in §9 to §12.
+
+## 15. Admin portal order reschedule: reason, limit, count (4 Nov 2026)
+
+Task T-0095 (portal order details, Figma "Reschedule rules" V3.4 B2 / V4). The portal reschedule dialog already calls `PUT order/reschedule/{id}` with `scheduleStartDate` (+ `expectedRevision` for Direct Sale) and `GET order/reschedule/{id}/options`. We show Figma's Current / New dialog now. These are missing, so the dialog skips them until you reply. Related to item 11 (same records), not a duplicate:
+
+1. **Reason:** accept `reason` (required, text) on `PUT order/reschedule/{id}` and store it on the reschedule record and the order history.
+2. **Max 2 reschedules:** enforce it server side and return a clear error ("Changed twice already"). Add `rescheduleCount` (completed changes, 0 to 2) to the order detail so the portal can show "Changes used: X of 2" and disable the button.
+3. **30-day rule:** new date must be within 30 days of the FIRST booked date and inside the 30-day booking window. Enforce it and drop later days from `.../options` so they show greyed.
+4. **Answer:** does the current endpoint already enforce 2 or 3? The portal has no check today.
 
 ## Questions
 

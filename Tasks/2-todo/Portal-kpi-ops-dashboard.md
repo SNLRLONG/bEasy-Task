@@ -3,9 +3,9 @@
 - **ID:** T-0089
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG (Seavlong)
-- **Due:** 2026-11-18
+- **Due:** 2026-11-30
 - **Started / updated:** – / 2026-11-02
-- **Schedule:** 2026-11-13 → 2026-11-18 (4 working days, order 4 of 10)
+- **Schedule:** 2026-11-25 → 2026-11-30 (4 working days, order 6 of 12)
 - **Worktree:** `bEasy/<repo>-<short-name>/` (create when claimed) · **Branch:** `feat/<short-name>`
 - **Tier:** T2 · new views over assignment data (see `PIPELINE.md`)
 - **Claimed by:** none

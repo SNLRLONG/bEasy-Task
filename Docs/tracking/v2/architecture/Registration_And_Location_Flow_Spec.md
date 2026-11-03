@@ -1,6 +1,6 @@
 # Registration flow, registration entry and location flow — audit and specification
 
-Updated: 2026-11-02 · Status: **draft for review** (no code changed) · Extends [App_Tracking_Coverage_Spec.md](App_Tracking_Coverage_Spec.md) · Plan: [`Tasks/_plans/Cross-tracking-coverage.md`](../../../../Tasks/_plans/Cross-tracking-coverage.md)
+Updated: 2026-11-02 · Status: **draft for review**; registration events built in T-0074 and location events (Part C) built in T-0077, neither merged yet; `registration_resumed` pending · Extends [App_Tracking_Coverage_Spec.md](App_Tracking_Coverage_Spec.md) · Plan: [`Tasks/_plans/Cross-tracking-coverage.md`](../../../../Tasks/_plans/Cross-tracking-coverage.md)
 
 Evidence: `bEasy-app` `main`, portal `main`, 2 Nov 2026. Backend claims are *doc-only* (the API repo is not cloned).
 
@@ -70,15 +70,17 @@ Existing-number logins stay out of this funnel (unchanged backend rule). For vis
 
 | Event | Change | Params | Trigger |
 |---|---|---|---|
-| `registration_started` | extend | `entry` (taxonomy in Part B), `entry_detail` (optional), `source_screen` | Phone entry opens. Keep `reg_flow_id` creation here |
+| `registration_started` | extend | `entry` (taxonomy in Part B; unknown value is sent as `other`), `entry_detail` (optional), `source_screen`, `campaign_code` | Phone entry opens. Keep `reg_flow_id` creation here |
 | `otp_viewed` | extend | `flow_type` (`register`/`login`), `otp_mode` (`deferred` = code first, verified after the form; `immediate`), `attempt_round` (1, 2 for the second-chance OTP) | OTP screen opens |
 | `otp_code_entered` | **new**, diagnostic | `flow_type`, `otp_mode` | Last digit typed on the OTP screen when verification is deferred |
 | `otp_submitted` | keep, fix | `attempt_no`, `otp_mode` | A real verification request is made (immediate mode, or the held code sent at account creation). Fire for the deferred path too, so attempt counts are honest |
-| `otp_failed` | keep, extend | `error_code` (`wrong_code`, `blocked`, `expired`, `exception`), `otp_mode` | Verification rejected. Also fires for a held code rejected at submit (today silent) |
+| `otp_failed` | keep, extend | `error_code`, `otp_mode`. **Shipped values** are the app's today: `network`, `invalid_or_expired`, `http_<n>`, `invalid_response`, `exception`, `create_rejected`. **Not built:** `wrong_code`, `blocked`, `expired` (wait for the backend reply, request §10) | Verification rejected. Also fires for a held code rejected at submit (`otp_mode=deferred`) |
 | `signup_viewed` | keep | `reg_flow_id`; add `attempt_round` | Form opens |
-| `signup_submitted` | **new** (replaces legacy `create_account_button`) | `result` (`success`/`error`/`invalid`), `error_code`, `has_email` (0/1), `has_referral` (0/1) | "Create account" tapped and the create call returns. Never names, phone or email values |
+| `signup_submitted` | **new** (replaces legacy `create_account_button`) | `result` (`success`/`error`/`invalid`), `error_code`, `has_email` (0/1), `has_referral` (0/1) | Fired in `AuthController` right after the create call returns, **before** the held code is verified, so the order is `signup_submitted`, `otp_submitted`, `otp_verified`, `registration_completed`. `invalid` (form-invalid tap) is **not fired today**; the "retry SMS only" branch makes no create call and does not fire it. Never names, phone or email values |
 | `otp_verified` | keep | `otp_mode` | As today |
 | `registration_completed` | keep, extend | `method`, `entry` (copied from the attempt, so lists need no join) | After identity bound |
+| `registration_resumed` | **not built yet** (follow-up in T-0074) | `entry`, `result` (`back_to_checkout`/`home`) | Guest returns to where they were after completion (B.3) |
+| `element_clicked` `contact_support` | **new use of existing event** | `screen_name` (`sign_in`/`otp`/`sign_up`), `element_id=contact_support` | Support button on the sign-in, OTP and sign-up screens |
 | Firebase `sign_up`, Meta `CompleteRegistration` | **unchanged** (owner decision 2 Nov: no behaviour change). Add a new Firebase event `account_created` at the same moment (`method`, `entry`) so the portal can tell *account created* from *verified* | `method`, `entry` | See D-9 |
 
 `entry` also becomes a **user property** `registration_entry` set once at completion (cohort analysis for orders by entry).
@@ -118,7 +120,7 @@ registration_attempt (
 
 ### B.1 Every route into sign-in today
 
-All live callers open `NewSignINScreen(showGuestMode: false)` and none sets `entry`, so every registration reports `gate`.
+All live callers open `NewSignINScreen(showGuestMode: false)`. Before T-0074 none set `entry`; now every live call site passes it (rows 2-5 and 7-10). `NewSignINScreen` opened without an entry reports `other` and logs in debug.
 
 | # | Source | Code | Customer sees | Proposed `entry` / `entry_detail` |
 |---|---|---|---|---|
@@ -127,22 +129,22 @@ All live callers open `NewSignINScreen(showGuestMode: false)` and none sets `ent
 | 3 | Bottom tab for guests (Bookings, Chat, Profile) | `app_screen.dart:418` | Tab bar | `tab_gate` / `bookings` · `chat` · `profile` |
 | 4 | **Checkout: select / add address** | `confirm_and_pay_checkout_screen.dart:165-176` `_onAddressActionTap` → `_runGuestSignIn` | Address row on checkout | `checkout_address` |
 | 5 | **Checkout: choose date** | same file `:1227` → `_runGuestSignIn` | Schedule row | `checkout_schedule` |
-| 6 | Checkout: sign-up prompt | same file `:1596` (`sign_up`) | Summary banner | `checkout_summary` |
+| 6 | Checkout: sign-up prompt | same file `:1596` (`sign_up`) | Summary banner | reports `checkout_address`: it shares the `_onAddressActionTap` handler with row 4, so there is no separate call site. `checkout_summary` stays in the closed set, unused until a separate site exists |
 | 7 | Banner detail register button | `banner_detail_screen.dart:918` | Promo banner | `banner` / banner id |
 | 8 | Push tap by a guest | `firebase_messaging_service.dart:136` | Push | `push` / push `type` |
 | 9 | Deep link `REGISTER-SCREEN` | `helper.dart:321` | Link / campaign | `deeplink` |
 | 10 | "Register now" dialog | `custom_show_dialog.dart:124` | Dialog (callers currently commented out) | `dialog` |
 
-The three the business named map to #2 (Home), #4–6 (Checkout: three gates, grouped as Checkout) and #4 (Select address). **Decision:** report `entry` at the level the business thinks in — `home`, `checkout_address`, `checkout_schedule`, `checkout_summary` — and let the portal group the three `checkout_*` values under "Checkout" with a drill-down. This answers "which of the checkout gates converts".
+The three the business named map to #2 (Home), #4–6 (Checkout: three gates, grouped as Checkout) and #4 (Select address). **Decision:** report `entry` at the level the business thinks in — `home`, `checkout_address`, `checkout_schedule` — and let the portal group the three `checkout_*` values under "Checkout" with a drill-down. This answers "which of the checkout gates converts".
 
 ### B.2 Taxonomy (low cardinality, closed set)
 
-`entry`: `onboarding | home | tab_gate | checkout_address | checkout_schedule | checkout_summary | banner | push | deeplink | dialog | other`. `entry_detail`: free short code (≤40) such as tab name, banner id, push type; not used for grouping, only for drill-down. `source_screen`: `screen_name` from the registry. Old values `gate` and `checkout_gate` remain readable (backend maps `gate` → `other`, `checkout_gate` → `checkout_summary`).
+`entry`: `onboarding | home | tab_gate | checkout_address | checkout_schedule | checkout_summary | banner | push | deeplink | dialog | other`. `entry_detail`: free short code (≤40) such as tab name, banner id, push type; not used for grouping, only for drill-down. `source_screen`: `screen_name` from the registry. The app validates `entry` against this set and sends `other` for anything else. Old values `gate` and `checkout_gate` remain readable (backend maps `gate` → `other`, `checkout_gate` → `checkout_address`, since the app no longer separates the summary prompt).
 
 ### B.3 App changes
-- Each call site passes `entry:` (and `entry_detail`) into `NewSignINScreen`; the constructor already has the argument. Default (no entry given) becomes `other` plus a debug log so no source is silent.
-- Registration attempt remembers `entry` in `RegistrationStore` so later events (`registration_completed`) reuse it without parameters passing through four screens.
-- After completion the app returns to where the guest was (checkout resumes at `_completeGuestAuth`). Add `registration_resumed` (`entry`, `result` `back_to_checkout`/`home`) so the portal can show whether people who register at checkout return to it. (New, small.)
+- Each call site passes `entry:` (and `entry_detail`) into `NewSignINScreen`; the constructor already has the argument. Default (no entry given) is `other` plus a debug log so no source is silent.
+- Registration attempt remembers `entry` in `RegistrationStore` (memory only; an app restart reports `other`) so later events (`registration_completed`, `account_created`) reuse it without parameters passing through four screens.
+- After completion the app returns to where the guest was (checkout resumes at `_completeGuestAuth`). `registration_resumed` (`entry`, `result` `back_to_checkout`/`home`) is **not built yet**; it needs a hook in `_completeGuestAuth` and ships as a follow-up in T-0074. Purpose: show whether people who register at checkout return to it.
 - Portal metric: for each entry, registered → first purchase within 7 / 30 days (A.6).
 
 ---
@@ -164,28 +166,35 @@ The three the business named map to #2 (Home), #4–6 (Checkout: three gates, gr
 | 9 | Delete address | `location_controller.dart:643` | none |
 | 10 | Return to checkout with the chosen address | checkout `:407-422` | `address_selected` |
 
-Findings: **L-1** no event for any list/edit/delete/default action; **L-2** coverage check result and the out-of-range sheet are invisible (demand outside the service area is lost); **L-3** permission outcomes and GPS failures are swallowed; **L-4** place-search usage and pick rank unknown; **L-5** save/update/delete API failures are only `Get.log`; **L-6** `address_selected` only fires inside checkout, so addresses picked from the profile list or switched in the list before returning are not seen unless checkout re-fires (lines 407/422 do on return — verify with QA); **L-7** dead path `location_screen` vs `new_location_screen` duplicates (`isFromConfirm` vs `returnSelectedLocation`): confirm which are live.
+Findings: **L-1** no event for any list/edit/delete action; **L-2** coverage check result and the out-of-range sheet are invisible (demand outside the service area is lost); **L-3** permission outcomes and GPS failures are swallowed; **L-4** place-search usage and pick rank unknown; **L-5** save/update/delete API failures are only `Get.log`; **L-6** `address_selected` fires only inside checkout; addresses picked in the list return to checkout, which re-fires it with `source=checkout` and `method` (see C.2); **L-7** answered: both list screens are live (Profile "My location" opens `NewLocationScreen` when there are no saved addresses, else `LocationScreen`; checkout opens `LocationScreen(returnSelectedLocation)` or `NewLocationScreen(fromCheckoutScreen)`).
 
-### C.2 Events (extends App_Tracking_Coverage_Spec §3.4, which listed `address_*`)
+### C.2 Events (built in T-0077, not yet merged; extends App_Tracking_Coverage_Spec §3.4, which listed `address_*`)
 
-Common params for all: `source` (`profile` | `checkout`), `screen_name`, optional `address_id`. **Never** street text, floor, room, note or exact coordinates; location is expressed as `area_cell` (rounded to 2 decimals, ~1 km, existing rule) and `zone_id` when known.
+**Never** street text, floor, room, note or exact coordinates; location is expressed as `area_cell` (rounded to 2 decimals, ~1 km, existing rule) and `zone_id` only when present. Unknown values of a closed-set param are replaced by the default shown.
 
-| Event | Trigger | Extra params |
+| Event | Trigger | Params sent |
 |---|---|---|
 | `screen_viewed` (`locations`, `location_edit`, `location_search`) | Foundation task | – |
-| `element_clicked` | `add_address`, `use_current_location`, `address_card`, `edit_address`, `delete_address`, `set_default`, `map_tap`, `search_bar`, `save_address`, `back` | `element_type`, `item_id`=address id |
-| `permission_result` (`permission=location`) | After the OS prompt or when already denied | `result` (`granted`/`denied`/`denied_forever`/`services_disabled`), `context` (`use_current_location`/`auto_open`) |
-| `search_performed` | Place search, debounced | `search_scope=place`, `result_count`; `query` **omitted** for place search (addresses are personal) |
+| `element_clicked` | `add_address`, `use_current_location`, `address_card`, `edit_address`, `delete_address`, `map_tap`, `search_bar`, `save_address`, `back` | `element_type`, `item_id`=address id |
+| `permission_result` (`permission=location`) | `denied`, `denied_forever`, `services_disabled` on every attempt; `granted` only when the OS prompt was shown in that call | `result` (`granted`/`denied`/`denied_forever`/`services_disabled`), `context` (`use_current_location` on a tap, `auto_open` when the map opens) |
+| `search_performed` | Place search, debounced in the controller | `search_scope=place`, `result_count`; no `query` (addresses are personal) |
 | `search_result_clicked` | A place suggestion is chosen | `search_scope=place`, `rank` |
-| `location_pin_moved` | Map camera idle after a user drag or tap (once per idle) | `method` (`drag`/`tap`/`current_location`/`search`), `area_cell` |
-| `service_area_checked` | After `checkAddressV2` returns | `in_range` (0/1), `area_cell`, `address_id`, `result` (`ok`/`timeout`/`error`), `duration_ms` |
-| `address_added` / `address_edited` | Create/update returns | `method` (`current_location`/`search`/`map_pin`), `has_floor`, `has_room`, `has_note`, `in_range`, `result`, `error_code` |
-| `address_deleted` / `address_default_set` | Delete/set-default returns | `result`, `was_default` |
-| `form_submitted` (`form_id=address`) | Save tapped | `result`, `field_count` |
-| `address_selected` | exists | add `source` and `method`=`saved_list` |
-| `app_error` | Address API failure, Places API failure, coverage timeout | `error_type=api`, `endpoint_group=address`/`places`/`coverage` |
+| `location_pin_moved` | Pin set by drag, tap, current location or a picked place | `method` (`drag`/`tap`/`current_location`/`search`), `area_cell`. A camera idle caused by the app's own animation is not a `drag` |
+| `service_area_checked` | After `checkAddressV2` returns (list select at checkout, save from checkout) | `source` (`profile`/`checkout`), `result` (`ok`/`error`), `in_range` (0/1, **omitted when `result=error`**), `area_cell`, `address_id`, `duration_ms`, `zone_id` only if present |
+| `address_added` / `address_edited` | Create/update returns | `source`, `result` (`success`/`error`), `method` (`current_location`/`search`/`map_pin`, how the pin was last set), `has_floor`, `has_room`, `has_note` (0/1), `area_cell`, `error_code` (on error, e.g. `save_failed`). No `address_id`, no `in_range` |
+| `address_deleted` | Delete returns | `source`, `result` (`success`/`error`) |
+| `address_selected` | exists | adds `source=checkout` and `method` (`new_address` saved at checkout, `default_auto` default address auto-applied, `saved_list` picked from the list, `existing` already-chosen address re-applied) |
+| `overlay_viewed` (`out_of_range`, `address_search`) | Out-of-range sheet and search sheet shown | – |
+| `app_error` | Address API failure, Places API failure, coverage timeout | `error_type=api`, `endpoint_group` = `address` (`save_failed`, `delete_failed`) / `places` (`suggestions_failed`) / `coverage` (`timeout`) |
 
-Out-of-range is `service_area_checked` with `in_range=0`; the sheet `showBottomSheetUnavailableAddress` also logs `overlay_viewed`. Platforms: Firebase for all; Meta/AppsFlyer none (privacy); backend ingest for `service_area_checked`, `address_*`, `permission_result`.
+Coverage timeout: the UI gives up after 20 s and reports `app_error` with `endpoint_group=coverage`, `error_code=timeout`. It is **not** a `service_area_checked` on its own, so `result` is only `ok` or `error`; the check keeps running, so a late `service_area_checked` (`duration_ms` over 20000) can still arrive for the same selection. `address_id` is omitted when the id is not numeric. A failed check (`result=error`) has no `in_range` and must not be counted as out of range. Out-of-range is `service_area_checked` with `in_range=0`; the sheet also logs `overlay_viewed out_of_range`.
+
+**Not built:**
+- `address_default_set` (the set-default feature is commented out in the app).
+- `form_submitted` with `form_id=address` (covered by `element_clicked save_address` plus `address_added`/`address_edited`).
+- `was_default` on delete; `in_range` on `address_added`/`address_edited` (use `service_area_checked`).
+
+Platforms: Firebase for all; Meta/AppsFlyer none (privacy); backend ingest for `service_area_checked`, `address_*`, `permission_result`.
 
 ### C.3 Backend and portal
 - Table `app_service_area_check (event_id PK, occurred_at, customer_id NULL, app_instance_id, source, area_cell, zone_id NULL, in_range bool, result, duration_ms)`; address events go to `app_interaction_event` (Coverage spec §6.2). Endpoint `GET /app-usage/locations`: `{summary: {checks, outOfRange, outOfRangeRate, permissionDenied}, outOfRangeAreas: [{areaCell, lat, lng (cell centre), checks, uniqueUsers}], methodBreakdown: [{method, count}], errors}`.

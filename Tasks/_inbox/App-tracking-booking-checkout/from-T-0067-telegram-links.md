@@ -1,0 +1,1 @@
+From T-0067 (3 Nov 2026): two untracked Telegram support links are in your Touches: `home/category_building/category_building_screen.dart:998` and `home/category_building/confirm_and_pay_checkout_screen.dart:1384`. Fire `support_contacted` (channel `telegram`, `source_screen`) and an `element_clicked` for them.
