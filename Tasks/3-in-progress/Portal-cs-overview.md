@@ -14,6 +14,13 @@
 - **Touches:** `app/routes/customer-services/cs-overview.tsx`, `app/components/cs-overview/*`, `app/hooks/query/use-cs-overview*-query.ts`, `app/lib/cs-overview.ts`, `app/types/cs-overview.ts`, `app/lib/permission.ts` (only if the module changes), `app/components/sidebar/nav-config.ts`, `app/routes.ts`, `app/api/endpoint.ts`, `app/constants/query-key-enum.ts`, `app/components/headers/header-title.tsx`, `app/locales/*.json`, `tests/cs-overview.test.mjs`
 - **Overlaps:** `Portal-rds-customer-service` (T-0045, in progress) migrates the other pages in `routes/customer-services/`; it does not own `cs-overview.tsx`, but both edit `nav-config.ts`, `routes.ts` and locale files. Re-read before editing; do not touch its files.
 
+## Status note (5 Nov 2026): kept as a separate legacy module, NOT replaced
+The new CS brief (`Docs/tracking/v2/requirements/bEasy_CS_Action_and_Performance_Developer_Brief_V1.md`) is built **fresh from `origin/main`** in `bEasy-portal-cs-action/` (branch `feat/cs-action`, tasks T-0104 to T-0106, plan `Tasks/_plans/Portal-cs-action-performance.md`). Nothing from this branch was commented out or reused.
+- This branch (`feature/cs-kpi`, worktree `bEasy-portal-cs-overview/`) stays untouched and clean. Its `/cs-overview` page reads the legacy `cs-overview` API (retained contact records, monthly targets). It is a different data source from the new `/api/admin/cs` workflow, so the two do not conflict in the backend.
+- Decision for the user later: merge it as the old Overview, or park it until management confirms CS Performance (T-0106) covers it. Do not delete the branch or worktree without asking.
+- Shared-file overlap to resolve at merge time: `permission.ts` (`CS_OVERVIEW` next to the new `CS_ACTION` / `CS_PERFORMANCE`), `nav-config.ts`, `routes.ts`, `endpoint.ts`, `query-key-enum.ts`. All edits are additive.
+- Remaining open items above (browser run at 360/768/1280, targets editor against dev, Khmer keys) are unchanged and paused.
+
 ## Starting point (do this first, nothing is done yet)
 1. `git fetch origin` and `git -C bEasy-portal worktree list`; confirm no live worktree already uses `feature/cs-kpi`.
 2. `origin/feature/cs-kpi` **already exists** with a working CS Overview (6 commits by bunlongly, 2026-10-25: ~830-line `cs-overview.tsx`, employee table, people sheet, month filter, `tests/cs-overview.test.mjs`). It is 6 ahead and 43 behind `origin/main`. Create the worktree **from that branch**, then merge latest `origin/main` into it (user asked to pull latest main). Do not recreate the page from the old `draft/cs-overview` snapshot.

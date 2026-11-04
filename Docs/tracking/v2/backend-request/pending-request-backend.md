@@ -1,6 +1,6 @@
 # Pending Backend Requests: Customer Journey
 
-**To:** Backend · **Updated:** 4 Nov 2026 (reschedule reason, limit and count for the admin portal: item 15; single handoff for items 9 to 12: [App_Tracking_Backend_Handoff_3Nov2026.md](App_Tracking_Backend_Handoff_3Nov2026.md), the earlier 2 Nov file is withdrawn; delta file item 14; booking, checkout and top-up ids in item 9; profile, language, support and chat ids in item 9; landing page public API item 13; location item aligned with T-0077; Instant item aligned with T-0082; cancel and reschedule item 11 aligned with T-0079; orders ids and review params in item 9)
+**To:** Backend · **Updated:** 4 Nov 2026 (CS Action and Performance asks: item 18; reschedule reason, limit and count for the admin portal: item 15; single handoff for items 9 to 12: [App_Tracking_Backend_Handoff_3Nov2026.md](App_Tracking_Backend_Handoff_3Nov2026.md), the earlier 2 Nov file is withdrawn; delta file item 14; booking, checkout and top-up ids in item 9; profile, language, support and chat ids in item 9; landing page public API item 13; location item aligned with T-0077; Instant item aligned with T-0082; cancel and reschedule item 11 aligned with T-0079; orders ids and review params in item 9)
 **Done and removed:** guest events, stage/people endpoints, customer page, acquisition funnel (see [Journey_V2_Portal_Review.md](../backend-response/Journey_V2_Portal_Review.md)). Later items are in [backlog.md](backlog.md). Campaign source is in [Campaign_Source_Request.md](Campaign_Source_Request.md). CS Overview replies are in [CS_Overview_Backend_Answers_31Oct2026.md](../backend-response/CS_Overview_Backend_Answers_31Oct2026.md); still open: section 8 below (what is missing for real data).
 
 The app already ships these Firebase events, so it cannot rename them. Where our names differ from the backend contract, please map ours.
@@ -156,6 +156,24 @@ Task T-0095 (portal order details, Figma "Reschedule rules" V3.4 B2 / V4). The p
 2. **Max 2 reschedules:** enforce it server side and return a clear error ("Changed twice already"). Add `rescheduleCount` (completed changes, 0 to 2) to the order detail so the portal can show "Changes used: X of 2" and disable the button.
 3. **30-day rule:** new date must be within 30 days of the FIRST booked date and inside the 30-day booking window. Enforce it and drop later days from `.../options` so they show greyed.
 4. **Answer:** does the current endpoint already enforce 2 or 3? The portal has no check today.
+
+## 18. CS Action and Performance: portal needs (4 Nov 2026)
+
+Plan `Tasks/_plans/Portal-cs-action-performance.md` (T-0104 to T-0106). Read against `backend-response/CS_Admin_Portal_Handoff.md`.
+
+- **R1 Permissions:** confirm the exact module strings (`CS_ACTION`, `CS_PERFORMANCE`) and that the role editor / `RolePermission` seed lists them with READ and UPDATE. The portal permission map uses VIEW/ADD/UPDATE/EXPORT today.
+- **R2 Task display fields:** add to task rows customer name, owner name, and the bulk booking number (or a route-safe order reference) so the queue is usable without extra lookups. The Figma follow-ups table also shows **Last contact** (result, attempt count, time) per row: please add a `lastContact` summary to queue rows, plus a customer phone number for the customer sheet. **Interim in the portal:** it looks up `customer/{id}` once per visible row (up to 25 per page, cached 5 minutes) to show name, phone and usual service. Please return `customerName`, `customerPhone` and, for order tasks, the service name and scheduled date of each service line on the task itself, so the lookups can go. The service on an order task is unknown today: the portal only has the service-line id, and the order detail route needs the bulk order id.
+- **R3 Scheduler:** tasks exist only after the manual reconcile call. Date for an approved scheduled generation, or confirm the portal button is the interim path.
+- **R4 Staging:** when are the migration, read indexes and `CS_ACTION_DASHBOARD_ENABLED` on dev/staging? The portal cannot be tested before that.
+- **R5 Policies:** SLA, retry and escalation values; until then due time is null and shown as "No deadline set".
+- **R6 Missing list fields:** contact history has no total or `hasMore`, `sources` has no pagination, and `/history` lists task changes only. Please add a total (or `hasMore`) to contacts and history.
+- **R6b Open filter:** the queue `status` filter takes one value, so "My cases" cannot exclude completed tasks. Please add `open=true` (every status except completed), or accept several statuses.
+- **R7 Employee identity:** confirm `ownerId` and contact `csId` are the same id as the admin user `id` in the login response. The portal uses that to show "my task" actions; the `mine=true` filter is already server-side.
+- **R8 Employee names:** `contactActivity` and tasks carry only `employeeId`. Please give an employee lookup (id, name) the performance filter and task rows can use, or add `ownerName` / `employeeName` to the responses.
+- **R9 Support tasks:** only `POST /actions` creates a support task from an existing ticket. Say who should create them (CS from a ticket, or automatically on a negative review or complaint). The portal has no create screen until this is decided.
+- **R10 Start a follow-up from a saved segment:** the CS Action page shows the Customer pages' saved segments (live counts from the existing `customer-segment` and list routes). The brief (section 4) says Registered/Existing tasks come from those segments, but `POST /actions` only creates scope and support tasks. Please add an idempotent create: `{category: registered|existing, purpose: sales_follow_up, customerId, segmentId}` that returns the task and `duplicate`, keeps several source segments on one open task, and skips opted-out or already-converted customers. Until then the portal's "Start follow-up" button works only with sample data and is disabled on the real API.
+
+**Availability check (5 Nov 2026, portal side):** `api-dev.beasy.info/api/admin/cs/actions` and `/performance` answer 401 without a token, the same as `/api/admin/cs-overview`, while an unknown admin path answers 404. This only shows the path is behind admin auth; it does not prove the feature flag is on or the migration applied, and the portal has no admin token to test with. Until R4 is answered the portal runs on sample data (`VITE_CS_MOCK`).
 
 ## Questions
 

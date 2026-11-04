@@ -17,6 +17,7 @@
 CS Overview V3, follow-up queues, customer action plans, first/repeat sales KPIs, contact outcomes, CRM integration.
 
 ## Notes
+**Superseded 4 Nov 2026 (confirmed 5 Nov, work started)** by `Tasks/_plans/Portal-cs-action-performance.md` (T-0104, T-0105, T-0106). Do not start this task; ask before deleting.
 Figma scanned 2 Nov 2026: section `1726:104530` (28 frames: overview states, follow-up queues, My cases, contact log, Send to CS from Customers). Overview and targets already belong to T-0058; this task is the follow-up queues, contact history, Send to CS and CRM hooks.
 Continues T-0058 (`Portal-cs-overview`, due 2026-11-04); do not recount it.
 November KPI task (web frontend, Seavlong). Estimate is provisional until the Figma frames are scanned.
