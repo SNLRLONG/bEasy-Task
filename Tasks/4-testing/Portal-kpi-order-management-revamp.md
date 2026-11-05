@@ -7,7 +7,7 @@
 - **Started / updated:** 2026-11-03 / 2026-11-04
 - **Schedule:** 2026-11-02 → 2026-11-04 (3 working days, order 1 of 12)
 - **Worktree:** `bEasy/bEasy-portal-order-management-revamp/` · **Branch:** `feat/order-management-revamp`
-- **Tier:** T2 · UI and flow adjustments on existing order screens, no payment or refund logic changes (re-tier up if the diff touches them) (see `PIPELINE.md`)
+- **Tier:** T3 · re-tiered up 4 Nov 2026 before testing: the diff adds `usePermission` guards (ORDER:UPDATE / ASSIGN) across order screens, a permissions signal in `PIPELINE.md`. Planned as T2 (see `PIPELINE.md`)
 - **Claimed by:** claude (Opus 5.5), 2026-11-03
 - **Docs:** Figma `wA47r8vSgQmqYZDMnL99RI` (bEasy-Admin-Portal) page `1:2` section `11:343` Direct Sale v2 — Handoff; KPI plan: November 2026 (added by the user after the 12 master tasks); `Tasks/_plans/Portal-responsive-design-system.md`
 - **Depends on:** v2 UI primitives from the `Portal-rds-*` tasks; order status and staff endpoints already live (verify).
@@ -43,15 +43,15 @@ Rebuild the order list and order details on the v2 components: list default, fil
   - **Direct Sale "Add service":** opens the DS editor (rule above).
 - **Permission gaps (per `docs/new-page-guide.md`):** `MODULES.ORDER` supports VIEW/ADD/UPDATE/DELETE/ASSIGN but only VIEW and UPDATE are checked. `ASSIGN` is never checked, so Manage/Replace/remove staff have no gate. Not gated: remark edit, receipts upload, exchange rate (uses `EXCHANGE_RATE:ADD`), mark paid, complete/accept, New Direct Sale (route handle uses ORDER, check action is ADD). Plan: define one action map (below) and add `usePermission` guards in the drawer, notes card, header; no new module needed (route, sidebar, header title and breadcrumbs already exist).
 
-### Order action → permission map (proposed, to confirm)
+### Order action → permission map (agreed 4 Nov 2026, guards added; hidden, not disabled)
 | Action | Permission |
 |---|---|
 | View list / details | ORDER:VIEW |
 | New direct sale | ORDER:ADD |
-| Edit order, add service | ORDER:UPDATE |
-| Manage / replace / remove staff | ORDER:ASSIGN |
-| Accept, complete, mark paid, edit remark, receipts | ORDER:UPDATE |
-| Cancel and refund | ORDER:UPDATE (kept) or ORDER:DELETE (decide) |
+| Edit order, Direct Sale Add service (header, details link, edit route) | ORDER:UPDATE (now also for `PENDING`) |
+| Manage / replace / remove staff (link hidden, drawer locked) | ORDER:ASSIGN |
+| Accept, complete, mark paid (header and mobile footer), app order Service Add-On, edit remark, receipts, create or replace balance link | ORDER:UPDATE |
+| Cancel (all order types) and refund | ORDER:UPDATE (now also for `PENDING` and non-managed orders) |
 | Exchange rate | EXCHANGE_RATE:ADD (kept) |
 | Customer link | MARKETING_CUSTOMER:VIEW (kept) |
 
@@ -64,18 +64,18 @@ Comparison artifact: https://claude.ai/artifact/LcWUXC2gG3xNKdANZsbjqL
 - **Staff (manage, replace, coordinator):** old logic, new UI. No new permission gate, no Telegram / Make coordinator.
 - **Pending, deposit link, assignment states:** no change.
 - **Payment filter:** same for every order type, chips never disabled (done 4 Nov, `use-order-query.ts`, `use-order-list-state.ts`, `order-list-filters.tsx`; list API result for app orders still to verify on dev).
-- **Permissions:** no new guards, since the old logic is kept. The action map above stays as the record of what exists; `ORDER:ASSIGN` remains unused.
+- **Permissions (4 Nov 2026, later):** guards added per the map above in `order-detail-header.tsx`, the mobile footer and `OrderDetailContent` in `order.tsx`, `edit-direct-sale.tsx`, `order-staff-box.tsx`, `service-details-v2.tsx`, `order-notes-card.tsx`, `direct-sale-payment-card.tsx` and `direct-sale-payment-dialog.tsx`. Status and payment rules in `direct-sale-payment.ts` are unchanged (tests untouched); the permission is checked at the call sites. Users with only `ORDER:VIEW` now see no write actions. New Direct Sale link and route still only need `ORDER:VIEW` (ORDER:ADD not added yet). Whether the backend rejects these calls without the permission is not verified. Lint and tsc clean; not yet checked in the browser with a view-only role.
 
 ## Next
 - [x] Review Figma (add service, reschedule, cancel, staff, refund, expired, assignment notes).
 - [x] Comparison artifact and decisions.
 - [x] Payment filter available for all types.
 - [x] Payment filter on dev (4 Nov): the list API ignores `paymentStatus` for app orders (App order total 793 with Paid and with Pending). User decision: keep it as is. Backend ask not filed; add to `pending-request-backend.md` only if wanted.
-- [x] Add service on main logic with Figma UI (4 Nov). Direct Sale: the "Add service" link already matches Figma and opens the editor, no change. App orders: `service-add-on-dialog.tsx` restyled (link "Add service", title and balance hint, price each, "Add to order · +$X"); conditions and `POST order/add-extra-addon` unchanged. Lint and tsc clean on the file; not yet looked at in the browser (needs an app order in `PENDING`/`ACCEPTED` whose category has add-ons).
+- [x] Add service on main logic with Figma UI (4 Nov). Direct Sale: the "Add service" link already matches Figma and opens the editor, no change. App orders: `service-add-on-dialog.tsx` restyled and kept as Service Add-On, never called Add service so it is not confused with Direct Sale (link "Add service add-on", title "Service Add-On", balance hint, price each, "Add service add-on · +$X"); conditions and `POST order/add-extra-addon` unchanged. Lint and tsc clean on the file; not yet looked at in the browser (needs an app order in `PENDING`/`ACCEPTED` whose category has add-ons).
 - [x] Reschedule (4 Nov): the existing dialog already matches Figma (Current / New, button disabled until a change, full slots greyed, same disabled statuses). Reason, "Changes used X of 2" and the 30-day limit need backend; asked in `pending-request-backend.md` item 15, skipped in the UI until answered. No code change.
 - [x] Cancel dialog (4 Nov): Figma look kept on current rules. Added the Payment received / Refund / Balance summary for Direct Sale with managed payment, and "Keep order" replaces "Close"/"No". Refund amount, reason and permission checks unchanged. New `directSaleCancellation.*` strings in en/km (km needs a native check).
 - [x] Staff states (4 Nov): Loading (3 grey bars, no buttons, Operations shows "—") added; "Leader" label is now "Coordinator" (en and km, shared string); Completed and Conflict were already covered (read-only, amber callouts for day off or booked elsewhere). No new gates.
-- [x] Browser check on dev, 4 Nov, localhost second dev server, 1440px: filter chips enabled for All; app order #0000411149 Add service dialog ("$5.00 each", "Add to order · +$5.00", not saved); DS #0000166619 cancel summary and unpaid wording (not confirmed), reschedule dialog opens as Figma (Current, slots, disabled until changed); Coordinator badge on #0000822297. Staff loading bars are too brief to catch by eye; checked in code only.
+- [x] Browser check on dev, 4 Nov, localhost second dev server, 1440px: filter chips enabled for All; app order #0000411149 Service Add-On dialog ("$5.00 each", not saved); DS #0000166619 cancel summary and unpaid wording (not confirmed), reschedule dialog opens as Figma (Current, slots, disabled until changed); Coordinator badge on #0000822297. Staff loading bars are too brief to catch by eye; checked in code only.
 - [x] G5 review (4 Nov, medium). Fixed: stale remark draft when switching orders (`key` on the notes card), payment filter was cleared by the type chip, old `?status=Pending` links (now case-insensitive), Operations card showed "short of staff" when staff failed to load. Not changed, for the owner to decide: (1) ABA payment check panels now sit behind Payment details > toggle (earlier Figma move; staff may miss the result); (2) Manage staff drawer reads only page 1 of the cleaner list, so cleaners beyond it can't be picked or flagged; (3) date filter can build from > to and silently drops; (4) new list/filter strings are hardcoded English, only en and km updated; (5) `ServiceDetailsV2` runs `useAssignmentEditor` and the add-on query it no longer needs in v2; (6) riel estimate parses the formatted total string.
 - [Skipped by user] Figma frames not opened: create date and time, deposit-paid-after-hold, cleaner-reported-problem, no-name customer, change coordinator.
 
@@ -86,7 +86,9 @@ Estimate from about 25 current frames in the Direct Sale v2 section (list 4, det
 ## Gates (T2, from `Tasks/PIPELINE.md`)
 - [x] G1 scope  - [x] G2 static (prettier, eslint and tsc clean on the touched files; repo-wide tsc errors on main are unrelated)  - [ ] G3 tests  - [x] G4 run it (dev, 4 Nov)
 - [x] G5 code review (4 Nov, see Next)  - [ ] G6 security  - [x] G7 docs sync (backend request item 15; task file)
-- [ ] G8 PR message  - [ ] G11 changelog (G9 optional)
+- [ ] G6 security (T3, required)  - [ ] G9 human review (T3)  - [ ] G10 release plan (T3)
+- [ ] G8 PR message  - [ ] G11 changelog
+Moved to `4-testing/` 4 Nov 2026: user commits, pushes and merges to dev to test. Remaining gates: G3 (new tests + edge cases for the permission guards), G6, G7 done, G5 strict re-run on the permission diff.
 
 ## Done when
 - [ ] Screens match the Figma frames and states

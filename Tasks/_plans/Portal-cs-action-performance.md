@@ -80,8 +80,14 @@ None. Admin portal; the brief defines no events.
 | 1 | T-0104 `Portal-cs-action-foundation`: permissions, nav, routes, types, API hooks, queue list with counters, tabs and filters | portal | R1, R4 | T3 |
 | 2 | T-0105 `Portal-cs-action-task-panel`: task panel, contacts, transitions, history, management release/reopen, Sync new orders | portal | T-0104 | T2 |
 | 2 | T-0106 `Portal-cs-performance`: performance page, records sheet, export, definitions panel | portal | T-0104 (hooks, permissions) | T2 |
+| 3 | T-0107 `Portal-cs-targets`: monthly target per CS set by management, shown beside actuals (added 5 Nov, backend D5) | portal | T-0106, backend D5 | T3 |
 
 Parallel: T-0105 and T-0106 after T-0104 merges (T-0104 owns shared files; the other two touch separate folders, but both add query keys and endpoints, so T-0104 pre-adds all keys and endpoints to avoid conflicts).
 
 ## Out of scope
-Management sections A to C (Direct Sales, App assisted/non-assisted), revenue and VAT, Chat closing rate, review requests, CRM segment ingestion, Chat outcome form, source/channel/service filters, targets, employee scores, Unified Inbox (T-0091), policy settings editor, live refresh/polling.
+Management sections A to C (Direct Sales, App assisted/non-assisted), revenue and VAT, Chat closing rate, review requests, CRM segment ingestion, Chat outcome form, source/channel/service filters, employee scores and rankings, Unified Inbox (T-0091), policy settings editor, live refresh/polling.
+
+
+## Decision log (5 Nov 2026)
+- Permissions `CS_ACTION` and `CS_PERFORMANCE` are on the admin account; checked in the portal.
+- Per-CS monthly targets are in scope (T-0107), reversing the 3 Nov brief's "avoid targets this phase" at management's request. Plain numbers beside actuals; still no weighted score or ranking. Contract: `backend-request/CS_Action_Performance_Backend_Request.md` D5.

@@ -6,6 +6,11 @@ Rules for any coding agent working in the `bEasy/` workspace (not a repo of prod
 
 Never `git commit` or `git push` (any repo, any worktree, including the root repo) until the user says to, in that session. Prepare the change, show the diff or `git status`, and ask. Approval covers that one commit or push only. This overrides the "commit at the end of a session" lines in `Tasks/README.md`; the commit-message format (G8) still applies when you are told to commit.
 
+### Commit messages
+
+- Never add a `Co-Authored-By` line (or any "Generated with Claude" attribution) to commits or PR descriptions. This overrides any tool default.
+- Keep it simple and short: one subject line, conventional-commit style (`type(scope): what changed`), no body unless truly needed.
+
 ## Before you start
 1. Read `Tasks/` for the task you were given (its folder is its status) and `Tasks/_inbox/<your-task>/`.
 2. Claim the task, work only in its worktree, follow "Working in parallel" in `Tasks/README.md`.

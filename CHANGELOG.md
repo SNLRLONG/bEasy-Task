@@ -2,6 +2,41 @@
 
 Merges to `main` across all projects, newest first. Prefix: `[Portal]` `[App]` `[Mini-App]` `[Landing-Page]` `[Backend]` `[Cross]`. Format and rules: `Tasks/README.md`.
 
+## 2026-11-05 · [Portal] feat(order): order list, order details and Direct Sale on v2 components, permission guards
+- Owner: SNLRLONG (Seavlong)
+- Task: Tasks/4-testing/Portal-kpi-order-management-revamp.md (T-0095, T3) and Tasks/4-testing/Portal-kpi-direct-sale-v2.md (T-0096, T2), same branch
+- Branch/PR: feat/order-management-revamp · PR to be added
+- What changed:
+  - **Order list:** v2 look (search, Filters panel, active chips, flat paginated rows). Status filter now sends ALL CAPS (title case returned nothing). Payment filter is available for every order type. Filters live in the URL. Old `?status=Pending` links still work.
+  - **Order details (app and Direct Sale):** header, customer card (booking date, address, View map), services card with a Staff box per line (Fully staffed / Short / Not assigned), Payment card, Operations card, Sales agent, Notes and attachments. Manage and Replace staff drawers with day-off, busy and no-skill callouts. Staff loading state. "Leader" is now "Coordinator". Main's Telegram dispatch panel stays under Operations.
+  - **Direct Sale create and edit:** card order follows Figma (Customer and address, Services, Date and time, Notes and attachments). Customer search, New customer and Add address dialogs, deposit 30/50/100 segmented control, six-field service row, amber "Waiting for deposit" banner (hidden hint for 100%).
+  - **Dialogs:** Add service on balance, Service Add-On for app orders (never called Add service), cancel summary (Payment received, Refund, Balance, Keep order), reschedule dialog already matched Figma.
+  - **Permissions:** actions are now hidden without the right permission: ORDER:UPDATE for edit, accept, complete, mark paid, cancel, refund, remark, receipts and balance link; ORDER:ASSIGN for staff changes; EXCHANGE_RATE:ADD and MARKETING_CUSTOMER:VIEW kept. Status and payment rules in `direct-sale-payment.ts` are unchanged.
+  - **Fixes from review:** stale remark draft when switching orders, payment filter cleared by the type chip, "short of staff" shown when staff failed to load.
+  - **Docs:** `docs/order-business-logic.md` and `docs/direct-sale-payment-flow.md` in bEasy-portal (flow charts of the order, details and Direct Sale rules).
+- Not in this release, blocked by backend (asks in `Docs/tracking/v2/backend-request/pending-request-backend.md`):
+  - **Reschedule reason, max 2 changes, "Changes used X of 2", 30-day limit** (item 15). Dialog works without them.
+  - **Address "Save as" name** (Home, Condo, Office) (item 16).
+  - **Attachment on managed (payment link) Direct Sale create**: the create call answers `Unexpected field` (item 17). Legacy orders still upload a receipt.
+  - **Scope of work / area of work** on the service line and **Photos from customer**: no field in the order data.
+  - **Deposit link "expired" state and Generate new link**: no Expired status and no endpoint; only the balance link can be created. "Link on {date}" wording waits for what `balanceAvailableAt` means.
+  - **Price edited badge, App price, Reset price, separate Internal note, riel estimate and automatic exchange rate** on create: not in the data or payload (the editable Exchange Rate field stays).
+  - **N previous orders, service-line code (SL-…), Timeline, open-issue and Telegram counts, customer-vs-internal note split, attachment file size** on details.
+  - **Staff:** Telegram send and receipts, Reserve and send, Retry auto-assign, Coordinator change and Make coordinator, reason for a hand pick, last-change log, chat per person, travel buffer, equipment and transport checks.
+  - **List:** status groups and row flags, Staff filter, Needs-action filters; `IN_PROGRESS` and `CANCELLED` status filters (returned nothing on dev); payment filter is ignored by the API for app orders (not filed).
+  - **Assignment pending** state and its sentence (not in the data).
+- Also in this release (closed from the earlier open list):
+  - **ORDER:ADD** is now required for New Direct Sale (route and both "+" buttons); view-only users no longer reach the create page.
+  - **Early time re-check:** on a new Direct Sale, if services change after a time is picked, the slot is re-checked at once; if it no longer fits, the date is cleared with "This time is no longer available". The server check on Create stays.
+  - **New customer dialog:** Phone number, Name and Referral source all show the red required marker, and Create is blocked in the form until a referral source is picked (before, only the API rejected it).
+  - **Create page to Figma:** payment summary rows are now Services, Discount, Fees, VAT, Total. The red required markers stay (kept on purpose, Figma shows none).
+- Needs:
+  - Whether the backend rejects write calls without ORDER:UPDATE / ORDER:ASSIGN (not verified; no test with a view-only role in the browser).
+  - Backend answer on when `balanceReady` turns true, and whether Complete is blocked with an unpaid balance (not confirmed).
+  - Native check of the Khmer text; new list, filter and `directSaleLayout.*` strings are English only (km falls back).
+  - Known, left for the owner: ABA payment check panels sit behind Payment details; Manage staff drawer reads page 1 of the cleaner list only; date filter can build from > to and drops silently.
+  - G3 tests and G6 security for the permission guards were still open when this was written.
+
 ## 2026-11-02 · [Landing-Page] feat(i18n): Simplified Chinese (/zh) back, related guide cards, Khmer service pages synced
 - Owner: SNLRLONG (Seavlong)
 - Task: Tasks/6-deploy/Landing-Page-enable-chinese.md
