@@ -31,5 +31,10 @@
       "id": "bunlongly",
       "name": "Bunlong"
     }
-  ]
+  ],
+  "project": {
+    "title": "bEasy Super Task",
+    "subtitle": "Break down task crossing Admin Portal, App, Landing Page & Request to backend.",
+    "logo": "logo-f31b0eee493fc94f.png"
+  }
 }
