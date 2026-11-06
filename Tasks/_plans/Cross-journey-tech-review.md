@@ -1,6 +1,6 @@
 # Customer Journey tech review: fixes and improvements
 
-- **Sources:** `Tasks/_inbox/bEasy_Customer_Journey_Tracking_Tech_Review_18Oct2026.docx` (requirements) · `Docs/tracking/v2/backend-response/Journey_Tech_Review_Handoff_19Oct2026.md` (backend, branch `fix/journey-data`)
+- **Sources:** `Tasks/_inbox/bEasy_Customer_Journey_Tracking_Tech_Review_18Oct2026.docx` (requirements) · `Docs/tracking/v2/archive/Journey_Tech_Review_Handoff_19Oct2026.md` (backend, branch `fix/journey-data`)
 - **Planned:** 2026-10-19 · **Owner:** SNLRLONG (Seavlong)
 - **Code base:** `origin/feat/journey-cms` (PR #480 merged `feat/journey-list-fixes`; the local `bEasy-portal/` checkout is 2 commits behind, update it before creating worktrees)
 - **Caveat:** `bEasy-api/` is not cloned, so the handoff could not be checked against backend code. Treat every "Implemented" as a claim until it is on dev and a real response is in `backend-response/`.

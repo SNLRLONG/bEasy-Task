@@ -1,3 +1,5 @@
+> **Archived 6 Nov 2026.** Superseded by `../backend-response/Journey_Tech_Review_Backend_Response.md` (20 Oct). Kept for history only.
+
 > **Status (portal, 20 Oct 2026):** backend's own summary of branch `fix/journey-data`. **Not verified**: it is not on dev yet and `bEasy-api/` is not cloned. Portal follow-ups and open questions: `../backend-request/pending-request-backend.md` §6. Plan: `Tasks/_plans/Cross-journey-tech-review.md`.
 
 # Customer Journey Tech Review Handoff

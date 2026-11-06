@@ -8,7 +8,7 @@
 - **Claimed by:** agent (claude), 2026-10-20. Owner said: work directly on `feat/journey-cms`, no separate worktree, portal side only
 - **Due:** 2026-10-30
 - **Started / updated:** 2026-10-20 / 2026-10-21
-- **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` · `Docs/tracking/v2/backend-response/Journey_Tech_Review_Handoff_19Oct2026.md` · `Docs/tracking/v2/api/Journey_Backend_API_Spec.md`
+- **Docs:** `Tasks/_plans/Cross-journey-tech-review.md` · `Docs/tracking/v2/archive/Journey_Tech_Review_Handoff_19Oct2026.md` · `Docs/tracking/v2/api/Journey_Backend_API_Spec.md`
 - **Depends on:** backend sample responses from dev (task `Cross-journey-review-signoff`, part 1). Types can be written from the handoff first, then checked against the samples.
 - **Touches:** `app/types/journey.ts`, `app/lib/journey/{format,filters,kpi-delta,list-query}.ts`, `app/components/journey/{list/row-shell,list/otp-chips,shared/status-tag,funnel/kpi-row}.tsx`, `app/locales/journey/{en,km}/{funnel,list}.json`, `tests/`. Docs: API spec, `backend-response/`
 
@@ -39,6 +39,6 @@ Skipped G6: no auth or personal data change.
 ## Progress 2026-10-20 (agent, on `feat/journey-cms`, uncommitted)
 Done: nullable `lastActivityAt`/`idleMinutes`; `formatIdle` returns `''` for null/undefined/NaN and the list row shows "Time unavailable" (en + km); new types (`CustomerKind` with `all`, `SourceType`, `dropRate`, `dropPctOfFirst`, `OtpReasonAvailability`, `PurchaseCounts`, per-row `firstPurchasedAt`/`customerKind`/`firstPurchase`, `purchaseBreakdown`); `customerKind`, `sourceType` (`stype`) in URL filters; `purchased` in `buildStagePeopleQuery` (registration only); KPI `otp_not_verified` added next to `otp_failed`. New tests: `npm run test:journey-contract`.
 Decision: old and new OTP names are both accepted until backend deploys the rename (dev still sends the old ones). Remove the old names after the dev check.
-Docs synced: handoff moved to `backend-response/Journey_Tech_Review_Handoff_19Oct2026.md` (banner: unverified); API spec rows added.
+Docs synced: handoff moved to `archive/Journey_Tech_Review_Handoff_19Oct2026.md` (banner: unverified); API spec rows added.
 Checks: tsc no journey errors; eslint clean; journey node tests pass (contract 4, list 12, funnel 8, extra 1, customer 5, cs 5, audiences 8). G4 not run (needs backend on dev). G5, G8, G11 not done.
 Not done: after-purchase denominator type (field name unknown, item A4); `unit` handling for acquisition `people`/`identityUnit` is typed only.

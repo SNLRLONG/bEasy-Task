@@ -5,8 +5,8 @@
 - **Owner:** SNLRLONG
 - **Worktree:** `bEasy/bEasy-portal-cs-action/` (same worktree and branch as T-0104 to T-0106) · **Branch:** `feat/cs-action`
 - **Tier:** T3 · management-only write, staff performance data, permissions (see `PIPELINE.md`)
-- **Claimed by:** none
-- **Started / updated:** – / 2026-11-05
+- **Claimed by:** claude session, 2026-11-06
+- **Started / updated:** 2026-11-06 / 2026-11-06
 - **Docs:** Plan `Tasks/_plans/Portal-cs-action-performance.md` (decision log) · backend contract `Docs/tracking/v2/backend-request/CS_Action_Performance_Backend_Request.md` section D5
 - **Depends on:** T-0106 (Performance page); backend D5 for the real API. Build and review on sample data first, as with T-0104 to T-0106.
 - **Touches:** `app/components/cs-performance/cs-targets-*.tsx`, `app/components/cs-performance/cs-performance-sections.tsx` (activity table columns), `app/hooks/query/use-cs-action-query.ts`, `app/hooks/mutations/use-cs-action-mutation.ts`, `app/api/cs-action.ts`, `app/api/cs-action-mock.ts`, `app/api/endpoint.ts`, `app/constants/query-key-enum.ts`, `app/types/cs-action.ts`, `tests/cs-targets*.test.mjs`
@@ -20,6 +20,11 @@ Management sets a monthly target for each CS employee and sees it beside the act
 - **Set targets (management only, `CS_PERFORMANCE` UPDATE):** a button above the table opens a side sheet: month picker, one row per CS employee with the two fields, Save. Empty field clears a target. Past months are read-only (backend returns 422). Validation message shown inline.
 - **CS employees** do not see other people's targets (backend gate).
 - Targets are monthly: for a custom range or all-time the status shows "Monthly targets only".
+
+## Progress (2026-11-06): UI phase on sample data
+Built in `bEasy-portal-cs-action/` to backend's 5 Nov guide (GET/PUT `/targets`, staff list). Uncommitted.
+- Done: "Set monthly targets" sheet (management only, `CS_PERFORMANCE` UPDATE; month this + next 2, past months read-only; empty clears; whole numbers, 0 to 100 for completion), Contact activity table with Due tasks, Completion, Target and Met / Under / No target / Not measured, "Monthly targets only" outside a full month. Tests for the status rule and input parsing pass (10/10).
+- NOT done: real API run, G4 browser check of the sheet, Khmer text, G5 to G11.
 
 ## Gates (T3, from `Tasks/PIPELINE.md`)
 - [ ] G1 scope  - [ ] G2 static  - [ ] G3 tests  - [ ] G4 run it

@@ -57,7 +57,7 @@ Owner decided to show the full phone on `customer/:id/profile`. Done in `custome
 Skipped G6: owner will review the personal-data exposure themselves first (decided 2026-10-19). G9 human review and G10 release plan now apply (T3).
 
 ## Update 2026-10-19: filters switched to option B, Converted filter added here
-Backend now supports `abandoned` on Reached and `converted` (`Docs/tracking/v2/backend-response/Journey_Tech_Review_Handoff_19Oct2026.md`). Reply recorded in `backend-response/2026-10-19-journey-list-filters.md`; the request file was deleted; API spec and UI Flow updated.
+Backend now supports `abandoned` on Reached and `converted` (`Docs/tracking/v2/archive/Journey_Tech_Review_Handoff_19Oct2026.md`). Reply recorded in `backend-response/2026-10-19-journey-list-filters.md`; the request file was deleted; API spec and UI Flow updated.
 - Option A reverted: `abandoned` is sent for both states; Status dropdown shows whenever the response has `abandonStrip`.
 - Converted dropdown (booking funnel only): `converted=true|false`, omitted for All. Both filters are in `params`, so selection key, Export, Push and CS use the filtered list. Both reset on Reached/Dropped switch.
 - Rows: `Converted` badge, quiet `Bought before` chip (`everPurchased` and not `converted`). Footer: "X converted in this period · Y had bought before" from `convertedBreakdown`. Km text is new, needs a native read.

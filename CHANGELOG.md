@@ -14,11 +14,12 @@ Merges to `main` across all projects, newest first. Prefix: `[Portal]` `[App]` `
   - **Permissions:** actions are now hidden without the right permission: ORDER:UPDATE for edit, accept, complete, mark paid, cancel, refund, remark, receipts and balance link; ORDER:ASSIGN for staff changes; EXCHANGE_RATE:ADD and MARKETING_CUSTOMER:VIEW kept. Status and payment rules in `direct-sale-payment.ts` are unchanged.
   - **Fixes from review:** stale remark draft when switching orders, payment filter cleared by the type chip, "short of staff" shown when staff failed to load.
   - **Docs:** `docs/order-business-logic.md` and `docs/direct-sale-payment-flow.md` in bEasy-portal (flow charts of the order, details and Direct Sale rules).
-- Not in this release, blocked by backend (asks in `Docs/tracking/v2/backend-request/pending-request-backend.md`):
+- Not in this release, blocked by backend. Full spec for backend: `Docs/tracking/v2/backend-request/Order_Revamp_Backend_Request.md` (pending request item 19; reschedule rules stay in item 15):
   - **Reschedule reason, max 2 changes, "Changes used X of 2", 30-day limit** (item 15). Dialog works without them.
-  - **Address "Save as" name** (Home, Condo, Office) (item 16).
-  - **Attachment on managed (payment link) Direct Sale create**: the create call answers `Unexpected field` (item 17). Legacy orders still upload a receipt.
-  - **Scope of work / area of work** on the service line and **Photos from customer**: no field in the order data.
+  - **Address name ("Save as": Home, Condo, Office)** in the Add address dialog, and the name in the address dropdown (spec item 2).
+  - **Attachment on managed (payment link) Direct Sale create**: the create call answers `Unexpected field` (spec item 3). Legacy orders still upload a receipt.
+  - **Cross-sell price on the order line:** the Aircon cross-sell line shows $3.50 but should be $8.50 because the API puts the $5 welcome coupon into that line's `discount` (order 0000233329, spec item 4). The portal math is right; the order total is right.
+  - **Scope of work / area of work** on the service line and **Photos from customer**: no field in the order data (spec items 1 and 8).
   - **Deposit link "expired" state and Generate new link**: no Expired status and no endpoint; only the balance link can be created. "Link on {date}" wording waits for what `balanceAvailableAt` means.
   - **Price edited badge, App price, Reset price, separate Internal note, riel estimate and automatic exchange rate** on create: not in the data or payload (the editable Exchange Rate field stays).
   - **N previous orders, service-line code (SL-…), Timeline, open-issue and Telegram counts, customer-vs-internal note split, attachment file size** on details.
@@ -28,6 +29,8 @@ Merges to `main` across all projects, newest first. Prefix: `[Portal]` `[App]` `
 - Also in this release (closed from the earlier open list):
   - **ORDER:ADD** is now required for New Direct Sale (route and both "+" buttons); view-only users no longer reach the create page.
   - **Early time re-check:** on a new Direct Sale, if services change after a time is picked, the slot is re-checked at once; if it no longer fits, the date is cleared with "This time is no longer available". The server check on Create stays.
+  - **Order details and list:** the Direct Sale "Add service" link and its hint are removed (changes still go through Edit); the line above the Telegram Operations card is gone; the order list has its back button again, top left.
+  - **Direct Sale address field:** the "Select a customer first" hint under Address is removed.
   - **New customer dialog:** Phone number, Name and Referral source all show the red required marker, and Create is blocked in the form until a referral source is picked (before, only the API rejected it).
   - **Create page to Figma:** payment summary rows are now Services, Discount, Fees, VAT, Total. The red required markers stay (kept on purpose, Figma shows none).
 - Needs:

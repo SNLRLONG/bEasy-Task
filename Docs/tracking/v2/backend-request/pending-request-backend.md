@@ -1,6 +1,6 @@
 # Pending Backend Requests: Customer Journey
 
-**To:** Backend · **Updated:** 4 Nov 2026 (CS Action and Performance asks and segment data clean-up: item 18; Direct Sale create attachment: item 17; Direct Sale address Save as name: item 16; reschedule reason, limit and count for the admin portal: item 15; single handoff for items 9 to 12: [App_Tracking_Backend_Handoff_3Nov2026.md](App_Tracking_Backend_Handoff_3Nov2026.md), the earlier 2 Nov file is withdrawn; delta file item 14; booking, checkout and top-up ids in item 9; profile, language, support and chat ids in item 9; landing page public API item 13; location item aligned with T-0077; Instant item aligned with T-0082; cancel and reschedule item 11 aligned with T-0079; orders ids and review params in item 9)
+**To:** Backend · **Updated:** 6 Nov 2026 (Order, order details and Direct Sale blockers: item 19, items 16 and 17 moved into it; CS Action and Performance open items after the 5 Nov reply: item 18; Direct Sale create attachment: item 17; Direct Sale address Save as name: item 16; reschedule reason, limit and count for the admin portal: item 15; single handoff for items 9 to 12: [App_Tracking_Backend_Handoff_3Nov2026.md](App_Tracking_Backend_Handoff_3Nov2026.md), the earlier 2 Nov file is withdrawn; delta file item 14; booking, checkout and top-up ids in item 9; profile, language, support and chat ids in item 9; landing page public API item 13; location item aligned with T-0077; Instant item aligned with T-0082; cancel and reschedule item 11 aligned with T-0079; orders ids and review params in item 9)
 **Done and removed:** guest events, stage/people endpoints, customer page, acquisition funnel (see [Journey_V2_Portal_Review.md](../backend-response/Journey_V2_Portal_Review.md)). Later items are in [backlog.md](backlog.md). Campaign source is in [Campaign_Source_Request.md](Campaign_Source_Request.md). CS Overview replies are in [CS_Overview_Backend_Answers_31Oct2026.md](../backend-response/CS_Overview_Backend_Answers_31Oct2026.md); still open: section 8 below (what is missing for real data).
 
 The app already ships these Firebase events, so it cannot rename them. Where our names differ from the backend contract, please map ours.
@@ -73,7 +73,7 @@ Push campaigns, promo-code ledger, package deals, content library and search: se
 
 ## 6. Tech review handoff (19 Oct 2026)
 
-Backend answered on 20 Oct: [Journey_Tech_Review_Backend_Response.md](../backend-response/Journey_Tech_Review_Backend_Response.md). Nothing is open in [Journey_Tech_Review_Backend_Request.md](Journey_Tech_Review_Backend_Request.md); the OTP reasons question was answered on 30 Oct: [Journey_OTP_Reasons_Backend_Response_30Oct2026.md](../backend-response/Journey_OTP_Reasons_Backend_Response_30Oct2026.md). Backend's earlier summary: `../backend-response/Journey_Tech_Review_Handoff_19Oct2026.md`.
+Closed. Backend answered on 20 Oct: [Journey_Tech_Review_Backend_Response.md](../backend-response/Journey_Tech_Review_Backend_Response.md); OTP reasons on 30 Oct: [Journey_OTP_Reasons_Backend_Response_30Oct2026.md](../backend-response/Journey_OTP_Reasons_Backend_Response_30Oct2026.md). The request and the 19 Oct handoff are in `../archive/`.
 
 Not requested now (backlog): assisted-conversion identifier, finance amounts, consent data, people-list filters for last activity, furthest stage, value, CS status, full phone in journey APIs (`backlog.md`).
 
@@ -159,15 +159,19 @@ Task T-0095 (portal order details, Figma "Reschedule rules" V3.4 B2 / V4). The p
 
 ## 16. Direct Sale add address: Save as name (4 Nov 2026)
 
-Task T-0096 (Figma create | add address). Figma has an optional Save as field (Home, Condo, Office). Not built in the portal until you confirm: does `POST direct-sale/add-users-address` accept a name for the address (field name), and is it returned on `direct-sale/users-address`?
+Moved to [Order_Revamp_Backend_Request.md](Order_Revamp_Backend_Request.md) item 2 (now also the name shown in the address dropdown).
 
 ## 17. Direct Sale create: attachment on managed (payment link) orders (4 Nov 2026)
 
-Task T-0096 (Figma create | Notes & attachments). Tested on dev: adding a file field `attachment` to the managed create call (`paymentMode=PAYMENT_LINK`) fails with `{"code":"ERROR","message":"Unexpected field"}`, so the upload box is not shown for managed orders. Please accept one optional file (JPG, PNG or PDF, up to 10 MB) on the managed create, tell us the field name, and store it as a note attachment on the order, not as a payment receipt. Legacy orders still send the receipt as `imgUrl`.
+Moved to [Order_Revamp_Backend_Request.md](Order_Revamp_Backend_Request.md) item 3.
 
-## 18. CS Action and Performance (5 Nov 2026)
+## 18. CS Action and Performance (6 Nov 2026)
 
-Moved to its own file so backend can read one document: [CS_Action_Performance_Backend_Request.md](CS_Action_Performance_Backend_Request.md). It covers the saved-segment clean-up and seed from production (A), switching the CS API on and the scheduler (B1, B2), endpoint gaps (C1 to C5), new endpoints, the Performance response shape and monthly targets per CS (D1 to D5) and the policy decisions (E1).
+Backend answered on 5 Nov: [CS_Admin_Portal_Implementation_Guide_5Nov2026.md](../backend-response/CS_Admin_Portal_Implementation_Guide_5Nov2026.md). Still open, in [CS_Action_Performance_Backend_Request.md](CS_Action_Performance_Backend_Request.md): B1 deploy to api-dev and a live 200, A2 production segment export, B2 scheduler activation, E1 policy values, N1 sales-task resolution names, N2 Chat save adapter.
+
+## 19. Order list, order details, Direct Sale: scope of work, address name, cross-sell price and more (5 Nov 2026)
+
+One document for backend: [Order_Revamp_Backend_Request.md](Order_Revamp_Backend_Request.md) (T-0095, T-0096). It covers scope of work per service line, address name (Save as) in the dialog and dropdown, the attachment on managed create, the cross-sell line discount that includes the coupon (order `0000233329`), deposit link expired and regenerate, when the balance opens and the Complete rule, customer photos and the note split, order list filters, staff and dispatch actions, and permission checks on write calls. Reschedule rules stay in item 15.
 
 ## Questions
 

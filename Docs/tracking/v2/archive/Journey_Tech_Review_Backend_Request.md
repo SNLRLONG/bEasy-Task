@@ -1,3 +1,5 @@
+> **Archived 6 Nov 2026.** Closed: no open items. Answers are in `../backend-response/Journey_Tech_Review_Backend_Response.md` and `../backend-response/Journey_OTP_Reasons_Backend_Response_30Oct2026.md`.
+
 # Customer Journey: open requests for backend
 
 **To:** Backend · **From:** Portal · **Updated:** 30 Oct 2026

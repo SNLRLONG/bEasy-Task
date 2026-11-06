@@ -80,7 +80,7 @@ None. Admin portal; the brief defines no events.
 | 1 | T-0104 `Portal-cs-action-foundation`: permissions, nav, routes, types, API hooks, queue list with counters, tabs and filters | portal | R1, R4 | T3 |
 | 2 | T-0105 `Portal-cs-action-task-panel`: task panel, contacts, transitions, history, management release/reopen, Sync new orders | portal | T-0104 | T2 |
 | 2 | T-0106 `Portal-cs-performance`: performance page, records sheet, export, definitions panel | portal | T-0104 (hooks, permissions) | T2 |
-| 3 | T-0107 `Portal-cs-targets`: monthly target per CS set by management, shown beside actuals (added 5 Nov, backend D5) | portal | T-0106, backend D5 | T3 |
+| – | T-0107 `Portal-cs-targets` (**backlog**, not in the brief; brief section 8 says avoid targets this phase): monthly target per CS set by management, shown beside actuals (backend D5) | portal | T-0106, backend D5 | T3 |
 
 Parallel: T-0105 and T-0106 after T-0104 merges (T-0104 owns shared files; the other two touch separate folders, but both add query keys and endpoints, so T-0104 pre-adds all keys and endpoints to avoid conflicts).
 
@@ -91,3 +91,8 @@ Management sections A to C (Direct Sales, App assisted/non-assisted), revenue an
 ## Decision log (5 Nov 2026)
 - Permissions `CS_ACTION` and `CS_PERFORMANCE` are on the admin account; checked in the portal.
 - Per-CS monthly targets are in scope (T-0107), reversing the 3 Nov brief's "avoid targets this phase" at management's request. Plain numbers beside actuals; still no weighted score or ranking. Contract: `backend-request/CS_Action_Performance_Backend_Request.md` D5.
+
+## Decision log (6 Nov 2026)
+- Backend replied (`backend-response/CS_Admin_Portal_Implementation_Guide_5Nov2026.md`): names, phone, owner name, bulk order number, service lines, last contact, paging, open filter, staff, segment follow-up, review outcomes and monthly targets are in the contract. Gaps 2 and 3 above are closed; the per-row customer lookup is removed (the open task panel still reads the profile route once for extra context).
+- Targets (T-0107) are built on sample data with the same worktree and branch.
+- Still blocked on backend deployment (B1): sample data stays on and the banner stays until a live 200 is confirmed.
