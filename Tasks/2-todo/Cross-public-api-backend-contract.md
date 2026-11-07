@@ -23,6 +23,6 @@ Get backend to (A) confirm `customer/user/info` and `customer/order/v5/list` ans
 ## Done when
 - [ ] Item A (guest response) sent to backend and acknowledged
 - [ ] Replies recorded in `backend-response/`, API spec updated (sync rules in `AGENTS.md`)
-- [ ] Verified against `bEasy-api/` when cloned, mismatches noted
+- [ ] Verified against real dev responses, mismatches noted
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge

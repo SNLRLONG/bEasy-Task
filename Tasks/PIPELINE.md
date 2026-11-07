@@ -33,7 +33,7 @@ Before planning is finished the signals come from the plan's scope; before testi
 | G3 | **Tests**: existing tests pass; new logic has tests | Agent (run) | – | existing | ✔ new | ✔ new + edge cases |
 | G4 | **Run it**: see the change work (browser/device/dev backend), compare with Figma if there is a design | Agent (`run` skill / browser) | – | quick | ✔ | ✔ |
 | G5 | **Code review**: correctness, quality, best practice, reuse, no shared-component edits | Separate review agent (`/code-review`, then `/simplify`) | – | – | ✔ | ✔ strict |
-| G6 | **Security review** | `/security-review` | – | – | if auth/data/input | ✔ |
+| G6 | **Security review**: `Tasks/SECURITY-CHECKLIST.md` (OWASP Top 10) + `/security-review`; only for T3 or a big T2 touching auth/data/input | `/security-review` + agent | – | – | big features only | ✔ |
 | G7 | **Docs sync**: API spec / architecture / backend requests updated | Agent | if docs changed | if contract touched | ✔ | ✔ |
 | G8 | **PR message / commit** passes the format below | Agent | ✔ | ✔ | ✔ | ✔ |
 | G9 | **Human review** of the PR | User | – | – | optional | ✔ |

@@ -1,7 +1,7 @@
 # Backend: store UTM fields and group Acquisition by them
 
 - **ID:** T-0035
-- **Repo:** cross (request to backend; bEasy-api is read-only)
+- **Repo:** cross (request to backend; backend code is not available here)
 - **Owner:** SNLRLONG (Seavlong)
 - **Worktree:** none
 - **Tier:** T3 · tracking contract with backend, customer attribution data
@@ -16,7 +16,7 @@
 Backend saves the new UTM fields on the customer attribution touch and on app opens, and returns them in Acquisition.
 
 ## Scope
-1. Check `bEasy-api/` (read-only) for what exists; cite `path:line` in the request.
+1. Check `api/` spec and `backend-response/` (and a real dev response) for what exists; cite them in the request.
 2. Request is in `pending-request-backend.md` item 7.
 3. After the reply: add it to `backend-response/`, verify against code, update API spec, delete the answered item.
 

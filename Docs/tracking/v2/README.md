@@ -34,7 +34,7 @@ Start here. Read top to bottom for the full picture, or jump to the folder you n
 - `Journey_Backend_API_Spec.md` — every endpoint, request and response
 
 **backend-request/**
-- `pending-request-backend.md` — open requests · `backlog.md` — later · `CS_Action_Performance_Backend_Request.md` — CS Action and Performance, open items only · `CS_Overview_Backend_Request_2Nov2026.md` — CS Overview data gaps · `Order_Revamp_Backend_Request.md` — order list, details, Direct Sale blockers · `Campaign_Source_Request.md` — Organic vs campaign · `Journey_Acquisition_API_Request.md` — acquisition contract · `Marketing_Suite_Backend_Request.md` — push, promotions, content · `App_Tracking_Backend_Handoff_3Nov2026.md` — single extract for backend: usage events, registration, location, cancel/reschedule, Instant
+- `pending-request-backend.md` — open requests · `backlog.md` — later · `CS_Action_Performance_Backend_Request.md` — CS Action and Performance, open items only · `CS_Action_Backend_Request_Round2_6Nov2026.md` — second round (policies, deadlines, counters) · `CS_Overview_Backend_Request_2Nov2026.md` — CS Overview data gaps · `Order_Revamp_Backend_Request.md` — order list, details, Direct Sale blockers · `Campaign_Source_Request.md` — Organic vs campaign · `Journey_Acquisition_API_Request.md` — acquisition contract · `Marketing_Suite_Backend_Request.md` — push, promotions, content · `App_Tracking_Backend_Handoff_3Nov2026.md` — single extract for backend: usage events, registration, location, cancel/reschedule, Instant
 
 **backend-response/**
 - `Journey_V2_Portal_Review.md` — backend review of 14 Oct (what is built, counting rules, guest rules)

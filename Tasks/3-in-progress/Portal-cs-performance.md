@@ -18,7 +18,7 @@ One management page: period + employee filter, follow-up cards, contact activity
 Built in one worktree for all three tasks so shared files do not conflict: `bEasy/bEasy-portal-cs-action/`, branch `feat/cs-action`, from `origin/main` (e8438cc3). Uncommitted (no commit until the user says).
 - Done: modules `CS_ACTION` / `CS_PERFORMANCE`, nav, routes, header titles, endpoints, query keys, types, API layer with a sample-data switch (`VITE_CS_MOCK`, default on, `false` calls the real API), query/mutation hooks, CS Action page (counters, category tabs, status/due/Mine filters, queue, task panel with contact form, schedule, escalate, complete, release/reopen, history, Sync new orders), CS Performance page (period, employee, follow-up cards, activity table, records sheet, Excel export, not-available list, definitions).
 - Checks: `yarn build` passes, eslint and tsc clean for new files, `node --test tests/cs-action.test.mjs` 5/5. Only remaining tsc error is the existing `vite-plugin-eslint` typing in `vite.config.ts`.
-- NOT done: G4 browser run (needs a login whose role has the new modules; the backend does not list them yet, so the sidebar item and route stay hidden for everyone), Khmer keys (English text only), real-API run, G5 review, G7 docs sync, mock-vs-real contract check on staging.
+- NOT done: G4 browser run (needs a login whose role has the new modules; the backend does not list them yet, so the sidebar item and route stay hidden for everyone), real-API run, G5 review, G7 docs sync, mock-vs-real contract check on staging.
 - Backend availability checked 5 Nov: see `pending-request-backend.md` item 18.
 
 ## Gates (T2 · new page, new API calls, XLSX export of staff activity, from `Tasks/PIPELINE.md`)

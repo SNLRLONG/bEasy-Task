@@ -24,7 +24,7 @@ Management sets a monthly target for each CS employee and sees it beside the act
 ## Progress (2026-11-06): UI phase on sample data
 Built in `bEasy-portal-cs-action/` to backend's 5 Nov guide (GET/PUT `/targets`, staff list). Uncommitted.
 - Done: "Set monthly targets" sheet (management only, `CS_PERFORMANCE` UPDATE; month this + next 2, past months read-only; empty clears; whole numbers, 0 to 100 for completion), Contact activity table with Due tasks, Completion, Target and Met / Under / No target / Not measured, "Monthly targets only" outside a full month. Tests for the status rule and input parsing pass (10/10).
-- NOT done: real API run, G4 browser check of the sheet, Khmer text, G5 to G11.
+- NOT done: real API run, G4 browser check of the sheet, G5 to G11.
 
 ## Gates (T3, from `Tasks/PIPELINE.md`)
 - [ ] G1 scope  - [ ] G2 static  - [ ] G3 tests  - [ ] G4 run it

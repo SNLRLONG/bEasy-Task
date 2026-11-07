@@ -12,7 +12,7 @@
 - **Touches:** `Docs/tracking/v2/backend-request/pending-request-backend.md`, `Docs/tracking/v2/api/Journey_Backend_API_Spec.md`, `Docs/tracking/v2/backend-response/`
 
 ## Goal
-Send `pending-request-backend.md` §9, agree table and endpoint contract with backend, get a staging date and a sample response per endpoint, record the reply in `backend-response/` and mark live status in the API spec. If `bEasy-api/` is cloned later, cite `path:line` for each claim.
+Send `pending-request-backend.md` §9, agree table and endpoint contract with backend, get a staging date and a sample response per endpoint, record the reply in `backend-response/` and mark live status in the API spec. Backend code is not available; back each claim with a real response or the agreed contract.
 
 ## Gates
 - [ ] G1 scope  - [ ] G2 static  - [ ] G3 tests (new + edge cases)  - [ ] G4 run it

@@ -4,7 +4,7 @@
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG (Seavlong)
 - **Due:** 2026-11-11
-- **Started / updated:** 2026-11-04 / 2026-11-04
+- **Started / updated:** 2026-11-04 / 2026-11-06
 - **Schedule:** 2026-11-05 → 2026-11-11 (5 working days, order 2 of 12)
 - **Worktree:** `bEasy/bEasy-portal-order-management-revamp/` (shared with T-0095 on the user's say-so, 4 Nov 2026; T-0095 is committed and pushed, work continues on the same branch) · **Branch:** `feat/order-management-revamp`
 - **Tier:** T2 · UI and flow adjustments on existing order screens, no payment or refund logic changes (re-tier up if the diff touches them) (see `PIPELINE.md`)
@@ -53,3 +53,6 @@ Moved to `4-testing/` 4 Nov 2026: user commits, pushes and merges to dev to test
 - [ ] Tested on dev backend
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
+
+## Closed (6 Nov 2026)
+Merged to `main` in PR #551 (feat/order-management-revamp). Changelog entry is in the root `CHANGELOG.md`. Backend-blocked items stay in `Docs/tracking/v2/backend-request/Order_Revamp_Backend_Request.md`.

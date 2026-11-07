@@ -2,10 +2,10 @@
 
 Merges to `main` across all projects, newest first. Prefix: `[Portal]` `[App]` `[Mini-App]` `[Landing-Page]` `[Backend]` `[Cross]`. Format and rules: `Tasks/README.md`.
 
-## 2026-11-05 · [Portal] feat(order): order list, order details and Direct Sale on v2 components, permission guards
+## 2026-11-06 · [Portal] feat(order): order list, order details and Direct Sale on v2 components, permission guards
 - Owner: SNLRLONG (Seavlong)
-- Task: Tasks/4-testing/Portal-kpi-order-management-revamp.md (T-0095, T3) and Tasks/4-testing/Portal-kpi-direct-sale-v2.md (T-0096, T2), same branch
-- Branch/PR: feat/order-management-revamp · PR to be added
+- Task: Tasks/5-done/Portal-kpi-order-management-revamp.md (T-0095, T3) and Tasks/5-done/Portal-kpi-direct-sale-v2.md (T-0096, T2), same branch
+- Branch/PR: feat/order-management-revamp · PR #551 (merged 6 Nov 2026)
 - What changed:
   - **Order list:** v2 look (search, Filters panel, active chips, flat paginated rows). Status filter now sends ALL CAPS (title case returned nothing). Payment filter is available for every order type. Filters live in the URL. Old `?status=Pending` links still work.
   - **Order details (app and Direct Sale):** header, customer card (booking date, address, View map), services card with a Staff box per line (Fully staffed / Short / Not assigned), Payment card, Operations card, Sales agent, Notes and attachments. Manage and Replace staff drawers with day-off, busy and no-skill callouts. Staff loading state. "Leader" is now "Coordinator". Main's Telegram dispatch panel stays under Operations.

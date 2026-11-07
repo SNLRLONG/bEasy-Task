@@ -12,7 +12,7 @@
 - **Touches:** `Docs/tracking/v2/backend-request/pending-request-backend.md` §11 (replaces 3.3 and 3.4 when agreed), `Docs/tracking/v2/api/Journey_Backend_API_Spec.md`, `Docs/tracking/v2/backend-response/`, `Docs/tracking/v2/architecture/bEasy-tracking-architecture-guide.md` §11.1 (event params)
 
 ## Goal
-Send the cancellation and reschedule contract to backend, agree table columns, optional request fields, event-log payloads, counting modes and endpoints, get dates, record the reply. If `bEasy-api/` is cloned later, check each existing field and route against code and cite `path:line`.
+Send the cancellation and reschedule contract to backend, agree table columns, optional request fields, event-log payloads, counting modes and endpoints, get dates, record the reply. Backend code is not available; mark each existing field and route as confirmed by a real response or unknown.
 
 ## Gates
 - [ ] G1 scope  - [ ] G2 static  - [ ] G3 tests (new + edge cases)  - [ ] G4 run it

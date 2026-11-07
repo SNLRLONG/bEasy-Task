@@ -167,7 +167,7 @@ Moved to [Order_Revamp_Backend_Request.md](Order_Revamp_Backend_Request.md) item
 
 ## 18. CS Action and Performance (6 Nov 2026)
 
-Backend answered on 5 Nov: [CS_Admin_Portal_Implementation_Guide_5Nov2026.md](../backend-response/CS_Admin_Portal_Implementation_Guide_5Nov2026.md). Still open, in [CS_Action_Performance_Backend_Request.md](CS_Action_Performance_Backend_Request.md): B1 deploy to api-dev and a live 200, A2 production segment export, B2 scheduler activation, E1 policy values, N1 sales-task resolution names, N2 Chat save adapter.
+Backend answered on 5 and 6 Nov ([5 Nov guide](../backend-response/CS_Admin_Portal_Implementation_Guide_5Nov2026.md), [6 Nov reply](../backend-response/CS_Action_Backend_Reply_6Nov2026.md), [6 Nov portal checklist](../backend-response/CS_Action_Portal_Implementation_6Nov2026.md)). Second round (R1 to R8: policies read endpoint, deadline rule, previous-day counters, active CS user rule, metric wording, sections A to C, drill-down, other unavailable numbers): [CS_Action_Backend_Request_Round2_6Nov2026.md](CS_Action_Backend_Request_Round2_6Nov2026.md). Still open, in [CS_Action_Performance_Backend_Request.md](CS_Action_Performance_Backend_Request.md): B1 permissions SQL and api-dev deploy, A2 production segments, B2 scheduler approval, E1 policy values.
 
 ## 19. Order list, order details, Direct Sale: scope of work, address name, cross-sell price and more (5 Nov 2026)
 

@@ -20,7 +20,7 @@ One file per task, moved between folders as it progresses. The folder is the sta
 
 ## Worktree rules
 - `bEasy-portal/` (and each repo's main folder) is the **final** checkout. Never delete it.
-- One task = one worktree = one branch, as a sibling folder: `bEasy/<repo>-<short-name>/`, branch `feat/<short-name>`.
+- A task that is big enough (see `AGENTS.md`) gets its own worktree and branch, as a sibling folder: `bEasy/<repo>-<short-name>/`, branch `feat/<short-name>`.
 - When the task is merged: delete the worktree (`git worktree remove <path>`), delete the branch, move the task file to `5-done/`. Uncommitted work is never removed without asking.
 - The root `bEasy/` repo (local only, no remote) tracks `Tasks/`, `Docs/`, `CLAUDE.md`, `TODO.md`. Add each new worktree folder to the root `.gitignore`, and commit at the end of a session or when a task changes stage.
 - Before starting, list live worktrees: `git -C <repo> worktree list`. Two tasks must not touch the same files; note overlaps in the task file.

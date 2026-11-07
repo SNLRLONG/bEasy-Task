@@ -7,6 +7,9 @@ description: Turn a feature idea, Figma design or requirement into a finalized p
 
 You plan; you do not build. Output is a plan file plus task files that another agent can pick up without asking questions. Rules for tasks, tiers and parallel work: root `AGENTS.md`, `Tasks/README.md`, `Tasks/PIPELINE.md`.
 
+## 0. Analyze first
+For new or long input, run the `requirement-analyst` skill first (short summary, fit check against existing components, short questions). Plan from its result.
+
 ## 1. Gather (read, do not guess)
 - **UI:** the Figma frames (`get_design_context`, `get_screenshot`; follow the Figma skills), or the screenshots given. Note every screen, state (empty, loading, error, success) and interaction.
 - **Requirements:** `Docs/tracking/v2/requirements/`, the matching `api/` spec, `backend-response/`, `backend-request/`, `architecture/`, and the repo's own `CLAUDE.md`/`TODO.md`.
@@ -24,7 +27,7 @@ Write the end-to-end flow in plain steps: who does what, which screen, which API
 Sections: Goal · Flow (with exists/change/new) · Screens and states · Data and API · Tracking events · Gaps and decisions · Open questions (with recommendation) · Task breakdown (table: task, repo, depends on, tier) · Out of scope.
 
 ## 5. Break into tasks
-- One task = one worktree/branch = one reviewable PR, roughly 1 to 2 days. Split by repo, then by vertical slice (a screen with its data), not by technical layer.
+- One task = one branch = one reviewable PR, roughly 1 to 2 days. Mark a task as needing its own worktree only if it is big or runs in parallel (rules in `AGENTS.md`). If the feature has several parallel tasks, name the shared `feat/<feature>-integration` branch in the plan. Split by repo, then by vertical slice (a screen with its data), not by technical layer.
 - Order by dependency; mark what can run in parallel. Tasks that would touch the same files are sequenced or merged, not parallel.
 - Create each from `Tasks/_TEMPLATE.md` in `Tasks/2-todo/` with: goal, `Touches` (specific paths), `Depends on`, acceptance checks ("Done when"), design/doc links, and the **auto tier** (picker in `PIPELINE.md`) with its gate rows.
 - Do not claim, create worktrees or start building. That is the delivery agent's job (`project-manager` skill).

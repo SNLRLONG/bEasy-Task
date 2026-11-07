@@ -4,7 +4,7 @@
 - **Repo:** bEasy-portal
 - **Owner:** SNLRLONG (Seavlong)
 - **Due:** 2026-11-04
-- **Started / updated:** 2026-11-03 / 2026-11-04
+- **Started / updated:** 2026-11-03 / 2026-11-06
 - **Schedule:** 2026-11-02 → 2026-11-04 (3 working days, order 1 of 12)
 - **Worktree:** `bEasy/bEasy-portal-order-management-revamp/` · **Branch:** `feat/order-management-revamp`
 - **Tier:** T3 · re-tiered up 4 Nov 2026 before testing: the diff adds `usePermission` guards (ORDER:UPDATE / ASSIGN) across order screens, a permissions signal in `PIPELINE.md`. Planned as T2 (see `PIPELINE.md`)
@@ -95,3 +95,6 @@ Moved to `4-testing/` 4 Nov 2026: user commits, pushes and merges to dev to test
 - [ ] Tested on dev backend
 - [ ] Root `CHANGELOG.md` entry added
 - [ ] Worktree and branch removed after merge
+
+## Closed (6 Nov 2026)
+Merged to `main` in PR #551 (feat/order-management-revamp). Changelog entry is in the root `CHANGELOG.md`. Backend-blocked items stay in `Docs/tracking/v2/backend-request/Order_Revamp_Backend_Request.md`.
